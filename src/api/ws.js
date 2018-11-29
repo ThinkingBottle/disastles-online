@@ -40,10 +40,10 @@ function reconnect () {
 function handleMessage (message) {
   try {
     var data = JSON.parse(message.data);
-    MessageEvent.broadcast(data);
   } catch (e) {
     console.error(e.message || e);
     console.error('Failed to parse server message: ' + message.data);
     console.error(message);
   }
+  MessageEvent.broadcast(data);
 }

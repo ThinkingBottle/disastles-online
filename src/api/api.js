@@ -35,6 +35,30 @@ export async function takeSlot (slot) {
   });
 }
 
+export async function setReady (ready) {
+  await ws.init();
+  ws.send({
+    action: 'SetStatus',
+    status: '',
+    ready
+  });
+}
+
+export async function startGame (ready) {
+  await ws.init();
+  ws.send({
+    action: 'StartGame'
+  });
+}
+
+export async function setName (name) {
+  await ws.init();
+  ws.send({
+    action: 'SetName',
+    name
+  });
+}
+
 function once (listen, handler) {
   var stop = listen(function () {
     stop();
