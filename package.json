@@ -2,7 +2,7 @@
   "name": "disastles-online",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://chrisinajar.github.io/disastles-online",
+  "homepage": "http://thinkingbottle.github.io/disastles-online",
   "dependencies": {
     "@material-ui/core": "^3.5.1",
     "@material-ui/icons": "^3.0.1",
