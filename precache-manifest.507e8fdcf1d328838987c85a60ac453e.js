@@ -24,19 +24,19 @@ self.__precacheManifest = [
     "url": "/disastles-online/static/js/runtime~main.a07426da.js"
   },
   {
-    "revision": "8c2e33abe376b90ec3f5",
-    "url": "/disastles-online/static/js/main.8c2e33ab.chunk.js"
+    "revision": "d611fce090f46efb1458",
+    "url": "/disastles-online/static/js/main.d611fce0.chunk.js"
   },
   {
     "revision": "9dbb1b50113a99c12aa5",
     "url": "/disastles-online/static/js/1.9dbb1b50.chunk.js"
   },
   {
-    "revision": "8c2e33abe376b90ec3f5",
+    "revision": "d611fce090f46efb1458",
     "url": "/disastles-online/static/css/main.3b023798.chunk.css"
   },
   {
-    "revision": "eb785536c29f3b191ec4bb6683937114",
+    "revision": "936357a47cc5da55ae61ba8901c9bbbd",
     "url": "/disastles-online/index.html"
   }
 ];
