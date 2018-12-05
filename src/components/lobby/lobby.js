@@ -49,7 +49,7 @@ class LobbyView extends Component {
   componentDidMount () {
     this.unlisten = Collector();
     this.unlisten(API.events.onLobbyFailed(() => this.props.history.push('/lobby')));
-    this.unlisten(API.events.onGameStarting(() => this.props.history.push('/game/' + this.props.lobbyId)));
+    this.unlisten(API.events.onGameJoined(() => this.props.history.push('/game/' + this.props.reconnectionToken)));
     this.unlisten(timeout(() => API.setName(this.state.name), 1000));
     if (!this.props.lobbyId) {
       let paramId = this.props.match.params.id;
@@ -140,6 +140,7 @@ class LobbyView extends Component {
 }
 
 const mapToProps = obstruction({
+  reconnectionToken: 'global.reconnectionToken',
   lobbyId: 'lobby.id',
   players: 'lobby.slots',
   isReady: 'lobby.isReady',

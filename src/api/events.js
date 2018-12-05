@@ -22,6 +22,8 @@ const LobbyFailedEvent = Event();
 export const onLobbyFailed = LobbyFailedEvent.listen;
 const GameStartingEvent = Event();
 export const onGameStarting = GameStartingEvent.listen;
+const GameJoinedEvent = Event();
+export const onGameJoined = GameJoinedEvent.listen;
 
 var wasAllReady = false;
 
@@ -73,7 +75,9 @@ ws.onEvent(function handleEvent (event) {
     case 'GameStarting':
       GameStartingEvent.broadcast({});
       break;
-    // case 'JoinedGame':
+    case 'JoinedGame':
+      GameJoinedEvent.broadcast({});
+      break;
     //   delete event.event;
     //   store.dispatch(joinedGame(event));
     //   break;

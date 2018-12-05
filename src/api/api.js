@@ -3,6 +3,11 @@ import * as Events from './events';
 
 export const events = Events;
 
+export async function send (action) {
+  await ws.init();
+  ws.send(action);
+}
+
 export async function createLobby () {
   await ws.init();
   return new Promise((resolve, reject) => {
@@ -56,6 +61,14 @@ export async function setName (name) {
   ws.send({
     action: 'SetName',
     name
+  });
+}
+
+export async function reconnect (token) {
+  await ws.init();
+  ws.send({
+    action: 'Reconnect',
+    token
   });
 }
 

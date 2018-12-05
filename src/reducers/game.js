@@ -2,7 +2,8 @@ import {
   JOINED_GAME,
   CARD_DRAWN_TO_SHOP,
   CARD_DISCARDED,
-  ROOM_BUILT
+  ROOM_BUILT,
+  TURN_CHANGED
 } from '../actions/game';
 
 import {
@@ -19,444 +20,17 @@ const defaultState = {
   players: [],
   sacrifices: [],
   seed: 0,
-  castles: {
-    test: {
-      nodes: [{
-        x: 0,
-        y: 0,
-        type: 'throne'
-      }, {
-        x: 1,
-        y: 0,
-        type: 'some room'
-      }, {
-        x: 0,
-        y: -1,
-        type: 'other room'
-      }]
-    }
-  },
+  castles: {},
 
-  shop: [{
-    card: '100'
-  }, {
-    card: '101'
-  }],
+  shop: [],
   playerCards: [],
   disasters: [],
   discardPile: [],
 
   currentTurn: null,
   roundTurn: null,
-  actions: [
-  {
-    "x": 0,
-    "effects": [
-      {
-        "castleOwner": "ebb13e78-a408-4125-8ed5-9be1c495454a",
-        "stats": {
-          "links": {
-            "square": 1,
-            "cross": 0,
-            "moon": 0
-          },
-          "treasure": 0,
-          "rooms": 2,
-          "connections": 1
-        },
-        "effectType": "Stats"
-      },
-      {
-        "castleCard": "dc19ee7a-0b87-40b0-827b-5d2612ed9e02",
-        "manipulatedCard": "101",
-        "matching": true,
-        "effectType": "Link",
-        "golden": true
-      }
-    ],
-    "y": 1,
-    "rotation": 0,
-    "castleOwner": "ebb13e78-a408-4125-8ed5-9be1c495454a",
-    "card": "101",
-    "action": "BuildRoom"
-  },
-  {
-    "x": 1,
-    "effects": [
-      {
-        "castleOwner": "ebb13e78-a408-4125-8ed5-9be1c495454a",
-        "stats": {
-          "links": {
-            "square": 1,
-            "cross": 0,
-            "moon": 0
-          },
-          "treasure": 0,
-          "rooms": 2,
-          "connections": 1
-        },
-        "effectType": "Stats"
-      },
-      {
-        "castleCard": "dc19ee7a-0b87-40b0-827b-5d2612ed9e02",
-        "manipulatedCard": "6e4",
-        "matching": true,
-        "effectType": "Link",
-        "golden": true
-      }
-    ],
-    "y": 0,
-    "rotation": 0,
-    "castleOwner": "ebb13e78-a408-4125-8ed5-9be1c495454a",
-    "card": "6e4",
-    "action": "BuildRoom"
-  },
-  {
-    "x": 0,
-    "effects": [
-      {
-        "castleOwner": "ebb13e78-a408-4125-8ed5-9be1c495454a",
-        "stats": {
-          "links": {
-            "square": 1,
-            "cross": 0,
-            "moon": 0
-          },
-          "treasure": 0,
-          "rooms": 2,
-          "connections": 1
-        },
-        "effectType": "Stats"
-      },
-      {
-        "castleCard": "dc19ee7a-0b87-40b0-827b-5d2612ed9e02",
-        "manipulatedCard": "eaf",
-        "matching": true,
-        "effectType": "Link",
-        "golden": true
-      }
-    ],
-    "y": -1,
-    "rotation": 0,
-    "castleOwner": "ebb13e78-a408-4125-8ed5-9be1c495454a",
-    "card": "eaf",
-    "action": "BuildRoom"
-  },
-  {
-    "x": 1,
-    "effects": [
-      {
-        "castleOwner": "ebb13e78-a408-4125-8ed5-9be1c495454a",
-        "stats": {
-          "links": {
-            "square": 0,
-            "cross": 1,
-            "moon": 0
-          },
-          "treasure": 0,
-          "rooms": 2,
-          "connections": 1
-        },
-        "effectType": "Stats"
-      },
-      {
-        "castleCard": "dc19ee7a-0b87-40b0-827b-5d2612ed9e02",
-        "manipulatedCard": "e9e",
-        "matching": true,
-        "effectType": "Link",
-        "golden": false
-      }
-    ],
-    "y": 0,
-    "rotation": 0,
-    "castleOwner": "ebb13e78-a408-4125-8ed5-9be1c495454a",
-    "card": "e9e",
-    "action": "BuildRoom"
-  },
-  {
-    "x": -1,
-    "effects": [
-      {
-        "castleOwner": "ebb13e78-a408-4125-8ed5-9be1c495454a",
-        "stats": {
-          "links": {
-            "square": 0,
-            "cross": 1,
-            "moon": 0
-          },
-          "treasure": 0,
-          "rooms": 2,
-          "connections": 1
-        },
-        "effectType": "Stats"
-      },
-      {
-        "castleCard": "dc19ee7a-0b87-40b0-827b-5d2612ed9e02",
-        "manipulatedCard": "6e4",
-        "matching": true,
-        "effectType": "Link",
-        "golden": true
-      }
-    ],
-    "y": 0,
-    "rotation": 0,
-    "castleOwner": "ebb13e78-a408-4125-8ed5-9be1c495454a",
-    "card": "6e4",
-    "action": "BuildRoom"
-  },
-  {
-    "x": 0,
-    "effects": [
-      {
-        "castleOwner": "ebb13e78-a408-4125-8ed5-9be1c495454a",
-        "stats": {
-          "links": {
-            "square": 1,
-            "cross": 0,
-            "moon": 0
-          },
-          "treasure": 0,
-          "rooms": 2,
-          "connections": 1
-        },
-        "effectType": "Stats"
-      },
-      {
-        "castleCard": "dc19ee7a-0b87-40b0-827b-5d2612ed9e02",
-        "manipulatedCard": "101",
-        "matching": true,
-        "effectType": "Link",
-        "golden": true
-      }
-    ],
-    "y": -1,
-    "rotation": 0,
-    "castleOwner": "ebb13e78-a408-4125-8ed5-9be1c495454a",
-    "card": "101",
-    "action": "BuildRoom"
-  },
-  {
-    "x": -1,
-    "effects": [
-      {
-        "castleOwner": "ebb13e78-a408-4125-8ed5-9be1c495454a",
-        "stats": {
-          "links": {
-            "square": 0,
-            "cross": 1,
-            "moon": 0
-          },
-          "treasure": 0,
-          "rooms": 2,
-          "connections": 1
-        },
-        "effectType": "Stats"
-      },
-      {
-        "castleCard": "dc19ee7a-0b87-40b0-827b-5d2612ed9e02",
-        "manipulatedCard": "eaf",
-        "matching": true,
-        "effectType": "Link",
-        "golden": false
-      }
-    ],
-    "y": 0,
-    "rotation": 0,
-    "castleOwner": "ebb13e78-a408-4125-8ed5-9be1c495454a",
-    "card": "eaf",
-    "action": "BuildRoom"
-  },
-  {
-    "x": 1,
-    "effects": [
-      {
-        "castleOwner": "ebb13e78-a408-4125-8ed5-9be1c495454a",
-        "stats": {
-          "links": {
-            "square": 0,
-            "cross": 1,
-            "moon": 0
-          },
-          "treasure": 0,
-          "rooms": 2,
-          "connections": 1
-        },
-        "effectType": "Stats"
-      },
-      {
-        "castleCard": "dc19ee7a-0b87-40b0-827b-5d2612ed9e02",
-        "manipulatedCard": "101",
-        "matching": true,
-        "effectType": "Link",
-        "golden": true
-      }
-    ],
-    "y": 0,
-    "rotation": 0,
-    "castleOwner": "ebb13e78-a408-4125-8ed5-9be1c495454a",
-    "card": "101",
-    "action": "BuildRoom"
-  },
-  {
-    "x": 0,
-    "effects": [
-      {
-        "castleOwner": "ebb13e78-a408-4125-8ed5-9be1c495454a",
-        "stats": {
-          "links": {
-            "square": 0,
-            "cross": 0,
-            "moon": 1
-          },
-          "treasure": 0,
-          "rooms": 2,
-          "connections": 1
-        },
-        "effectType": "Stats"
-      },
-      {
-        "castleCard": "dc19ee7a-0b87-40b0-827b-5d2612ed9e02",
-        "manipulatedCard": "e9e",
-        "matching": true,
-        "effectType": "Link",
-        "golden": true
-      }
-    ],
-    "y": 1,
-    "rotation": 0,
-    "castleOwner": "ebb13e78-a408-4125-8ed5-9be1c495454a",
-    "card": "e9e",
-    "action": "BuildRoom"
-  },
-  {
-    "action": "SkipTurn"
-  },
-  {
-    "x": 0,
-    "effects": [
-      {
-        "castleOwner": "ebb13e78-a408-4125-8ed5-9be1c495454a",
-        "stats": {
-          "links": {
-            "square": 0,
-            "cross": 0,
-            "moon": 1
-          },
-          "treasure": 0,
-          "rooms": 2,
-          "connections": 1
-        },
-        "effectType": "Stats"
-      },
-      {
-        "castleCard": "dc19ee7a-0b87-40b0-827b-5d2612ed9e02",
-        "manipulatedCard": "eaf",
-        "matching": true,
-        "effectType": "Link",
-        "golden": false
-      }
-    ],
-    "y": 1,
-    "rotation": 0,
-    "castleOwner": "ebb13e78-a408-4125-8ed5-9be1c495454a",
-    "card": "eaf",
-    "action": "BuildRoom"
-  },
-  {
-    "x": 1,
-    "effects": [
-      {
-        "castleOwner": "ebb13e78-a408-4125-8ed5-9be1c495454a",
-        "stats": {
-          "links": {
-            "square": 1,
-            "cross": 0,
-            "moon": 0
-          },
-          "treasure": 0,
-          "rooms": 2,
-          "connections": 1
-        },
-        "effectType": "Stats"
-      },
-      {
-        "castleCard": "dc19ee7a-0b87-40b0-827b-5d2612ed9e02",
-        "manipulatedCard": "d74",
-        "matching": true,
-        "effectType": "Link",
-        "golden": false
-      }
-    ],
-    "y": 0,
-    "rotation": 0,
-    "castleOwner": "ebb13e78-a408-4125-8ed5-9be1c495454a",
-    "card": "d74",
-    "action": "BuildRoom"
-  },
-  {
-    "x": 1,
-    "effects": [
-      {
-        "castleOwner": "ebb13e78-a408-4125-8ed5-9be1c495454a",
-        "stats": {
-          "links": {
-            "square": 0,
-            "cross": 1,
-            "moon": 0
-          },
-          "treasure": 0,
-          "rooms": 2,
-          "connections": 1
-        },
-        "effectType": "Stats"
-      },
-      {
-        "castleCard": "dc19ee7a-0b87-40b0-827b-5d2612ed9e02",
-        "manipulatedCard": "eaf",
-        "matching": true,
-        "effectType": "Link",
-        "golden": true
-      }
-    ],
-    "y": 0,
-    "rotation": 0,
-    "castleOwner": "ebb13e78-a408-4125-8ed5-9be1c495454a",
-    "card": "eaf",
-    "action": "BuildRoom"
-  },
-  {
-    "x": 0,
-    "effects": [
-      {
-        "castleOwner": "ebb13e78-a408-4125-8ed5-9be1c495454a",
-        "stats": {
-          "links": {
-            "square": 0,
-            "cross": 1,
-            "moon": 0
-          },
-          "treasure": 0,
-          "rooms": 2,
-          "connections": 1
-        },
-        "effectType": "Stats"
-      },
-      {
-        "castleCard": "dc19ee7a-0b87-40b0-827b-5d2612ed9e02",
-        "manipulatedCard": "d74",
-        "matching": true,
-        "effectType": "Link",
-        "golden": false
-      }
-    ],
-    "y": 1,
-    "rotation": 0,
-    "castleOwner": "ebb13e78-a408-4125-8ed5-9be1c495454a",
-    "card": "d74",
-    "action": "BuildRoom"
-  }
-],
-  selectedCard: '101'
+  actions: [ ],
+  selectedCard: null
 };
 
 export default function reduce (state, action) {
@@ -498,20 +72,22 @@ export default function reduce (state, action) {
         shop: [...state.shop],
         drawPileSize: action.data.drawPileSize
       };
-      state.shop.push({
-        card: action.data.card
-      });
+      state.shop.push(action.data.card);
       break;
     case CARD_DISCARDED:
+      console.log('card discarded', action);
       state = {...state,
         discardPile: [...state.discardPile],
-        discardPileSize: action.data.discardPileSize
+        discardPileSize: action.data.discardPileSize,
+        shop: [...state.shop]
       };
       state.discardPile.push({
         card: action.data.card
       });
+      state.shop = state.shop.filter(function (card) {
+        return card !== action.data.card;
+      });
       break;
-
     case SELECT_CARD:
       state = {...state,
         selectedCard: action.card
@@ -528,8 +104,15 @@ export default function reduce (state, action) {
           [player]: {...state.castles[player],
             nodes: [...state.castles[player].nodes, node]
           }
-        }
+        },
+        shop: [...state.shop]
       };
+      state.shop = state.shop.filter(function (card) {
+        return card !== node.card;
+      });
+      break;
+    case TURN_CHANGED:
+      console.log('turn change', action);
       break;
   }
 

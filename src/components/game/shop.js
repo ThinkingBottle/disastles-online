@@ -38,25 +38,27 @@ class Shop extends Component {
       </div>
     );
   }
+
   renderCard (card) {
     var isClickable = false;
     this.props.actions.forEach(function (action) {
-      if (action.action == 'BuildRoom' && action.card === card.card) {
+      if (action.action == 'BuildRoom' && action.card === card) {
         isClickable = true;
       }
     })
+    console.log(card);
     if (isClickable) {
       return (
         <Button
-          onClick={ partial(this.selectCard, card.card) }
-          key={ card.card }>
-          { this.props.cards[card.card] }
+          onClick={ partial(this.selectCard, card) }
+          key={ card }>
+          { this.props.cards[card] }
         </Button>
       );
     }
     return (
-      <Button disabled key={ card.card }>
-        { this.props.cards[card.card] }
+      <Button disabled key={ card }>
+        { this.props.cards[card] }
       </Button>
     );
   }

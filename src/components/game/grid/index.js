@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
-import ws from '../../../api/ws';
+import API from '../../../api';
 
 const styles = theme => ({
   root: {
@@ -38,16 +38,20 @@ class GridController extends Component {
   componentWillReceiveProps (newProps) {
     console.log('Getting new castles', newProps);
     this.setState({...newProps.castles[newProps.playerId || 'test'],
-      actions: newProps.actions.filter((action) => action.card === newProps.selectedCard)
+      actions: newProps.actions.filter((action) => {
+        if (action.action === 'BuildRoom') {
+          return action.card === newProps.selectedCard;
+        }
+        return true;
+      })
     });
   }
 
   async sendAction (action) {
-    await ws.init();
     action = {...action,
       effects: []
     };
-    ws.send(action);
+    API.send(action);
   }
 
   render () {
@@ -113,11 +117,22 @@ class GridController extends Component {
     let key = x + ':' + y;
     let isActionable = this.state.actions.reduce((memo, val) => {
       if (val.x === x && val.y === y) {
-        console.log('this is itt.... this is ITTT... 4 STOCK IS THIS MAN THE TRUTH D1', val);
+        return val;
+      }
+      if (node && val.room === node.card) {
         return val;
       }
       return memo;
     }, false);
+
+    if (!isActionable && node) {
+      isActionable = this.props.actions.reduce((memo, val) => {
+        if (val.card === node.card) {
+          return val;
+        }
+        return memo;
+      }, null);
+    }
 
     return (
       <div key={ key } className={ this.props.classes.node }>
@@ -140,7 +155,7 @@ class GridController extends Component {
           condition={ !!isActionable }
           render={ ()=>
             <Button onClick={ partial(this.sendAction, isActionable) }>
-              Do the thing!
+              { isActionable.action }
             </Button> }
           />
       </div>

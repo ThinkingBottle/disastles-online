@@ -5,6 +5,8 @@ import LobbyMenu from './components/lobby';
 import LobbyView from './components/lobby/lobby';
 import GameView from './components/game';
 
+import './App.css';
+
 class App extends Component {
   render() {
     return (

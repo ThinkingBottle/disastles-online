@@ -30,8 +30,10 @@ export default function reduce (state, action) {
       break;
     case HELLO:
       console.log('hello', action);
+      sessionStorage.token = action.data.reconnectionToken;
       state = {...state,
         playerId: action.data.playerId,
+        reconnectionToken: action.data.reconnectionToken,
         playerNames: {...state.playerNames,
           [action.data.playerId]: state.name
         }
