@@ -6,7 +6,9 @@ import {
   CARD_DISCARDED,
   ROOM_BUILT,
   ROOM_MOVED,
-  TURN_CHANGED
+  TURN_CHANGED,
+  DISASTER_STARTED,
+  DISASTER_FINISHED
 } from '../actions/game';
 
 import {
@@ -142,6 +144,17 @@ export default function reduce (state, action) {
         return node;
       });
       state.castles[player] = updateCastle(state.castles[player]);
+      break;
+
+    case DISASTER_STARTED:
+      state = {...state,
+        currentDisaster: action.data.card
+      };
+      break;
+    case DISASTER_FINISHED:
+      state = {...state,
+        currentDisaster: null
+      };
       break;
     case TURN_CHANGED:
       console.log('turn change', action);

@@ -7,6 +7,8 @@ export const CARD_DISCARDED = 'CARD_DISCARDED';
 export const TURN_CHANGED = 'TURN_CHANGED';
 export const ROOM_BUILT = 'ROOM_BUILT';
 export const ROOM_MOVED = 'ROOM_MOVED';
+export const DISASTER_STARTED = 'DISASTER_STARTED';
+export const DISASTER_FINISHED = 'DISASTER_FINISHED';
 
 bindToEvent(JOINED_GAME, 'JoinedGame');
 bindToEvent(CARD_DRAWN_TO_SHOP, 'CardDrawnToShop');
@@ -15,6 +17,8 @@ bindToEvent(TURN_CHANGED, 'TurnChanged');
 bindToEvent(CARD_REVEALED, 'CardRevealed');
 bindToEvent(ROOM_BUILT, 'RoomBuilt');
 bindToEvent(ROOM_MOVED, 'RoomMoved');
+bindToEvent(DISASTER_STARTED, 'DisasterStarted');
+bindToEvent(DISASTER_FINISHED, 'DisasterFinished');
 
 export function joinedGame (data) {
   return {
