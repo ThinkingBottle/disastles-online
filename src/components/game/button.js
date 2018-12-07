@@ -16,8 +16,12 @@ const styles = theme => ({
     width: 192,
     background: 'url(' + bgBase + ') no-repeat',
 
-    ['&:active']: {
+    ['&:hover']: {
       background: 'url(' + bgActive + ') no-repeat'
+    },
+    ['&:active']: {
+      background: 'url(' + bgDark + ') no-repeat',
+      color: 'white'
     },
   },
   active: {
