@@ -1,8 +1,11 @@
+import Obstruction from 'obstruction';
+
 import {
   JOINED_GAME,
   CARD_DRAWN_TO_SHOP,
   CARD_DISCARDED,
   ROOM_BUILT,
+  ROOM_MOVED,
   TURN_CHANGED
 } from '../actions/game';
 
@@ -16,6 +19,7 @@ import {
 
 const defaultState = {
   inGame: false,
+  actionable: false,
   drawPileSize: 0,
   players: [],
   sacrifices: [],
@@ -30,7 +34,8 @@ const defaultState = {
   currentTurn: null,
   roundTurn: null,
   actions: [ ],
-  selectedCard: null
+  selectedCard: null,
+  currentDisaster: false
 };
 
 export default function reduce (state, action) {
@@ -41,7 +46,8 @@ export default function reduce (state, action) {
   switch (action.type) {
     case ACTIONS_CHANGED:
       state = {...state,
-        actions: action.data.actions
+        actions: action.data.actions,
+        actionable: !!action.data.actions.length
       };
       break;
     case JOINED_GAME:
@@ -58,12 +64,14 @@ export default function reduce (state, action) {
         playerCards: action.data.snapshot.playerCards,
         disasters: action.data.snapshot.disasters,
         discardPile: action.data.snapshot.discardPile,
+        discardPileSize: action.data.snapshot.discardPileSize || action.data.snapshot.discardPile.length,
 
         currentTurn: action.data.snapshot.currentTurn,
         roundTurn: action.data.snapshot.roundTurn,
+        currentDisaster: action.data.snapshot.currentDisaster
       }
       action.data.snapshot.castles.forEach(function (castle) {
-        state.castles[castle.player] = castle;
+        state.castles[castle.player] = updateCastle(castle);
       });
       break;
     case CARD_DRAWN_TO_SHOP:
@@ -95,8 +103,8 @@ export default function reduce (state, action) {
       break;
     case ROOM_BUILT:
       console.log(action.data);
-      let player = action.data.castleOwner;
-      let node = {...action.data};
+      var player = action.data.castleOwner;
+      var node = {...action.data};
       delete node.castleOwner;
 
       state = {...state,
@@ -110,6 +118,30 @@ export default function reduce (state, action) {
       state.shop = state.shop.filter(function (card) {
         return card !== node.card;
       });
+      state.castles[player] = updateCastle(state.castles[player]);
+      break;
+    case ROOM_MOVED:
+      console.log('Moving room', action);
+      var player = action.data.castleOwner;
+      state = {...state,
+        castles: {...state.castles,
+          [player]: {...state.castles[player]}
+        }
+      };
+
+      state.castles[player].nodes = state.castles[player].nodes.map(function (node) {
+        if (action.data.room === node.card) {
+          return {...node,
+            ...Obstruction({
+              rotation: true,
+              x: true,
+              y: true,
+            })(action.data)
+          }
+        }
+        return node;
+      });
+      state.castles[player] = updateCastle(state.castles[player]);
       break;
     case TURN_CHANGED:
       console.log('turn change', action);
@@ -117,4 +149,54 @@ export default function reduce (state, action) {
   }
 
   return state;
+}
+
+function updateCastle (castle) {
+  let minX = 0;
+  let maxX = 0;
+  let minY = 0;
+  let maxY = 0;
+  let grid = {};
+
+  castle.nodes.forEach(function (node) {
+    minX = Math.min(minX, node.x);
+    maxX = Math.max(maxX, node.x);
+    minY = Math.min(minY, node.y);
+    maxY = Math.max(maxY, node.y);
+
+    if (!grid[node.x]) {
+      grid[node.x] = {};
+    }
+    grid[node.x][node.y] = node;
+  });
+
+  minX--;
+  maxX++;
+  minY--;
+  maxY++;
+
+  let width = maxX - minX + 1;
+  let height = maxY - minY + 1;
+  let rows = [];
+
+  for (let y = 0; y < height; ++y) {
+    let row = [];
+    for (let x = 0; x < width; ++x) {
+      if (grid[x + minX]) {
+        row.push(grid[x + minX][y + minY]);
+      } else {
+        row.push(null);
+      }
+    }
+    rows.push(row);
+  }
+
+  castle.minX = minX;
+  castle.minY = minY;
+  castle.maxX = maxX;
+  castle.maxY = maxY;
+  castle.grid = grid;
+  castle.rows = rows;
+
+  return castle;
 }

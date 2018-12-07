@@ -8,9 +8,9 @@ import Typography from '@material-ui/core/Typography';
 import API from '../../api';
 
 import GridController from './grid';
-import Shop from './shop';
-import ActionBar from './actions';
 import Minimap from './minimap';
+import Header from './header';
+import Actions from './actions';
 
 import backgroundImage1 from '../backgrounds/BG1.png';
 import backgroundImage2 from '../backgrounds/BG2.png';
@@ -32,6 +32,10 @@ const styles = theme => ({
     minHeight: '100%',
     backgroundImage: 'url(' + backgroundImage + ')',
     backgroundSize: 'cover'
+  },
+  header: {
+    width: '100%',
+    height: '100px',
   }
 });
 
@@ -49,11 +53,11 @@ class GameComponent extends Component {
   render () {
     return (
       <div className={ this.props.classes.root }>
-        <Shop />
-        <ActionBar />
-        This is a game!
         <GridController />
+
+        <Header />
         <Minimap />
+        <Actions />
       </div>
     );
   }

@@ -9,15 +9,35 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
+import Card from '../card';
+
 import API from '../../../api';
 
 const styles = theme => ({
   root: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    marginTop: 200
+  },
+  castle: {
+    position: 'absolute',
+    top: 0,
+    minWidth: '100%'
+  },
+  row: {
+    position: 'relative',
+    margin: '0 auto',
+    display: 'flex',
+    flexDirection: 'columns',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   node: {
     display: 'inline-block',
-    width: 200,
-    height: 200,
+    width: 128,
+    height: 128,
+    margin: 10
   }
 });
 
@@ -27,7 +47,13 @@ class GridController extends Component {
 
     this.state = {
       nodes: [],
-      actions: []
+      actions: [],
+      rows: [],
+      grid: {},
+      minX: 0,
+      maxX: 0,
+      minY: 0,
+      maxY: 0,
     };
 
     this.renderRow = this.renderRow.bind(this);
@@ -36,7 +62,6 @@ class GridController extends Component {
   }
 
   componentWillReceiveProps (newProps) {
-    console.log('Getting new castles', newProps);
     this.setState({...newProps.castles[newProps.playerId || 'test'],
       actions: newProps.actions.filter((action) => {
         if (action.action === 'BuildRoom') {
@@ -56,49 +81,12 @@ class GridController extends Component {
 
   render () {
     console.log(this.state.actions);
-    let minX = 0;
-    let maxX = 0;
-    let minY = 0;
-    let maxY = 0;
-    let grid = {};
-    this.state.nodes.forEach(function (node) {
-      minX = Math.min(minX, node.x);
-      maxX = Math.max(maxX, node.x);
-      minY = Math.min(minY, node.y);
-      maxY = Math.max(maxY, node.y);
-
-      if (!grid[node.x]) {
-        grid[node.x] = {};
-      }
-      grid[node.x][node.y] = node;
-    });
-
-    minX--;
-    maxX++;
-    minY--;
-    maxY++;
-
-    let width = maxX - minX + 1;
-    let height = maxY - minY + 1;
-    let rows = [];
-
-    for (let y = 0; y < height; ++y) {
-      let row = [];
-      for (let x = 0; x < width; ++x) {
-        if (grid[x + minX]) {
-          row.push(grid[x + minX][y + minY]);
-        } else {
-          row.push(null);
-        }
-      }
-      rows.push(row);
-    }
-
-    console.log(grid, width, height, rows);
 
     return (
-      <div>
-        { rows.map(partial(this.renderRow, minX, minY)) }
+      <div className={ this.props.classes.root }>
+        <div className={ this.props.classes.castle }>
+        { this.state.rows.map(partial(this.renderRow, this.state.minX, this.state.minY)) }
+        </div>
       </div>
     );
   }
@@ -106,7 +94,7 @@ class GridController extends Component {
   renderRow (minX, minY, row, i) {
     let y = i + minY;
     return (
-      <div key={ y }>
+      <div key={ y } className={ this.props.classes.row } >
         { row.map(partial(this.renderCell, y, minX)) }
       </div>
     );
@@ -137,27 +125,13 @@ class GridController extends Component {
     return (
       <div key={ key } className={ this.props.classes.node }>
         <If
-          condition={ !node }
+          condition={ !!(node || isActionable) }
           render={ ()=>
-            <React.Fragment>
-              Empty room!
-            </React.Fragment> }
-          />
-        <If
-          condition={ !!node }
-          render={ ()=>
-            <React.Fragment>
-              { this.props.cards[node.card] }
-            </React.Fragment> }
-          />
-
-        <If
-          condition={ !!isActionable }
-          render={ ()=>
-            <Button onClick={ partial(this.sendAction, isActionable) }>
-              { isActionable.action }
-            </Button> }
-          />
+            <Card
+              card={ node ? node.card : 'empty' }
+              onClick={ isActionable ? partial(this.sendAction, isActionable) : null }
+              />
+          } />
       </div>
     );
   }
