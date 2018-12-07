@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "/disastles-online/static/media/header-deck.b9aee3b6.png"
   },
   {
-    "revision": "2e41d299da7e56ca2576",
+    "revision": "05e6dd7066d8804d911e",
     "url": "/disastles-online/static/css/main.e2662ab9.chunk.css"
   },
   {
@@ -52,8 +52,8 @@ self.__precacheManifest = [
     "url": "/disastles-online/static/media/minimap.734b1a28.png"
   },
   {
-    "revision": "2e41d299da7e56ca2576",
-    "url": "/disastles-online/static/js/main.2e41d299.chunk.js"
+    "revision": "05e6dd7066d8804d911e",
+    "url": "/disastles-online/static/js/main.05e6dd70.chunk.js"
   },
   {
     "revision": "20cf9cabc11f64629a7008c551dddb05",
@@ -104,7 +104,7 @@ self.__precacheManifest = [
     "url": "/disastles-online/static/media/44_RocketEngineer_EFFECT_ROOM.a54b6bb4.png"
   },
   {
-    "revision": "79e19ce8a4c239be847626981b91c4f2",
+    "revision": "633cc6976c78a1c7d4b7bf19c52e6dcc",
     "url": "/disastles-online/index.html"
   }
 ];

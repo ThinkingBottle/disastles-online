@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/disastles-online/precache-manifest.919a72b25b1a394852efc74a0364606a.js"
+  "/disastles-online/precache-manifest.6119c2a57ec500d754a8e2057017e1c4.js"
 );
 
 workbox.clientsClaim();

@@ -1,7 +1,7 @@
 {
   "main.css": "/disastles-online/static/css/main.e2662ab9.chunk.css",
-  "main.js": "/disastles-online/static/js/main.2e41d299.chunk.js",
-  "main.js.map": "/disastles-online/static/js/main.2e41d299.chunk.js.map",
+  "main.js": "/disastles-online/static/js/main.05e6dd70.chunk.js",
+  "main.js.map": "/disastles-online/static/js/main.05e6dd70.chunk.js.map",
   "static/js/1.c42d88c6.chunk.js": "/disastles-online/static/js/1.c42d88c6.chunk.js",
   "static/js/1.c42d88c6.chunk.js.map": "/disastles-online/static/js/1.c42d88c6.chunk.js.map",
   "runtime~main.js": "/disastles-online/static/js/runtime~main.a07426da.js",
@@ -30,6 +30,6 @@
   "static/media/44_RocketEngineer_EFFECT_ROOM.png": "/disastles-online/static/media/44_RocketEngineer_EFFECT_ROOM.a54b6bb4.png",
   "static/css/main.e2662ab9.chunk.css.map": "/disastles-online/static/css/main.e2662ab9.chunk.css.map",
   "index.html": "/disastles-online/index.html",
-  "precache-manifest.919a72b25b1a394852efc74a0364606a.js": "/disastles-online/precache-manifest.919a72b25b1a394852efc74a0364606a.js",
+  "precache-manifest.6119c2a57ec500d754a8e2057017e1c4.js": "/disastles-online/precache-manifest.6119c2a57ec500d754a8e2057017e1c4.js",
   "service-worker.js": "/disastles-online/service-worker.js"
 }
