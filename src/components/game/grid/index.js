@@ -104,6 +104,9 @@ class GridController extends Component {
     let x = i + minX;
     let key = x + ':' + y;
     let isActionable = this.state.actions.reduce((memo, val) => {
+      if (memo && memo.action === 'BuildRoom') {
+        return memo;
+      }
       if (val.x === x && val.y === y) {
         return val;
       }
