@@ -3,6 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import obstruction from 'obstruction';
 import { partial } from 'ap';
+import windowSize from 'react-window-size';
 
 import { If } from 'react-extras';
 import Button from '@material-ui/core/Button';
@@ -18,12 +19,15 @@ const styles = theme => ({
     position: 'absolute',
     width: '100%',
     height: '100%',
-    marginTop: 200
   },
   castle: {
     position: 'absolute',
     top: 0,
-    minWidth: '100%'
+    minWidth: '100%',
+    minHeight: '100%',
+    paddingTop: 300,
+    paddingLeft: 300,
+    paddingRight: 300,
   },
   row: {
     position: 'relative',
@@ -84,7 +88,13 @@ class GridController extends Component {
 
     return (
       <div className={ this.props.classes.root }>
-        <div className={ this.props.classes.castle }>
+        <div
+          className={ this.props.classes.castle }
+          style={{
+            left: 0 - this.props.x,
+            top: 0 - this.props.y,
+          }}
+          >
         { this.state.rows.map(partial(this.renderRow, this.state.minX, this.state.minY)) }
         </div>
       </div>
@@ -107,10 +117,17 @@ class GridController extends Component {
       if (memo && memo.action === 'BuildRoom') {
         return memo;
       }
-      if (val.x === x && val.y === y) {
+      if (val.room) {
+        if (node && val.room === node.card) {
+          return val;
+        } else {
+          return memo;
+        }
+      }
+      if (node && val.card === node.card) {
         return val;
       }
-      if (node && val.room === node.card) {
+      if (val.x === x && val.y === y) {
         return val;
       }
       return memo;
@@ -133,8 +150,7 @@ class GridController extends Component {
             <Card
               card={ node ? node.card : 'empty' }
               onClick={ isActionable ? partial(this.sendAction, isActionable) : null }
-              />
-          } />
+              /> } />
       </div>
     );
   }
@@ -146,6 +162,8 @@ const mapToProps = obstruction({
   playerId: 'global.playerId',
   castles: 'game.castles',
   cards: 'cards.knownCards',
+  x: 'minimap.x',
+  y: 'minimap.y',
 });
 
-export default withStyles(styles)(connect(mapToProps)(GridController));
+export default withStyles(styles)(connect(mapToProps)(windowSize(GridController)));

@@ -22,7 +22,14 @@ const styles = theme => ({
   image: {
     display: 'inline-block',
     width: 85,
-    height: 'auto'
+    height: 'auto',
+    ['&.card']: {
+      border: '1px solid black',
+      borderRadius: 3,
+      backgroundColor: 'white',
+    },
+    ['&.empty']: {
+    }
   },
   clickable: {
     cursor: 'pointer'
@@ -58,7 +65,7 @@ class Card extends Component {
         key={ card }
         >
         <img
-          className={ this.props.classes.image }
+          className={ classNames(this.props.classes.image, 'empty') }
           src={ cardOutline }
           alt="Empty slot"
           onClick={ this.props.onClick }
@@ -77,7 +84,7 @@ class Card extends Component {
         key={ card }
         >
         <img
-          className={ this.props.classes.image }
+          className={ classNames(this.props.classes.image, 'card') }
           src={ cardImages[cardName] }
           alt={ cardName }
           onClick={ this.props.onClick }

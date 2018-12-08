@@ -5,6 +5,7 @@ import obstruction from 'obstruction';
 import { classNames } from 'react-extras';
 
 import Typography from '@material-ui/core/Typography';
+import Tooltip from '@material-ui/core/Tooltip';
 import Shop from './shop';
 import ActionBar from './actions';
 
@@ -104,13 +105,20 @@ class GameHeader extends Component {
         <div className={ this.props.classes.left }>
         </div>
         <div className={ this.props.classes.deck }>
-          <div className={ this.props.classes.discardPile }>
-          </div>
-          <div className={ classNames(
-              this.props.classes.drawPile,
-              this.props.classes['deckSize' + deckSize],
-            )}>
-          </div>
+          <Tooltip title={ 'Discard pile (' + this.props.discardPileSize + ')' }>
+            <div className={ classNames(
+                this.props.classes.discardPile,
+                this.props.classes['deckSize' + deckSize],
+              )}>
+            </div>
+          </Tooltip>
+          <Tooltip title={ 'Draw pile (' + this.props.drawPileSize + ')' }>
+            <div className={ classNames(
+                this.props.classes.drawPile,
+                this.props.classes['deckSize' + deckSize],
+              )}>
+            </div>
+          </Tooltip>
         </div>
         <Shop />
         <div className={ this.props.classes.right }>

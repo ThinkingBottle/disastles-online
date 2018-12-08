@@ -8,7 +8,7 @@ import { If } from 'react-extras';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-import Error from './error';
+import InfoBox from './info';
 import DButton from './button';
 
 import API from '../../api';
@@ -85,7 +85,7 @@ class ActionBar extends Component {
       }
     });
     return (
-      <Error>
+      <InfoBox error>
         <If
           condition={ !!needsToMark }
           render={ this.renderRoomMarkWarning } />
@@ -114,7 +114,7 @@ class ActionBar extends Component {
                 </DButton>
               </React.Fragment> }
           />
-      </Error>
+      </InfoBox>
     );
   }
 

@@ -1,12 +1,13 @@
 import {
   CARD_REVEALED,
-  JOINED_GAME
+  JOINED_GAME,
+  ASSETS
 } from '../actions/game';
 
 const defaultState = {
   knownCards: {
-    100: 'asdf',
-    101: 'fdsa'
+  },
+  metadata: {
   }
 };
 
@@ -16,6 +17,14 @@ export default function reduce (state, action) {
   }
 
   switch (action.type) {
+    case ASSETS:
+      state = {...state,
+        metadata: {...state.metadata}
+      };
+      action.data.assets.forEach(function (card) {
+        state.metadata[card.id] = card;
+      });
+      break;
     case CARD_REVEALED:
       state = {...state,
         knownCards: {...state.knownCards,

@@ -89,7 +89,8 @@ export default function reduce (state, action) {
       state = {...state,
         discardPile: [...state.discardPile],
         discardPileSize: action.data.discardPileSize,
-        shop: [...state.shop]
+        shop: [...state.shop],
+        castles: {...state.castles},
       };
       state.discardPile.push({
         card: action.data.card
@@ -97,6 +98,20 @@ export default function reduce (state, action) {
       state.shop = state.shop.filter(function (card) {
         return card !== action.data.card;
       });
+      let changedPlayerCastle = false;
+      Object.keys(state.castles).forEach(function (player) {
+        let castle = state.castles[player];
+        castle.nodes = castle.nodes.filter(function (node) {
+          if (node.card === action.data.card) {
+            changedPlayerCastle = player;
+            return false;
+          }
+          return true;
+        });
+      });
+      if (changedPlayerCastle) {
+        state.castles[changedPlayerCastle] = updateCastle(state.castles[changedPlayerCastle]);
+      }
       break;
     case SELECT_CARD:
       state = {...state,
