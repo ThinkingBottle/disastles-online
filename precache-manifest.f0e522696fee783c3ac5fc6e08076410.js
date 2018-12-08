@@ -4,12 +4,12 @@ self.__precacheManifest = [
     "url": "/disastles-online/static/media/header-deck.b9aee3b6.png"
   },
   {
-    "revision": "b9ef0eeda1e11b6f0479",
-    "url": "/disastles-online/static/css/main.e2662ab9.chunk.css"
+    "revision": "0a45476166f0682685dc",
+    "url": "/disastles-online/static/css/main.e88cb3c1.chunk.css"
   },
   {
-    "revision": "b7e66afa0fe32a56d684",
-    "url": "/disastles-online/static/js/1.b7e66afa.chunk.js"
+    "revision": "cbd6b7e9f9bcd8a48ff7",
+    "url": "/disastles-online/static/js/1.cbd6b7e9.chunk.js"
   },
   {
     "revision": "a07426da96600ea0ec0d",
@@ -52,8 +52,8 @@ self.__precacheManifest = [
     "url": "/disastles-online/static/media/minimap.734b1a28.png"
   },
   {
-    "revision": "b9ef0eeda1e11b6f0479",
-    "url": "/disastles-online/static/js/main.b9ef0eed.chunk.js"
+    "revision": "0a45476166f0682685dc",
+    "url": "/disastles-online/static/js/main.0a454761.chunk.js"
   },
   {
     "revision": "20cf9cabc11f64629a7008c551dddb05",
@@ -104,7 +104,7 @@ self.__precacheManifest = [
     "url": "/disastles-online/static/media/44_RocketEngineer_EFFECT_ROOM.a54b6bb4.png"
   },
   {
-    "revision": "e74c4a3038a81cdd1bf165bad17add62",
+    "revision": "792adf0fe433e7e0a0f6537299c46368",
     "url": "/disastles-online/index.html"
   }
 ];
