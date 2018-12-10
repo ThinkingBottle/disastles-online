@@ -8,7 +8,8 @@ import {
   ROOM_MOVED,
   TURN_CHANGED,
   DISASTER_STARTED,
-  DISASTER_FINISHED
+  DISASTER_FINISHED,
+  CARD_RETURNED_TO_DRAW_PILE
 } from '../actions/game';
 
 import {
@@ -181,6 +182,12 @@ export default function reduce (state, action) {
     case TURN_CHANGED:
       console.log('turn change', action);
       break;
+    case CARD_RETURNED_TO_DRAW_PILE:
+      state = {...state,
+        currentDisaster: state.currentDisaster === action.data.card ? null : state.currentDisaster,
+        shop: state.shop.filter((card) => card !== action.data.card)
+      };
+      break;
   }
 
   return state;
@@ -193,6 +200,12 @@ function updateCastle (castle) {
   let maxY = 0;
   let grid = {};
 
+  let rowSizes = {};
+  let columnSizes = {};
+
+  castle.rowSizes = rowSizes;
+  castle.columnSizes = columnSizes;
+
   castle.nodes.forEach(function (node) {
     minX = Math.min(minX, node.x);
     maxX = Math.max(maxX, node.x);
@@ -204,6 +217,19 @@ function updateCastle (castle) {
     }
     grid[node.x][node.y] = node;
 
+    if (node.rotation % 2 === 1) {
+      node.sideways = true;
+      columnSizes[node.x] = 'wide';
+      if (!rowSizes[node.y]) {
+        rowSizes[node.y] = 'short';
+      }
+    } else {
+      node.sideways = false;
+      if (!columnSizes[node.x]) {
+        columnSizes[node.x] = 'normal';
+      }
+      rowSizes[node.y] = 'normal';
+    }
 
     node.links = 0;
     node.matchingLinks = 0;

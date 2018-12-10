@@ -26,31 +26,42 @@ const styles = theme => ({
     top: 0,
     minWidth: '100%',
     minHeight: '100%',
-    paddingTop: 300,
-    paddingLeft: 300,
-    paddingRight: 300,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   row: {
     position: 'relative',
     margin: '0 auto',
     display: 'flex',
-    flexDirection: 'columns',
     alignItems: 'center',
     justifyContent: 'center',
+
+    flexDirection: 'row',
   },
   node: {
-    display: 'inline-block',
-    width: 128,
+    width: 85,
     height: 128,
-    margin: 10,
+    margin: 5,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
 
-    '&.rotation1': {
+    '&.wide': {
+      width: 128
+    },
+    '&.short': {
+      height: 85
+    },
+
+    '&.rotation1 > *': {
       transform: 'rotate(90deg)'
     },
-    '&.rotation2': {
+    '&.rotation2 > *': {
       transform: 'rotate(180deg)'
     },
-    '&.rotation3': {
+    '&.rotation3 > *': {
       transform: 'rotate(270deg)'
     }
   }
@@ -102,8 +113,8 @@ class GridController extends Component {
         <div
           className={ this.props.classes.castle }
           style={{
-            left: 0 - this.props.x,
-            top: 0 - this.props.y,
+            left: (0 - this.props.x),
+            top: 90 + (0 - this.props.y),
           }}
           >
         { this.state.rows.map(partial(this.renderRow, this.state.minX, this.state.minY)) }
@@ -154,11 +165,20 @@ class GridController extends Component {
     }
 
     return (
-      <div key={ key } className={ classNames(this.props.classes.node, node && ('rotation' + node.rotation)) }>
+      <div
+        className={ classNames(
+          this.props.classes.node,
+          node && ('rotation' + node.rotation),
+          this.state.columnSizes[x],
+          this.state.rowSizes[y],
+          ) }
+        key={ key }
+        >
         <If
           condition={ !!(node || isActionable) }
           render={ ()=>
             <Card
+              skinny={ this.state.columnSizes[x] !== 'wide' || (node.sideways && this.state.rowSizes[y] === 'short') }
               card={ node ? node.card : 'empty' }
               onClick={ isActionable ? partial(this.sendAction, isActionable) : null }
               /> } />

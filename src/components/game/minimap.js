@@ -27,7 +27,7 @@ const MINIMAP_SCALE = 1.5;
 const HEADER_MARGIN = 180;
 const PREVIEW_MARGIN = 100;
 const PREVIEW_SCALE = 128 / ( 57 / MINIMAP_SCALE);
-const MINIMAP_SIZE = 421 / MINIMAP_SCALE;
+const MINIMAP_SIZE = 410 / MINIMAP_SCALE;
 
 const styles = theme => ({
   root: {
@@ -55,12 +55,13 @@ const styles = theme => ({
     position: 'relative',
     height: MINIMAP_SIZE,
     width: MINIMAP_SIZE,
-    top: 20 / MINIMAP_SCALE,
-    left: 23 / MINIMAP_SCALE,
+    top: 25 / MINIMAP_SCALE,
+    left: 28 / MINIMAP_SCALE,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    // border: '1px solid white',
   },
   row: {
     display: 'flex',
@@ -69,10 +70,20 @@ const styles = theme => ({
     alignItems: 'center',
     flex: '0 0 auto',
     pointerEvents: 'none',
+
+    '&.short': {
+      height: 37 / MINIMAP_SCALE,
+    },
+    '&.short.scaled': {
+      height: 37 / MINIMAP_SCALE / 1.5,
+    },
+    '&.short.superScaled': {
+      height: 37 / MINIMAP_SCALE / 2,
+    },
   },
   card: {
     flex: '0 0 auto',
-    width: 57 / MINIMAP_SCALE,
+    width: 37 / MINIMAP_SCALE,
     height: 57 / MINIMAP_SCALE,
     margin: 2 / MINIMAP_SCALE,
     pointerEvents: 'none',
@@ -81,15 +92,39 @@ const styles = theme => ({
     justifyContent: 'center',
     alignItems: 'center',
 
+    '& img': {
+      width: 37 / MINIMAP_SCALE,
+      height: 57 / MINIMAP_SCALE,
+      pointerEvents: 'none',
+    },
+
+    '&.wide': {
+      width: 57 / MINIMAP_SCALE,
+    },
+
     '&.scaled': {
-      width: 57 / MINIMAP_SCALE / 1.5,
+      width: 37 / MINIMAP_SCALE / 1.5,
       height: 57 / MINIMAP_SCALE / 1.5,
       margin: 2 / MINIMAP_SCALE / 1.5,
     },
+    '&.wide.scaled': {
+      width: 57 / MINIMAP_SCALE / 1.5,
+    },
+    '&.scaled img': {
+      width: 37 / MINIMAP_SCALE / 1.5,
+      height: 57 / MINIMAP_SCALE / 1.5,
+    },
     '&.superScaled': {
-      width: 57 / MINIMAP_SCALE / 2,
+      width: 37 / MINIMAP_SCALE / 2,
       height: 57 / MINIMAP_SCALE / 2,
       margin: 2 / MINIMAP_SCALE / 2,
+    },
+    '&.wide.superScaled': {
+      width: 57 / MINIMAP_SCALE / 2,
+    },
+    '&.superScaled img': {
+      width: 37 / MINIMAP_SCALE / 2,
+      height: 57 / MINIMAP_SCALE / 2,
     },
 
     '&.rotation1': {
@@ -101,11 +136,6 @@ const styles = theme => ({
     '&.rotation3': {
       transform: 'rotate(270deg)'
     }
-  },
-  cardImage: {
-    width: 'auto !important',
-    height: '100%',
-    pointerEvents: 'none',
   },
 
   previewBox: {
@@ -198,17 +228,20 @@ class Minimap extends Component {
     let previewWidth = (this.props.windowWidth - PREVIEW_MARGIN) / scale;
     let previewHeight = (this.props.windowHeight - PREVIEW_MARGIN - HEADER_MARGIN) / scale;
 
-    x -= Math.min(previewWidth, MINIMAP_SIZE) / 2;
-    y -= Math.min(previewHeight, MINIMAP_SIZE) / 2;
+    previewWidth = Math.min(previewWidth, MINIMAP_SIZE);
+    previewHeight = Math.min(previewHeight, MINIMAP_SIZE);
 
-    let xMargin = MINIMAP_SIZE - Math.min(previewWidth, MINIMAP_SIZE);
-    let yMargin = MINIMAP_SIZE - Math.min(previewHeight, MINIMAP_SIZE);
+    x -= MINIMAP_SIZE / 2;
+    y -= MINIMAP_SIZE / 2;
 
-    x = Math.max(0, x);
-    x = Math.min(xMargin, x);
+    let xMargin = MINIMAP_SIZE - previewWidth;
+    let yMargin = MINIMAP_SIZE - previewHeight;
 
-    y = Math.max(0, y);
-    y = Math.min(yMargin, y);
+    x = Math.max(0 - xMargin / 2, x);
+    x = Math.min(xMargin / 2, x);
+
+    y = Math.max(0 - yMargin / 2, y);
+    y = Math.min(yMargin / 2, y);
 
     x *= scale;
     y *= scale;
@@ -278,28 +311,47 @@ class Minimap extends Component {
     width = Math.min(MINIMAP_SIZE, width);
     height = Math.min(MINIMAP_SIZE, height);
 
+    // centered square calculation
+    let centerX = (MINIMAP_SIZE - width) / 2;
+    let centerY = (MINIMAP_SIZE - height) / 2;
+
     return {
-      left: this.props.x / scale,
-      top: this.props.y / scale,
+      left: (this.props.x / scale) + centerX,
+      top: (this.props.y / scale) + centerY,
       width, height
     }
   }
   renderRow (row, i) {
+    let y = this.state.maxY - i;
     return (
-      <div className={ this.props.classes.row } key={ this.state.minY + i }>
+      <div
+        className={ classNames(
+          this.props.classes.row,
+          this.state.rowSizes[y],
+          {
+            scaled: this.state.scaled,
+            superScaled: this.state.superScaled,
+          }) }
+        key={ y }>
         { row.map(this.renderCard) }
       </div>
     );
   }
   renderCard (card, i) {
     let img = this.imageForCard(card);
+    let x = this.state.minX + i;
 
     return (
-      <div className={ classNames(this.props.classes.card, card && ('rotation' + card.rotation),   {
-          scaled: this.state.scaled,
-          superScaled: this.state.superScaled,
-        }) }
-        key={ this.state.minX + i }
+      <div
+        className={ classNames(
+          this.props.classes.card,
+          card && ('rotation' + card.rotation),
+          this.state.columnSizes[x],
+          {
+            scaled: this.state.scaled,
+            superScaled: this.state.superScaled,
+          }) }
+        key={ x }
         >
         { img }
       </div>

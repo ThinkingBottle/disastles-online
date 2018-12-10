@@ -10,6 +10,7 @@ export const ROOM_MOVED = 'ROOM_MOVED';
 export const DISASTER_STARTED = 'DISASTER_STARTED';
 export const DISASTER_FINISHED = 'DISASTER_FINISHED';
 export const ASSETS = 'ASSETS';
+export const CARD_RETURNED_TO_DRAW_PILE = 'CARD_RETURNED_TO_DRAW_PILE';
 
 bindToEvent(JOINED_GAME, 'JoinedGame');
 bindToEvent(CARD_DRAWN_TO_SHOP, 'CardDrawnToShop');
@@ -21,6 +22,7 @@ bindToEvent(ROOM_MOVED, 'RoomMoved');
 bindToEvent(DISASTER_STARTED, 'DisasterStarted');
 bindToEvent(DISASTER_FINISHED, 'DisasterFinished');
 bindToEvent(ASSETS, 'Assets');
+bindToEvent(CARD_RETURNED_TO_DRAW_PILE, 'CardReturnedToDrawPile');
 
 export function joinedGame (data) {
   return {

@@ -108,7 +108,7 @@ class GameHeader extends Component {
           <Tooltip title={ 'Discard pile (' + this.props.discardPileSize + ')' }>
             <div className={ classNames(
                 this.props.classes.discardPile,
-                this.props.classes['deckSize' + deckSize],
+                this.props.classes['deckSize' + discardSize],
               )}>
             </div>
           </Tooltip>
