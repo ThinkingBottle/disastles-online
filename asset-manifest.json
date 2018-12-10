@@ -1,7 +1,7 @@
 {
   "main.css": "/disastles-online/static/css/main.72456e78.chunk.css",
-  "main.js": "/disastles-online/static/js/main.645b2a1e.chunk.js",
-  "main.js.map": "/disastles-online/static/js/main.645b2a1e.chunk.js.map",
+  "main.js": "/disastles-online/static/js/main.7a9e648f.chunk.js",
+  "main.js.map": "/disastles-online/static/js/main.7a9e648f.chunk.js.map",
   "static/js/1.3957b0a6.chunk.js": "/disastles-online/static/js/1.3957b0a6.chunk.js",
   "static/js/1.3957b0a6.chunk.js.map": "/disastles-online/static/js/1.3957b0a6.chunk.js.map",
   "runtime~main.js": "/disastles-online/static/js/runtime~main.a07426da.js",
@@ -150,6 +150,6 @@
   "static/media/BG5.png": "/disastles-online/static/media/BG5.b1217cd4.png",
   "static/css/main.72456e78.chunk.css.map": "/disastles-online/static/css/main.72456e78.chunk.css.map",
   "index.html": "/disastles-online/index.html",
-  "precache-manifest.85f05a6904c8bb2b56e2a8d592549c8d.js": "/disastles-online/precache-manifest.85f05a6904c8bb2b56e2a8d592549c8d.js",
+  "precache-manifest.56e922314174109eb428e0a4392b389f.js": "/disastles-online/precache-manifest.56e922314174109eb428e0a4392b389f.js",
   "service-worker.js": "/disastles-online/service-worker.js"
 }
