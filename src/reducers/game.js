@@ -77,12 +77,13 @@ export default function reduce (state, action) {
       });
       break;
     case CARD_DRAWN_TO_SHOP:
-      console.log('Added to shop!');
       state = {...state,
         shop: [...state.shop],
         drawPileSize: action.data.drawPileSize
       };
       state.shop.push(action.data.card);
+      state.shop = state.shop.filter((a) => !!a);
+      console.log('card Added to shop!', [...state.shop]);
       break;
     case CARD_DISCARDED:
       console.log('card discarded', action);
@@ -96,7 +97,7 @@ export default function reduce (state, action) {
         card: action.data.card
       });
       state.shop = state.shop.filter(function (card) {
-        return card !== action.data.card;
+        return card && card !== action.data.card;
       });
       let changedPlayerCastle = false;
       Object.keys(state.castles).forEach(function (player) {
@@ -132,8 +133,11 @@ export default function reduce (state, action) {
         },
         shop: [...state.shop]
       };
-      state.shop = state.shop.filter(function (card) {
-        return card !== node.card;
+      state.shop = state.shop.map(function (card) {
+        if (card === node.card) {
+          return null;
+        }
+        return card;
       });
       state.castles[player] = updateCastle(state.castles[player]);
       break;
@@ -162,13 +166,16 @@ export default function reduce (state, action) {
       break;
 
     case DISASTER_STARTED:
+      console.log('Disaster started');
       state = {...state,
         currentDisaster: action.data.card
       };
       break;
     case DISASTER_FINISHED:
+      console.log('Disaster finished');
       state = {...state,
-        currentDisaster: null
+        currentDisaster: null,
+        shop: state.shop.filter((card) => card !== state.currentDisaster)
       };
       break;
     case TURN_CHANGED:

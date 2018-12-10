@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import Card from './card';
 
 import { selectCard } from '../../actions/player';
+import API from '../../api';
 
 import backgroundLeft from './images/header-shop-left.png';
 import backgroundRight from './images/header-shop-right.png';
@@ -54,10 +55,18 @@ class Shop extends Component {
 
     this.renderCard = this.renderCard.bind(this);
     this.selectCard = this.selectCard.bind(this);
+    this.sendAction = this.sendAction.bind(this);
   }
 
   selectCard (card) {
     this.props.dispatch(selectCard(card));
+  }
+
+  sendAction (action, card) {
+    if (action === true) {
+      return this.selectCard(card);
+    }
+    API.send(action);
   }
 
   render () {
@@ -76,21 +85,27 @@ class Shop extends Component {
     );
   }
 
-  renderCard (card) {
+  renderCard (card, i) {
     var isClickable = false;
+    var key = card || i;
     this.props.actions.forEach(function (action) {
-      if (action.action == 'BuildRoom' && action.card === card) {
-        isClickable = true;
+      if (action.card !== card) {
+        return;
       }
-    })
+      if (action.action == 'BuildRoom') {
+        isClickable = true;
+      } else {
+        isClickable = action;
+      }
+    });
     console.log(card);
     if (isClickable) {
       return (
         <Card
           className= { this.props.classes.card }
-          onClick={ partial(this.selectCard, card) }
+          onClick={ partial(this.sendAction, isClickable, card) }
           card={ card }
-          key={ card }
+          key={ key }
           skinny
           />
       );
@@ -98,8 +113,8 @@ class Shop extends Component {
     return (
       <Card
         className= { this.props.classes.card }
-        card={ card }
-        key={ card }
+        card={ card || 'empty' }
+        key={ key }
         skinny
         />
     );

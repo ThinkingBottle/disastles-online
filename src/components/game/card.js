@@ -60,7 +60,8 @@ class Card extends Component {
     return (
       <div
         className={ classNames(this.props.className, this.props.classes.root, {
-          [this.props.classes.clickable]: !!this.props.onClick
+          [this.props.classes.clickable]: !!this.props.onClick,
+          [this.props.classes.skinny]: !!this.props.skinny
         }) }
         key={ card }
         >

@@ -12,6 +12,8 @@ import emptyCard from './images/outline-empty.png';
 import throneRoom from './images/outline-throne.png';
 import effectRoom from './images/outline-bolt-inactive.png';
 import vaultRoom from './images/outline-circle-inactive.png';
+import effectRoomActive from './images/outline-bolt-active.png';
+import vaultRoomActive from './images/outline-circle-active.png';
 import btnExpanded from './images/minimap-collapse.png';
 import btnExpandedHover from './images/minimap-collapse-highlight.png';
 import btnExpandedActive from './images/minimap-collapse-active.png';
@@ -80,12 +82,12 @@ const styles = theme => ({
     alignItems: 'center',
 
     '&.scaled': {
-      width: 37 / MINIMAP_SCALE / 1.5,
+      width: 57 / MINIMAP_SCALE / 1.5,
       height: 57 / MINIMAP_SCALE / 1.5,
       margin: 2 / MINIMAP_SCALE / 1.5,
     },
     '&.superScaled': {
-      width: 37 / MINIMAP_SCALE / 2,
+      width: 57 / MINIMAP_SCALE / 2,
       height: 57 / MINIMAP_SCALE / 2,
       margin: 2 / MINIMAP_SCALE / 2,
     },
@@ -101,7 +103,7 @@ const styles = theme => ({
     }
   },
   cardImage: {
-    width: 'auto',
+    width: 'auto !important',
     height: '100%',
     pointerEvents: 'none',
   },
@@ -330,14 +332,24 @@ class Minimap extends Component {
           isEffect = true;
           break;
       }
-    })
+    });
+
+    let active = card.matchingLinks > 0;
 
     if (isThrone) {
       backgroundName = throneRoom;
     } else if (isVault) {
-      backgroundName = vaultRoom;
+      if (active) {
+        backgroundName = vaultRoomActive;
+      } else {
+        backgroundName = vaultRoom;
+      }
     } else if (isEffect) {
-      backgroundName = effectRoom;
+      if (active) {
+        backgroundName = effectRoomActive;
+      } else {
+        backgroundName = effectRoom;
+      }
     }
     return (
       <img
