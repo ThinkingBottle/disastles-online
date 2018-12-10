@@ -196,6 +196,28 @@ function updateCastle (castle) {
       grid[node.x] = {};
     }
     grid[node.x][node.y] = node;
+
+
+    node.links = 0;
+    node.matchingLinks = 0;
+    node.goldenLinks = 0;
+    node.goldenMatchingLinks = 0;
+    node.active = false;
+    castle.links.forEach(function (link) {
+      if (link.from === node.card || link.to === node.card) {
+        node.linkCount++;
+        if (link.golden) {
+          node.goldenLinks++;
+          if (link.matching) {
+            node.goldenMatchingLinks++;
+            node.matchingLinks++;
+          }
+        } else if (link.matching) {
+          // matching, not golden
+          node.matchingLinks++;
+        }
+      }
+    });
   });
 
   minX--;
@@ -211,7 +233,7 @@ function updateCastle (castle) {
     let row = [];
     for (let x = 0; x < width; ++x) {
       if (grid[x + minX]) {
-        row.push(grid[x + minX][y + minY]);
+        row.push(grid[x + minX][maxY - y]);
       } else {
         row.push(null);
       }

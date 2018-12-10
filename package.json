@@ -10,6 +10,7 @@
     "ap": "^0.2.0",
     "collect-methods": "^1.2.0",
     "config-request": "^0.5.1",
+    "fast-levenshtein": "^2.0.6",
     "geval": "^2.2.0",
     "obstruction": "^2.1.0",
     "react": "^16.6.3",

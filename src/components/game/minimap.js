@@ -41,11 +41,11 @@ const styles = theme => ({
     transition: '0.5s left',
     cursor: 'grab',
 
-    ['& *']: {
+    '& *': {
       userSelect: 'none'
     },
 
-    ['&.expanded']: {
+    '&.expanded': {
       left: 20,
     }
   },
@@ -75,15 +75,29 @@ const styles = theme => ({
     margin: 2 / MINIMAP_SCALE,
     pointerEvents: 'none',
 
-    ['&.scaled']: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+
+    '&.scaled': {
       width: 37 / MINIMAP_SCALE / 1.5,
       height: 57 / MINIMAP_SCALE / 1.5,
       margin: 2 / MINIMAP_SCALE / 1.5,
     },
-    ['&.superScaled']: {
+    '&.superScaled': {
       width: 37 / MINIMAP_SCALE / 2,
       height: 57 / MINIMAP_SCALE / 2,
       margin: 2 / MINIMAP_SCALE / 2,
+    },
+
+    '&.rotation1': {
+      transform: 'rotate(90deg)'
+    },
+    '&.rotation2': {
+      transform: 'rotate(180deg)'
+    },
+    '&.rotation3': {
+      transform: 'rotate(270deg)'
     }
   },
   cardImage: {
@@ -109,18 +123,18 @@ const styles = theme => ({
     backgroundImage: 'url(' + btnCollapsed + ')',
     cursor: 'pointer',
 
-    ['&:hover']: {
+    '&:hover': {
       backgroundImage: 'url(' + btnCollapsedHover + ')',
     },
-    ['&:active']: {
+    '&:active': {
       backgroundImage: 'url(' + btnCollapsedActive + ')',
     },
-    ['&.expanded']: {
+    '&.expanded': {
       backgroundImage: 'url(' + btnExpanded + ')',
-      ['&:hover']: {
+      '&:hover': {
         backgroundImage: 'url(' + btnExpandedHover + ')',
       },
-      ['&:active']: {
+      '&:active': {
         backgroundImage: 'url(' + btnExpandedActive + ')',
       },
     }
@@ -279,7 +293,7 @@ class Minimap extends Component {
     let img = this.imageForCard(card);
 
     return (
-      <div className={ classNames(this.props.classes.card, {
+      <div className={ classNames(this.props.classes.card, card && ('rotation' + card.rotation),   {
           scaled: this.state.scaled,
           superScaled: this.state.superScaled,
         }) }

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import obstruction from 'obstruction';
 import { partial } from 'ap';
 import windowSize from 'react-window-size';
+import { classNames } from 'react-extras';
 
 import { If } from 'react-extras';
 import Button from '@material-ui/core/Button';
@@ -41,7 +42,17 @@ const styles = theme => ({
     display: 'inline-block',
     width: 128,
     height: 128,
-    margin: 10
+    margin: 10,
+
+    '&.rotation1': {
+      transform: 'rotate(90deg)'
+    },
+    '&.rotation2': {
+      transform: 'rotate(180deg)'
+    },
+    '&.rotation3': {
+      transform: 'rotate(270deg)'
+    }
   }
 });
 
@@ -102,7 +113,7 @@ class GridController extends Component {
   }
 
   renderRow (minX, minY, row, i) {
-    let y = i + minY;
+    let y = this.state.maxY - i;
     return (
       <div key={ y } className={ this.props.classes.row } >
         { row.map(partial(this.renderCell, y, minX)) }
@@ -143,7 +154,7 @@ class GridController extends Component {
     }
 
     return (
-      <div key={ key } className={ this.props.classes.node }>
+      <div key={ key } className={ classNames(this.props.classes.node, node && ('rotation' + node.rotation)) }>
         <If
           condition={ !!(node || isActionable) }
           render={ ()=>
