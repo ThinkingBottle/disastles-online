@@ -177,7 +177,7 @@ class GridController extends Component {
         if (actionCards.length > 1) {
           return false;
         }
-        if (val.x && (val.x !== x || val.y !== y)) {
+        if (val.x !== undefined && (val.x !== x || val.y !== y)) {
           return false;
         }
       }
@@ -210,6 +210,7 @@ class GridController extends Component {
 
     return (
       <div
+        data-action={ isActionable }
         className={ classNames(
           this.props.classes.node,
           node && ('rotation' + node.rotation),
@@ -218,16 +219,27 @@ class GridController extends Component {
           ) }
         key={ key }
         >
-        <Tooltip title={ isActionable ? isActionable.action : null } >
-          <Card
-            skinny={ this.state.columnSizes[x] !== 'wide' }
-            card={ node ? node.card : 'empty' }
-            onClick={ isActionable ? partial(this.sendAction, isActionable, node && node.card) : null }
-            />
-        </Tooltip>
+        <Card
+          tooltip={ isActionable ? splitWords(isActionable.action) : null }
+          skinny={ this.state.columnSizes[x] !== 'wide' }
+          card={ node ? node.card : 'empty' }
+          onClick={ isActionable ? partial(this.sendAction, isActionable, node && node.card) : null }
+          />
       </div>
     );
   }
+}
+
+function splitWords (word) {
+  var result = '';
+  word.split('').forEach(function (t) {
+    if (result.length && t.toUpperCase() === t) {
+      result += ' ';
+    }
+    result += t;
+  });
+
+  return result;
 }
 
 const mapToProps = obstruction({

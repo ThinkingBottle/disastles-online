@@ -2,7 +2,9 @@ import {
   LOBBY_SNAPSHOT,
   PLAYER_LEAVE
 } from '../actions/lobby';
-
+import {
+  JOINED_GAME
+} from '../actions/game';
 import {
   HELLO,
   NAME_CHANGED,
@@ -14,7 +16,8 @@ import name from 'american-sounding-names';
 const defaultState = {
   playerId: 'test',
   name: name(),
-  playerNames: {}
+  playerNames: {},
+  playerColors: {}
 };
 
 export default function reduce (state, action) {
@@ -60,6 +63,16 @@ export default function reduce (state, action) {
         playerNames: {...state.playerNames}
       };
       delete state.playerNames[action.data.player];
+      break;
+    case JOINED_GAME:
+      state = {...state,
+        playerNames: {...state.playerNames},
+        playerColors: {...state.playerColors}
+      };
+      action.data.snapshot.players.forEach(function (player) {
+        state.playerNames[player.id] = player.name;
+        state.playerColors[player.id] = player.color;
+      });
       break;
   }
 

@@ -10,7 +10,8 @@ import {
   DISASTER_STARTED,
   DISASTER_FINISHED,
   CARD_RETURNED_TO_DRAW_PILE,
-  ROOM_ROTATED
+  ROOM_ROTATED,
+  GAME_ENDED
 } from '../actions/game';
 
 import {
@@ -189,6 +190,13 @@ export default function reduce (state, action) {
       state = {...state,
         currentDisaster: state.currentDisaster === action.data.card ? null : state.currentDisaster,
         shop: state.shop.filter((card) => card !== action.data.card)
+      };
+      break;
+    case GAME_ENDED:
+      console.log('The game has ended', action.data);
+      state = {...state,
+        gameEnded: true,
+        gameStats: action.data
       };
       break;
   }

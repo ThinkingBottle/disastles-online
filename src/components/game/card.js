@@ -97,6 +97,24 @@ class Card extends Component {
   }
 
   renderCard (card, cards, cardName) {
+    let tooltipTitle = '';
+    let removeTooltipStyles = true;
+
+    if (!this.props.large) {
+      tooltipTitle = (
+        <img
+          className={ this.props.classes.tooltip }
+          src={ cardImages[cardName] }
+          alt={ cardName }
+          />
+      );
+    }
+    if (this.props.tooltip) {
+      tooltipTitle = this.props.tooltip;
+    }
+    if (typeof tooltipTitle === 'string') {
+      removeTooltipStyles = false;
+    }
     return (
       <div
         className={ classNames(this.props.className, this.props.classes.root, {
@@ -107,19 +125,14 @@ class Card extends Component {
         key={ card }
         >
         <Tooltip
-          classes={{
+          classes={ removeTooltipStyles ? {
             tooltip: this.props.classes.removeTooltipStyles,
             popper: this.props.classes.removeTooltipStyles
-          }}
+          } : {} }
           enterDelay={1000}
           leaveDelay={200}
           interactive={true}
-          title={
-            <img
-              className={ this.props.classes.tooltip }
-              src={ cardImages[cardName] }
-              alt={ cardName }
-              /> }
+          title={ tooltipTitle }
             >
           <img
             className={ classNames(this.props.classes.image, 'card', {

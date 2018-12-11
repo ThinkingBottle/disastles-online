@@ -11,6 +11,7 @@ import GridController from './grid';
 import Minimap from './minimap';
 import Header from './header';
 import Actions from './actions';
+import Scoreboard from './scoreboard';
 
 import backgroundImage1 from '../backgrounds/BG1.png';
 import backgroundImage2 from '../backgrounds/BG2.png';
@@ -58,6 +59,7 @@ class GameComponent extends Component {
         <Header />
         <Minimap />
         <Actions />
+        <Scoreboard />
       </div>
     );
   }

@@ -157,12 +157,15 @@ class CardModal extends Component {
             info: !this.props.error
           }) }>
             { this.props.children }
-            <Button
-              onClick={ this.props.onClose }
-              classes={ {
-                root: this.props.classes.button
-              } }
-              />
+            { this.props.noclose ? [] :
+              <Button
+                onClick={ this.props.onClose }
+                classes={ {
+                  root: this.props.classes.button
+                } }
+                >&nbsp;
+                </Button>
+              }
           </div>
         </div>
       </Modal>

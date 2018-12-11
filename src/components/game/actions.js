@@ -23,6 +23,9 @@ const styles = theme => ({
     fontSize: 24,
     marginLeft: 10,
     float: 'right'
+  },
+  cardHolder: {
+    display: 'flex'
   }
 });
 
@@ -53,6 +56,7 @@ class ActionBar extends Component {
           case 'AcceptSacrifice':
           case 'MarkRoom':
           case 'ChooseCard':
+          case 'DiscardCard':
             return true;
           default:
             return false;
@@ -75,6 +79,10 @@ class ActionBar extends Component {
     let multiChoice = this.state.actions.filter((a) => a.action === 'SkipMultiChoice')[0];
     if (multiChoice) {
       return this.renderMultiChoice(this.state.actions.filter((a) => a.mandatory !== undefined), multiChoice);
+    }
+    multiChoice = this.state.actions.filter((a) => a.action === 'SkipText')[0];
+    if (multiChoice) {
+      return this.renderMultiChoice(this.state.actions.filter((a) => a.action !== 'SkipText'), multiChoice);
     }
     if (this.props.currentDisaster) {
       return this.renderDisaster();
@@ -117,17 +125,19 @@ class ActionBar extends Component {
           <Typography variant='h3'>
             Optional action
           </Typography> } />
-        { actions.map((action, i) => {
-          return (
-            <Card
-              key={ i }
-              large
-              skinny
-              card={ action.card }
-              onClick={ partial(this.sendAction, action) }
-              />
-          );
-        }) }
+        <div className={ this.props.classes.cardHolder }>
+          { actions.map((action, i) => {
+            return (
+              <Card
+                key={ i }
+                large={ actions.length < 2 }
+                skinny
+                card={ action.card }
+                onClick={ partial(this.sendAction, action) }
+                />
+            );
+          }) }
+        </div>
         <br />
         <span className={ this.props.classes.skip }>Skip</span>
       </ActionModal>
