@@ -5,6 +5,7 @@ import obstruction from 'obstruction';
 import { classNames } from 'react-extras';
 
 import Typography from '@material-ui/core/Typography';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import cardImages from './cards';
 import cardOutline from './images/card-outline.png';
@@ -15,24 +16,43 @@ const styles = theme => ({
     width: 128,
     height: 128,
     justifyContent: 'center',
+    '&.large': {
+      width: 512,
+      height: 512,
+    }
   },
   skinny: {
-    width: 84
+    width: 84,
+    '&.large': {
+      width: 329
+    }
   },
   image: {
     display: 'inline-block',
-    width: 85,
-    height: 'auto',
-    ['&.card']: {
+    height: '100%',
+    width: 'auto',
+    '&.card': {
       border: '1px solid black',
       borderRadius: 3,
       backgroundColor: 'white',
     },
-    ['&.empty']: {
-    }
+    '&.empty': {
+    },
+    '&.selected': {
+      boxShadow: '1px 1px 20px 5px white'
+    },
   },
   clickable: {
     cursor: 'pointer'
+  },
+  tooltip: {
+    border: '3px solid #b8fdff',
+    borderRadius: 32
+  },
+  removeTooltipStyles: {
+    backgroundColor: 'transparent',
+    borderRadius: 0,
+    opacity: 1
   }
 });
 
@@ -61,7 +81,8 @@ class Card extends Component {
       <div
         className={ classNames(this.props.className, this.props.classes.root, {
           [this.props.classes.clickable]: !!this.props.onClick,
-          [this.props.classes.skinny]: !!this.props.skinny
+          [this.props.classes.skinny]: !!this.props.skinny,
+          large: this.props.large
         }) }
         key={ card }
         >
@@ -80,23 +101,43 @@ class Card extends Component {
       <div
         className={ classNames(this.props.className, this.props.classes.root, {
           [this.props.classes.clickable]: !!this.props.onClick,
-          [this.props.classes.skinny]: !!this.props.skinny
+          [this.props.classes.skinny]: !!this.props.skinny,
+          large: this.props.large
         }) }
         key={ card }
         >
-        <img
-          className={ classNames(this.props.classes.image, 'card') }
-          src={ cardImages[cardName] }
-          alt={ cardName }
-          onClick={ this.props.onClick }
-          />
+        <Tooltip
+          classes={{
+            tooltip: this.props.classes.removeTooltipStyles,
+            popper: this.props.classes.removeTooltipStyles
+          }}
+          enterDelay={1000}
+          leaveDelay={200}
+          interactive={true}
+          title={
+            <img
+              className={ this.props.classes.tooltip }
+              src={ cardImages[cardName] }
+              alt={ cardName }
+              /> }
+            >
+          <img
+            className={ classNames(this.props.classes.image, 'card', {
+              selected: this.props.selectedCard === card
+            }) }
+            src={ cardImages[cardName] }
+            alt={ cardName }
+            onClick={ this.props.onClick }
+            />
+        </Tooltip>
       </div>
     );
   }
 }
 
 const mapToProps = obstruction({
-  cards: 'cards.knownCards'
+  cards: 'cards.knownCards',
+  selectedCard: 'game.selectedCard',
 });
 
 export default withStyles(styles)(connect(mapToProps)(Card));

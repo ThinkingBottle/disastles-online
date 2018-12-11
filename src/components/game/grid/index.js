@@ -9,10 +9,12 @@ import { classNames } from 'react-extras';
 import { If } from 'react-extras';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 
 import Card from '../card';
 
+import { selectCard } from '../../../actions/player';
 import API from '../../../api';
 
 const styles = theme => ({
@@ -71,6 +73,8 @@ class GridController extends Component {
   constructor (props) {
     super(props);
 
+    this.rootEl = React.createRef();
+
     this.state = {
       nodes: [],
       actions: [],
@@ -85,31 +89,63 @@ class GridController extends Component {
     this.renderRow = this.renderRow.bind(this);
     this.renderCell = this.renderCell.bind(this);
     this.sendAction = this.sendAction.bind(this);
+    this.unselectCard = this.unselectCard.bind(this);
   }
 
   componentWillReceiveProps (newProps) {
     this.setState({...newProps.castles[newProps.playerId || 'test'],
       actions: newProps.actions.filter((action) => {
-        if (action.action === 'BuildRoom') {
-          return action.card === newProps.selectedCard;
+        if (newProps.selectedCard || action.action === 'BuildRoom') {
+          return (this.cardsForAction(action).indexOf(newProps.selectedCard) !== -1);
         }
         return true;
       })
     });
   }
 
-  async sendAction (action) {
+  async sendAction (action, card) {
+    let actionCards = this.cardsForAction(action);
+
+    if (actionCards.indexOf(this.props.selectedCard) === -1) {
+      return this.props.dispatch(selectCard(card));
+    }
+
     action = {...action,
       effects: []
     };
+    console.log('Sending action', action.action, action);
     API.send(action);
+    this.props.dispatch(selectCard(null));
+  }
+
+  unselectCard (event) {
+    if (event.target.nodeName === 'DIV') {
+      this.props.dispatch(selectCard(null));
+    }
+  }
+
+  cardsForAction (action) {
+    if (action.card) {
+      return [action.card];
+    }
+    if (action.room) {
+      return [action.room];
+    }
+    if (action.rooms) {
+      return Object.keys(action.rooms);
+    }
+    return [];
   }
 
   render () {
     console.log(this.state.actions);
 
     return (
-      <div className={ this.props.classes.root }>
+      <div
+        ref={ this.rootEl }
+        onClick={ this.unselectCard }
+        className={ this.props.classes.root }
+        >
         <div
           className={ this.props.classes.castle }
           style={{
@@ -136,32 +172,40 @@ class GridController extends Component {
     let x = i + minX;
     let key = x + ':' + y;
     let isActionable = this.state.actions.reduce((memo, val) => {
+      let actionCards = this.cardsForAction(val);
+      if (node && node.card === this.props.selectedCard) {
+        if (actionCards.length > 1) {
+          return false;
+        }
+        if (val.x && (val.x !== x || val.y !== y)) {
+          return false;
+        }
+      }
       if (memo && memo.action === 'BuildRoom') {
         return memo;
       }
-      if (val.room) {
-        if (node && val.room === node.card) {
-          return val;
-        } else {
-          return memo;
-        }
-      }
-      if (node && val.card === node.card) {
+      if (node && actionCards.indexOf(node.card) !== -1) {
         return val;
       }
-      if (val.x === x && val.y === y) {
+      if (actionCards.indexOf(this.props.selectedCard) !== -1 && val.x === x && val.y === y) {
         return val;
       }
       return memo;
     }, false);
 
-    if (!isActionable && node) {
-      isActionable = this.props.actions.reduce((memo, val) => {
-        if (val.card === node.card) {
-          return val;
-        }
-        return memo;
-      }, null);
+    if (!node && !isActionable) {
+      return (
+        <div
+          className={ classNames(
+            this.props.classes.node,
+            node && ('rotation' + node.rotation),
+            this.state.columnSizes[x],
+            // this.state.rowSizes[y],
+            ) }
+          key={ key }
+          >
+        </div>
+      );
     }
 
     return (
@@ -170,18 +214,17 @@ class GridController extends Component {
           this.props.classes.node,
           node && ('rotation' + node.rotation),
           this.state.columnSizes[x],
-          this.state.rowSizes[y],
+          // this.state.rowSizes[y],
           ) }
         key={ key }
         >
-        <If
-          condition={ !!(node || isActionable) }
-          render={ ()=>
-            <Card
-              skinny={ this.state.columnSizes[x] !== 'wide' || (node.sideways && this.state.rowSizes[y] === 'short') }
-              card={ node ? node.card : 'empty' }
-              onClick={ isActionable ? partial(this.sendAction, isActionable) : null }
-              /> } />
+        <Tooltip title={ isActionable ? isActionable.action : null } >
+          <Card
+            skinny={ this.state.columnSizes[x] !== 'wide' }
+            card={ node ? node.card : 'empty' }
+            onClick={ isActionable ? partial(this.sendAction, isActionable, node && node.card) : null }
+            />
+        </Tooltip>
       </div>
     );
   }

@@ -25,7 +25,7 @@ import { moveCamera } from '../../actions/minimap';
 
 const MINIMAP_SCALE = 1.5;
 const HEADER_MARGIN = 180;
-const PREVIEW_MARGIN = 100;
+const PREVIEW_MARGIN = 200;
 const PREVIEW_SCALE = 128 / ( 57 / MINIMAP_SCALE);
 const MINIMAP_SIZE = 410 / MINIMAP_SCALE;
 

@@ -9,7 +9,8 @@ import {
   TURN_CHANGED,
   DISASTER_STARTED,
   DISASTER_FINISHED,
-  CARD_RETURNED_TO_DRAW_PILE
+  CARD_RETURNED_TO_DRAW_PILE,
+  ROOM_ROTATED
 } from '../actions/game';
 
 import {
@@ -142,6 +143,8 @@ export default function reduce (state, action) {
       });
       state.castles[player] = updateCastle(state.castles[player]);
       break;
+    case ROOM_ROTATED:
+      console.log('Rotating room', action);
     case ROOM_MOVED:
       console.log('Moving room', action);
       var player = action.data.castleOwner;

@@ -38,6 +38,7 @@ const styles = theme => ({
   wrapper: {
     background: 'url(' + backgroundCenter + ') repeat-x',
     height: 184,
+    width: 620,
     flex: '1 0 auto',
     paddingTop: 20,
     display: 'flex'

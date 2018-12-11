@@ -15,7 +15,6 @@ import bgLeft from './images/error-left.png';
 import bgRight from './images/error-right.png';
 import bgTop from './images/error-top.png';
 import bgBottom from './images/error-bottom.png';
-
 import bgTopLeftInfo from './images/info-tl.png';
 import bgTopRightInfo from './images/info-tr.png';
 import bgBottomLeftInfo from './images/info-bl.png';
@@ -29,8 +28,8 @@ import bgBottomInfo from './images/info-bottom.png';
 const styles = theme => ({
   root: {
     position: 'absolute',
-    minHeight: 128,
-    minWidth: 128,
+    minHeight: 130,
+    minWidth: 130,
     background: 'url(' + bgColor + ')',
     bottom: 20,
     left: '50%',

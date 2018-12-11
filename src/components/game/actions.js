@@ -7,14 +7,22 @@ import { partial } from 'ap';
 import { If } from 'react-extras';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Card from './card';
 
 import InfoBox from './info';
 import DButton from './button';
+import ActionModal from './modal';
 
 import API from '../../api';
 
 const styles = theme => ({
   root: {
+  },
+  skip: {
+    color: 'white',
+    fontSize: 24,
+    marginLeft: 10,
+    float: 'right'
   }
 });
 
@@ -34,13 +42,17 @@ class ActionBar extends Component {
     console.log('actions for actions', newProps.actions);
     let state = {
       actions: newProps.actions.filter((action) => {
+        if (action.mandatory) {
+          return true;
+        }
         switch (action.action) {
+          case 'SkipMultiChoice':
           case 'SkipText':
           case 'SkipTurn':
-          case 'SkipMultiChoice':
           case 'UnmarkRooms':
           case 'AcceptSacrifice':
           case 'MarkRoom':
+          case 'ChooseCard':
             return true;
           default:
             return false;
@@ -56,6 +68,14 @@ class ActionBar extends Component {
   }
 
   render () {
+    let mandatoryAction = this.state.actions.filter((a) => a.mandatory)[0];
+    if (mandatoryAction) {
+      return this.renderMandatoryAction(mandatoryAction);
+    }
+    let multiChoice = this.state.actions.filter((a) => a.action === 'SkipMultiChoice')[0];
+    if (multiChoice) {
+      return this.renderMultiChoice(this.state.actions.filter((a) => a.mandatory !== undefined), multiChoice);
+    }
     if (this.props.currentDisaster) {
       return this.renderDisaster();
     }
@@ -63,6 +83,54 @@ class ActionBar extends Component {
       <div>
         { this.state.actions.map(this.renderAction) }
       </div>
+    );
+  }
+
+  renderMandatoryAction (action) {
+      return (
+        <ActionModal
+          onClose={ partial(this.sendAction, action) }
+          >
+          <Typography variant='h3'>
+            A card has activated
+          </Typography>
+          <br />
+          <Card
+            large
+            card={ action.card }
+            />
+        </ActionModal>
+      );
+  }
+
+  renderMultiChoice (actions, dismiss) {
+    console.log('multichoice:', actions);
+    return (
+      <ActionModal
+        onClose={ partial(this.sendAction, dismiss) }
+        >
+        <If condition={ actions.length > 1} render={ () =>
+          <Typography variant='h3'>
+            Multi-choice action
+          </Typography> } />
+        <If condition={ actions.length === 1} render={ () =>
+          <Typography variant='h3'>
+            Optional action
+          </Typography> } />
+        { actions.map((action, i) => {
+          return (
+            <Card
+              key={ i }
+              large
+              skinny
+              card={ action.card }
+              onClick={ partial(this.sendAction, action) }
+              />
+          );
+        }) }
+        <br />
+        <span className={ this.props.classes.skip }>Skip</span>
+      </ActionModal>
     );
   }
 
