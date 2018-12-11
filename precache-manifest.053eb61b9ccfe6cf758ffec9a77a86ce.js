@@ -4,12 +4,12 @@ self.__precacheManifest = [
     "url": "/disastles-online/static/media/10_Hallway4_BLANKROOM.0e1c4015.png"
   },
   {
-    "revision": "e2327c3485aae1f4dbb0",
-    "url": "/disastles-online/static/css/main.52426ad8.chunk.css"
+    "revision": "84aa5e00be92b61e1c44",
+    "url": "/disastles-online/static/css/main.b6d67d85.chunk.css"
   },
   {
-    "revision": "5d723e1569b632620297",
-    "url": "/disastles-online/static/js/1.5d723e15.chunk.js"
+    "revision": "42d12f48e7e6c921bd2b",
+    "url": "/disastles-online/static/js/1.42d12f48.chunk.js"
   },
   {
     "revision": "a07426da96600ea0ec0d",
@@ -292,8 +292,8 @@ self.__precacheManifest = [
     "url": "/disastles-online/static/media/9_Hallway3_BLANKROOM.fe6f8452.png"
   },
   {
-    "revision": "e2327c3485aae1f4dbb0",
-    "url": "/disastles-online/static/js/main.e2327c34.chunk.js"
+    "revision": "84aa5e00be92b61e1c44",
+    "url": "/disastles-online/static/js/main.84aa5e00.chunk.js"
   },
   {
     "revision": "9c73a23d2d726e6b09fe7877a6227f7d",
@@ -584,7 +584,7 @@ self.__precacheManifest = [
     "url": "/disastles-online/static/media/BG5.b1217cd4.png"
   },
   {
-    "revision": "79f1d88458646de086381ef52af642a7",
+    "revision": "1f809411ca12964333a338bed158e279",
     "url": "/disastles-online/index.html"
   }
 ];
