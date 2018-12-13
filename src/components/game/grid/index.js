@@ -61,13 +61,13 @@ const styles = theme => ({
     },
 
     '&.rotation1 > *': {
-      transform: 'scale(' + CARD_ZOOM + ') rotate(90deg)'
+      transform: 'rotate(90deg)'
     },
     '&.rotation2 > *': {
-      transform: 'scale(' + CARD_ZOOM + ') rotate(180deg)'
+      transform: 'rotate(180deg)'
     },
     '&.rotation3 > *': {
-      transform: 'scale(' + CARD_ZOOM + ') rotate(270deg)'
+      transform: 'rotate(270deg)'
     }
   }
 });
@@ -127,8 +127,6 @@ class GridController extends Component {
     heightBuffer = Math.min(0, heightBuffer);
     widthBuffer = Math.min(0, widthBuffer);
 
-    console.log(castleWidth, castleHeight, heightBuffer, widthBuffer);
-
     this.setState({...castle,
       actions: newProps.actions.filter((action) => {
         if (newProps.selectedCard || action.action === 'BuildRoom') {
@@ -175,8 +173,6 @@ class GridController extends Component {
   }
 
   render () {
-    console.log(this.state.actions);
-
     return (
       <div
         ref={ this.rootEl }
@@ -208,6 +204,7 @@ class GridController extends Component {
   renderCell (y, minX, node, i) {
     let x = i + minX;
     let key = x + ':' + y;
+    let actions = [];
     let isActionable = this.state.actions.reduce((memo, val) => {
       let actionCards = this.cardsForAction(val);
       if (node && node.card === this.props.selectedCard) {
@@ -218,13 +215,22 @@ class GridController extends Component {
           return false;
         }
       }
+      if (val.castleOwner && val.castleOwner !== this.props.playerId) {
+        return memo;
+      }
       if (memo && memo.action === 'BuildRoom') {
         return memo;
       }
       if (node && actionCards.indexOf(node.card) !== -1) {
+        if (actions.indexOf(val.action) === -1) {
+          actions.push(val.action);
+        }
         return val;
       }
       if (actionCards.indexOf(this.props.selectedCard) !== -1 && val.x === x && val.y === y) {
+        if (actions.indexOf(val.action) === -1) {
+          actions.push(val.action);
+        }
         return val;
       }
       return memo;
@@ -239,28 +245,27 @@ class GridController extends Component {
             this.state.columnSizes[x],
             // this.state.rowSizes[y],
             ) }
-          key={ key }
-          >
+          key={ key } >
         </div>
       );
     }
 
     return (
       <div
-        data-action={ isActionable }
         className={ classNames(
           this.props.classes.node,
           node && ('rotation' + node.rotation),
           this.state.columnSizes[x],
           // this.state.rowSizes[y],
           ) }
-        key={ key }
-        >
+        data-action={ isActionable }
+        key={ key } >
         <Card
           tooltip={ isActionable ? splitWords(isActionable.action) : null }
           skinny={ this.state.columnSizes[x] !== 'wide' }
           card={ node ? node.card : 'empty' }
           onClick={ isActionable ? partial(this.sendAction, isActionable, node && node.card) : null }
+          actions={ actions }
           />
       </div>
     );

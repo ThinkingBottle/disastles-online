@@ -119,6 +119,7 @@ class PlayerPicker extends Component {
     return (
       <div
         className={ classNames(this.props.classes.player, 'player', 'player' + (this.props.players[player] + 1)) }
+        key={ player }
         onClick={ this.selectPlayer(player) }
         >
         <div className={ classNames({

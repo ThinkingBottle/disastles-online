@@ -11,6 +11,7 @@ import {
   DISASTER_FINISHED,
   CARD_RETURNED_TO_DRAW_PILE,
   ROOM_ROTATED,
+  ROOMS_SWAPPED,
   GAME_ENDED
 } from '../actions/game';
 
@@ -50,6 +51,7 @@ export default function reduce (state, action) {
 
   switch (action.type) {
     case ACTIONS_CHANGED:
+      console.log('Actions changed', action.data.actions);
       state = {...state,
         actions: action.data.actions,
         actionable: !!action.data.actions.length
@@ -146,6 +148,15 @@ export default function reduce (state, action) {
       break;
     case ROOM_ROTATED:
       console.log('Rotating room', action);
+      Object.keys(state.castles).forEach(function (player) {
+        let castle = state.castles[player];
+        castle.nodes.forEach(function (node) {
+          if (node.card === action.data.card) {
+            action.data.castleOwner = player;
+            action.data.room = action.data.card;
+          }
+        });
+      });
     case ROOM_MOVED:
       console.log('Moving room', action);
       var player = action.data.castleOwner;
@@ -170,6 +181,49 @@ export default function reduce (state, action) {
       state.castles[player] = updateCastle(state.castles[player]);
       break;
 
+    case ROOMS_SWAPPED:
+      console.log('Swapping rooms >.>', action);
+      state = {...state,
+        castles: {...state.castles}
+      };
+
+      let result = [];
+      Object.keys(state.castles).forEach(function (player) {
+        if (result.length === 2) {
+          return;
+        }
+        let castle = state.castles[player];
+        castle.nodes.forEach(function (node) {
+          if (action.data.rooms[node.card] !== undefined) {
+            result.push({
+              node, player
+            });
+          }
+        });
+      });
+
+      if (result.length !== 2) {
+        console.error('Could not swap rooms, couldn\'t find', Object.keys(action.data.rooms), 'but did find', result);
+        break;
+      }
+      result.forEach(function (swap, i) {
+        var other = result[(i + 1) % 2];
+        var player = swap.player;
+        state.castles[player].nodes = state.castles[player].nodes.map(function (node) {
+          if (node.card === swap.node.card) {
+            return {...other.node,
+              x: node.x,
+              y: node.y,
+              rotation: action.data.rooms[node.card]
+            };
+          }
+          return node;
+        });
+      });
+
+      state.castles[result[0].player] = updateCastle(state.castles[result[0].player]);
+      state.castles[result[1].player] = updateCastle(state.castles[result[1].player]);
+      break;
     case DISASTER_STARTED:
       console.log('Disaster started');
       state = {...state,
@@ -276,8 +330,6 @@ function updateCastle (castle) {
   minX = Math.min(minX, -3);
   maxY = Math.max(maxY, 3);
   minY = Math.min(minY, -3);
-
-  console.log(minX, maxX, minY, maxY);
 
   let width = maxX - minX + 1;
   let height = maxY - minY + 1;

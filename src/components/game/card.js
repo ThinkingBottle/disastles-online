@@ -40,17 +40,21 @@ const styles = theme => ({
     },
     '&.empty': {
     },
-    '&.selected': {
+    '&.selected img': {
       borderRadius: 3,
       boxShadow: '1px 1px 20px #ffffff55'
     },
   },
   clickable: {
     cursor: 'pointer',
+    '&  img': {
       boxShadow: '0px 0px 10px white',
+    },
     '&:hover': {
-      transform: 'scale3d(1.05, 1.05, 1)',
-      boxShadow: '1px 4px 10px #000000aa'
+      transform: 'translateY(-3px)',
+      '& img': {
+        boxShadow: '1px 4px 10px #000000aa'
+      }
     }
   },
   tooltip: {

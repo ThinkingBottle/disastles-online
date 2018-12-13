@@ -82,7 +82,10 @@ class ActionBar extends Component {
     }
     multiChoice = this.state.actions.filter((a) => a.action === 'SkipText')[0];
     if (multiChoice) {
-      return this.renderMultiChoice(this.state.actions.filter((a) => a.action !== 'SkipText'), multiChoice);
+      let options = this.state.actions.filter((a) => a.action !== 'SkipText');
+      if (options.text) {
+        return this.renderMultiChoice(options, multiChoice);
+      }
     }
     if (this.props.currentDisaster) {
       return this.renderDisaster();
