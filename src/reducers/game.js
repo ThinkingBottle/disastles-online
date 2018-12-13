@@ -4,15 +4,23 @@ import {
   JOINED_GAME,
   CARD_DRAWN_TO_SHOP,
   CARD_DISCARDED,
-  ROOM_BUILT,
-  ROOM_MOVED,
   TURN_CHANGED,
   DISASTER_STARTED,
   DISASTER_FINISHED,
   CARD_RETURNED_TO_DRAW_PILE,
+  CARD_PLAYED,
+
+  ROOM_BUILT,
+  ROOM_MOVED,
   ROOM_ROTATED,
   ROOMS_SWAPPED,
+  LINK_CREATED,
+  ROOM_ACTIVATED,
+  ROOM_DEACTIVATED,
+  CASTLE_STATS_CHANGED,
+
   GAME_ENDED
+
 } from '../actions/game';
 
 import {
@@ -41,7 +49,9 @@ const defaultState = {
   roundTurn: null,
   actions: [ ],
   selectedCard: null,
-  currentDisaster: false
+  currentDisaster: false,
+
+  activeCard: null
 };
 
 export default function reduce (state, action) {
@@ -124,6 +134,11 @@ export default function reduce (state, action) {
         selectedCard: action.card
       };
       break;
+    case CARD_PLAYED:
+      state = {...state,
+        activeCard: action.data.card
+      };
+      break;
     case ROOM_BUILT:
       console.log(action.data);
       var player = action.data.castleOwner;
@@ -148,15 +163,8 @@ export default function reduce (state, action) {
       break;
     case ROOM_ROTATED:
       console.log('Rotating room', action);
-      Object.keys(state.castles).forEach(function (player) {
-        let castle = state.castles[player];
-        castle.nodes.forEach(function (node) {
-          if (node.card === action.data.card) {
-            action.data.castleOwner = player;
-            action.data.room = action.data.card;
-          }
-        });
-      });
+      action.data.castleOwner = castleOwner(action.data.card);
+      action.data.room = action.data.card;
     case ROOM_MOVED:
       console.log('Moving room', action);
       var player = action.data.castleOwner;
@@ -224,6 +232,62 @@ export default function reduce (state, action) {
       state.castles[result[0].player] = updateCastle(state.castles[result[0].player]);
       state.castles[result[1].player] = updateCastle(state.castles[result[1].player]);
       break;
+    case LINK_CREATED:
+      console.log('Link created', action);
+      var player = action.data.castleOwner;
+      state = {...state,
+        castles: {...state.castles,
+          [player]: {...state.castles[player],
+            links: [...state.castles[player].links, action.data]
+          }
+        }
+      };
+      state.castles[result[0].player] = updateCastle(state.castles[result[0].player]);
+      break;
+    case ROOM_ACTIVATED:
+      console.log('Room activated!', action);
+      var player = castleOwner(action.data.room);
+      state = {...state,
+        castles: {...state.castles,
+          [player]: {...state.castles[player],
+            nodes: state.castles[player].map(function (node) {
+              if (node.card === action.data.room) {
+                node.active = true;
+              }
+            })
+          }
+        }
+      };
+      break;
+    case ROOM_DEACTIVATED:
+      console.log('Room deactivated!', action);
+      var player = castleOwner(action.data.room);
+      state = {...state,
+        castles: {...state.castles,
+          [player]: {...state.castles[player],
+            nodes: state.castles[player].map(function (node) {
+              if (node.card === action.data.room) {
+                node.active = false;
+              }
+            })
+          }
+        }
+      };
+      break;
+    case CASTLE_STATS_CHANGED:
+      var player = action.data.castleOwner;
+      state = {...state,
+        castles: {...state.castles,
+          [player]: {...state.castles[player],
+            stats: action.data.stats
+          }
+        }
+      };
+      break;
+      // 280
+
+      // end castle stuff
+
     case DISASTER_STARTED:
       console.log('Disaster started');
       state = {...state,
@@ -303,10 +367,10 @@ function updateCastle (castle) {
     node.matchingLinks = 0;
     node.goldenLinks = 0;
     node.goldenMatchingLinks = 0;
-    node.active = false;
+
     castle.links.forEach(function (link) {
       if (link.from === node.card || link.to === node.card) {
-        node.linkCount++;
+        node.links++;
         if (link.golden) {
           node.goldenLinks++;
           if (link.matching) {
@@ -357,4 +421,24 @@ function updateCastle (castle) {
   castle.width = width;
 
   return castle;
+}
+
+function castleOwner (state, room) {
+  let result = null;
+  Object.keys(state.castles).forEach(function (player) {
+    if (result) {
+      return;
+    }
+    let castle = state.castles[player];
+    castle.nodes.forEach(function (node) {
+      if (result) {
+        return;
+      }
+      if (node.card === room) {
+        result = player;
+      }
+    });
+  });
+
+  return result;
 }

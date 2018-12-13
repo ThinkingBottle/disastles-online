@@ -197,15 +197,6 @@ function asyncify (method, noErr) {
   }
 }
 
-function matchCard (pathName, card) {
-  fs.exists(path.join(__dirname, pathName), function (result) {
-    if (!result) {
-      console.error('Wrong path for', card, pathName);
-      return;
-    }
-  });
-}
-
 function getData () {
   return [
     {

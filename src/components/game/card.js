@@ -47,8 +47,9 @@ const styles = theme => ({
   },
   clickable: {
     cursor: 'pointer',
-    '&  img': {
+    '& img': {
       boxShadow: '0px 0px 10px white',
+      borderRadius: 10,
     },
     '&:hover': {
       transform: 'translateY(-3px)',
