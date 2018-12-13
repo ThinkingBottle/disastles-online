@@ -25,7 +25,8 @@ const styles = theme => ({
     top: 200,
     right: 0,
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    pointerEvents: 'none',
   },
 
   currentTurn: {
@@ -49,6 +50,7 @@ const styles = theme => ({
     alignItems: 'center',
     cursor: 'pointer',
     userSelect: 'none',
+    pointerEvents: 'all',
 
     '&:hover': {
       left: 208

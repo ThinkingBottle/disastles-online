@@ -163,7 +163,7 @@ export default function reduce (state, action) {
       break;
     case ROOM_ROTATED:
       console.log('Rotating room', action);
-      action.data.castleOwner = castleOwner(action.data.card);
+      action.data.castleOwner = castleOwner(state, action.data.card);
       action.data.room = action.data.card;
     case ROOM_MOVED:
       console.log('Moving room', action);
@@ -182,7 +182,7 @@ export default function reduce (state, action) {
               x: true,
               y: true,
             })(action.data)
-          }
+          };
         }
         return node;
       });
@@ -242,18 +242,19 @@ export default function reduce (state, action) {
           }
         }
       };
-      state.castles[result[0].player] = updateCastle(state.castles[result[0].player]);
+      state.castles[player] = updateCastle(state.castles[player]);
       break;
     case ROOM_ACTIVATED:
       console.log('Room activated!', action);
-      var player = castleOwner(action.data.room);
+      var player = castleOwner(state, action.data.room);
       state = {...state,
         castles: {...state.castles,
           [player]: {...state.castles[player],
-            nodes: state.castles[player].map(function (node) {
+            nodes: state.castles[player].nodes.map(function (node) {
               if (node.card === action.data.room) {
                 node.active = true;
               }
+              return node;
             })
           }
         }
@@ -261,14 +262,15 @@ export default function reduce (state, action) {
       break;
     case ROOM_DEACTIVATED:
       console.log('Room deactivated!', action);
-      var player = castleOwner(action.data.room);
+      var player = castleOwner(state, action.data.room);
       state = {...state,
         castles: {...state.castles,
           [player]: {...state.castles[player],
-            nodes: state.castles[player].map(function (node) {
+            nodes: state.castles[player].nodes.map(function (node) {
               if (node.card === action.data.room) {
                 node.active = false;
               }
+              return node;
             })
           }
         }
@@ -431,7 +433,7 @@ function castleOwner (state, room) {
     }
     let castle = state.castles[player];
     castle.nodes.forEach(function (node) {
-      if (result) {
+      if (result || !node) {
         return;
       }
       if (node.card === room) {

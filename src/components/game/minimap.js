@@ -380,6 +380,7 @@ class Minimap extends Component {
           isVault = true;
           break;
         case 'Empty':
+        case 'Blank':
           break;
         default:
           isEffect = true;
@@ -387,7 +388,7 @@ class Minimap extends Component {
       }
     });
 
-    let active = card.matchingLinks > 0;
+    let active = card.active;
 
     if (isThrone) {
       backgroundName = throneRoom;
@@ -407,6 +408,9 @@ class Minimap extends Component {
     return (
       <img
         className={ this.props.classes.cardImage }
+        data-cardName={ this.props.cards[card.card] }
+        data-metadata={ metadata }
+        data-card={ card }
         src={ backgroundName }
         />
     );

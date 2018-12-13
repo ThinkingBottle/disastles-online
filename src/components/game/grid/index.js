@@ -167,7 +167,7 @@ class GridController extends Component {
       return [action.room];
     }
     if (action.rooms) {
-      return Object.keys(action.rooms);
+      return action.rooms.map((r) => r.room);
     }
     return [];
   }
