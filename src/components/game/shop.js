@@ -45,7 +45,8 @@ const styles = theme => ({
   },
   card: {
     background: 'url(' + cardSlot + ') no-repeat',
-    transform: 'translateX(-40px)',
+    position: 'relative',
+    left: -40,
     marginRight: 40,
   }
 });

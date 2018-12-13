@@ -22,11 +22,12 @@ import btnCollapsedHover from './images/minimap-expand-highlight.png';
 import btnCollapsedActive from './images/minimap-expand-active.png';
 
 import { moveCamera } from '../../actions/minimap';
+import { CARD_ZOOM } from './grid';
 
 const MINIMAP_SCALE = 1.5;
 const HEADER_MARGIN = 180;
-const PREVIEW_MARGIN = 200;
-const PREVIEW_SCALE = 128 / ( 57 / MINIMAP_SCALE);
+const PREVIEW_MARGIN = 100;
+const PREVIEW_SCALE = (128 * CARD_ZOOM) / ( 57 / MINIMAP_SCALE);
 const MINIMAP_SIZE = 410 / MINIMAP_SCALE;
 
 const styles = theme => ({
@@ -413,7 +414,7 @@ class Minimap extends Component {
 }
 
 const mapToProps = obstruction({
-  playerId: 'global.playerId',
+  playerId: 'minimap.minimapPlayer',
   castles: 'game.castles',
   cards: 'cards.knownCards',
   metadata: 'cards.metadata',

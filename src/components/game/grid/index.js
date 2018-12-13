@@ -17,11 +17,13 @@ import Card from '../card';
 import { selectCard } from '../../../actions/player';
 import API from '../../../api';
 
+export const CARD_ZOOM = 1.2;
+
 const styles = theme => ({
   root: {
     position: 'absolute',
     width: '100%',
-    height: '100%',
+    height: '100%'
   },
   castle: {
     position: 'absolute',
@@ -31,7 +33,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   row: {
     position: 'relative',
@@ -43,28 +45,29 @@ const styles = theme => ({
     flexDirection: 'row',
   },
   node: {
-    width: 85,
-    height: 128,
+    width: 85 * CARD_ZOOM,
+    height: 128 * CARD_ZOOM,
     margin: 5,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    transform: 'scale(' + CARD_ZOOM + ')',
 
     '&.wide': {
-      width: 128
+      width: 128 * CARD_ZOOM
     },
     '&.short': {
-      height: 85
+      height: 85 * CARD_ZOOM
     },
 
     '&.rotation1 > *': {
-      transform: 'rotate(90deg)'
+      transform: 'scale(' + CARD_ZOOM + ') rotate(90deg)'
     },
     '&.rotation2 > *': {
-      transform: 'rotate(180deg)'
+      transform: 'scale(' + CARD_ZOOM + ') rotate(180deg)'
     },
     '&.rotation3 > *': {
-      transform: 'rotate(270deg)'
+      transform: 'scale(' + CARD_ZOOM + ') rotate(270deg)'
     }
   }
 });
@@ -84,6 +87,8 @@ class GridController extends Component {
       maxX: 0,
       minY: 0,
       maxY: 0,
+      widthBuffer: 0,
+      heightBuffer: 0,
     };
 
     this.renderRow = this.renderRow.bind(this);
@@ -93,13 +98,45 @@ class GridController extends Component {
   }
 
   componentWillReceiveProps (newProps) {
-    this.setState({...newProps.castles[newProps.playerId || 'test'],
+    let castle = newProps.castles[newProps.playerId || 'test'];
+    let castleHeight = 0;
+    let castleWidth = 0;
+    let heightBuffer = 0;
+    let widthBuffer = 0;
+    if (castle) {
+      for (let i = castle.minX, l = castle.maxX; i <= l; ++i) {
+        if (castle.columnSizes[i] && castle.columnSizes[i] === 'wide') {
+          castleWidth += 128 * CARD_ZOOM;
+        } else {
+          castleWidth += 85 * CARD_ZOOM;
+        }
+        castleWidth += 10;
+      }
+      for (let i = castle.minY, l = castle.maxY; i <= l; ++i) {
+        if (castle.rowSizes[i] && castle.rowSizes[i] === 'short') {
+          castleHeight += 85 * CARD_ZOOM;
+        } else {
+          castleHeight += 128 * CARD_ZOOM;
+        }
+        castleHeight += 10;
+      }
+      heightBuffer = newProps.windowHeight - castleHeight;
+      widthBuffer = newProps.windowWidth - castleWidth;
+    }
+
+    heightBuffer = Math.min(0, heightBuffer);
+    widthBuffer = Math.min(0, widthBuffer);
+
+    console.log(castleWidth, castleHeight, heightBuffer, widthBuffer);
+
+    this.setState({...castle,
       actions: newProps.actions.filter((action) => {
         if (newProps.selectedCard || action.action === 'BuildRoom') {
           return (this.cardsForAction(action).indexOf(newProps.selectedCard) !== -1);
         }
         return true;
-      })
+      }),
+      heightBuffer, widthBuffer
     });
   }
 
@@ -149,8 +186,8 @@ class GridController extends Component {
         <div
           className={ this.props.classes.castle }
           style={{
-            left: (0 - this.props.x),
-            top: 90 + (0 - this.props.y),
+            left: this.state.widthBuffer / 2 + (0 - this.props.x),
+            top: this.state.heightBuffer / 2 + 90 + (0 - this.props.y),
           }}
           >
         { this.state.rows.map(partial(this.renderRow, this.state.minX, this.state.minY)) }
@@ -245,7 +282,7 @@ function splitWords (word) {
 const mapToProps = obstruction({
   selectedCard: 'game.selectedCard',
   actions: 'game.actions',
-  playerId: 'global.playerId',
+  playerId: 'minimap.displayPlayer',
   castles: 'game.castles',
   cards: 'cards.knownCards',
   x: 'minimap.x',

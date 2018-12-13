@@ -56,7 +56,7 @@ export default function reduce (state, action) {
       };
       break;
     case JOINED_GAME:
-      console.log(action.data);
+      console.log('joined game', action.data.snapshot);
       state = {...state,
         inGame: true,
         drawPileSize: action.data.snapshot.drawPileSize,
@@ -185,6 +185,9 @@ export default function reduce (state, action) {
       break;
     case TURN_CHANGED:
       console.log('turn change', action);
+      state = {...state,
+        currentTurn: action.data.currentTurn
+      };
       break;
     case CARD_RETURNED_TO_DRAW_PILE:
       state = {...state,
@@ -269,6 +272,13 @@ function updateCastle (castle) {
   minY--;
   maxY++;
 
+  maxX = Math.max(maxX, 3);
+  minX = Math.min(minX, -3);
+  maxY = Math.max(maxY, 3);
+  minY = Math.min(minY, -3);
+
+  console.log(minX, maxX, minY, maxY);
+
   let width = maxX - minX + 1;
   let height = maxY - minY + 1;
   let rows = [];
@@ -291,6 +301,8 @@ function updateCastle (castle) {
   castle.maxY = maxY;
   castle.grid = grid;
   castle.rows = rows;
+  castle.height = height;
+  castle.width = width;
 
   return castle;
 }

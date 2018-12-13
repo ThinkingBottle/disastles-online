@@ -3,6 +3,9 @@ import {
   SELECT_MINIMAP_PLAYER,
   SELECT_DISPLAY_PLAYER,
 } from '../actions/minimap';
+import {
+  HELLO
+} from '../actions/global';
 
 const initialState = {
   x: 0,
@@ -12,6 +15,12 @@ const initialState = {
 export default function reduce (state = initialState, action) {
 
   switch (action.type) {
+    case HELLO:
+      state = {...state,
+        displayPlayer: action.data.playerId,
+        minimapPlayer: action.data.playerId,
+      };
+      break;
     case MOVE_CAMERA:
       state = {...state,
         x: action.x,
@@ -25,7 +34,8 @@ export default function reduce (state = initialState, action) {
       break;
     case SELECT_DISPLAY_PLAYER:
       state = {...state,
-        displayPlayer: action.player
+        displayPlayer: action.player,
+        minimapPlayer: action.player
       };
       break;
   }

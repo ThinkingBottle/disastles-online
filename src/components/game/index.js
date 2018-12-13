@@ -12,6 +12,7 @@ import Minimap from './minimap';
 import Header from './header';
 import Actions from './actions';
 import Scoreboard from './scoreboard';
+import PlayerPicker from './player-picker';
 
 import backgroundImage1 from '../backgrounds/BG1.png';
 import backgroundImage2 from '../backgrounds/BG2.png';
@@ -54,9 +55,11 @@ class GameComponent extends Component {
   render () {
     return (
       <div className={ this.props.classes.root }>
+      // index order, not meaning order
         <GridController />
-
         <Header />
+        <PlayerPicker />
+
         <Minimap />
         <Actions />
         <Scoreboard />

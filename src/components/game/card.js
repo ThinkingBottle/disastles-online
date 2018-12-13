@@ -13,9 +13,11 @@ import cardOutline from './images/card-outline.png';
 const styles = theme => ({
   root: {
     display: 'flex',
+    borderRadius: 3,
     width: 128,
     height: 128,
     justifyContent: 'center',
+    transition: 'transform,box-shadow 0.2s',
     '&.large': {
       width: 512,
       height: 512,
@@ -39,11 +41,17 @@ const styles = theme => ({
     '&.empty': {
     },
     '&.selected': {
-      boxShadow: '1px 1px 20px 5px white'
+      borderRadius: 3,
+      boxShadow: '1px 1px 20px #ffffff55'
     },
   },
   clickable: {
-    cursor: 'pointer'
+    cursor: 'pointer',
+      boxShadow: '0px 0px 10px white',
+    '&:hover': {
+      transform: 'scale3d(1.05, 1.05, 1)',
+      boxShadow: '1px 4px 10px #000000aa'
+    }
   },
   tooltip: {
     border: '3px solid #b8fdff',
