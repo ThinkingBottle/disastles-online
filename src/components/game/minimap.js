@@ -6,6 +6,7 @@ import { classNames } from 'react-extras';
 import windowSize from 'react-window-size';
 
 import Typography from '@material-ui/core/Typography';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import background from './images/minimap.png';
 import emptyCard from './images/outline-empty.png';
@@ -39,10 +40,9 @@ const styles = theme => ({
     bottom: 20,
     backgroundImage: 'url(' + background + ')',
     backgroundRepeat: 'no-repeat',
-    backgroundSize: '100% 100%',
-    backgroundPosition: 'center center',
+    backgroundSize: 546 / MINIMAP_SCALE + 'px ' + 462 / MINIMAP_SCALE + 'px',
+    backgroundPosition: 'left center',
     transition: '0.5s left',
-    cursor: 'grab',
 
     '& *': {
       userSelect: 'none'
@@ -51,6 +51,25 @@ const styles = theme => ({
     '&.expanded': {
       left: 20,
     }
+  },
+  statsHolder: {
+    position: 'absolute',
+    right: -20,
+    top: 0,
+    width: 80,
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    paddingTop: 55 / MINIMAP_SCALE,
+    textAlign: 'right',
+
+    '& .statsBox': {
+      height: 93 / MINIMAP_SCALE,
+      lineHeight: 93 / MINIMAP_SCALE + 'px',
+      color: 'white',
+      textShadow: '0 0 2px black',
+      fontSize: 24
+    },
   },
   minimapView: {
     position: 'relative',
@@ -62,6 +81,7 @@ const styles = theme => ({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    cursor: 'grab',
     // border: '1px solid white',
   },
   row: {
@@ -150,7 +170,7 @@ const styles = theme => ({
     width: 36 / MINIMAP_SCALE,
     height: 36 / MINIMAP_SCALE,
     top: 0,
-    right: 34 / MINIMAP_SCALE,
+    left: 476 / MINIMAP_SCALE,
     backgroundRepeat: 'no-repeat',
     backgroundSize: '100% 100%',
     backgroundImage: 'url(' + btnCollapsed + ')',
@@ -188,6 +208,14 @@ class Minimap extends Component {
       minY: 0,
       maxY: 0,
       expanded: true,
+      stats: {
+        links: {
+          square: 0,
+          cross: 0,
+          moon: 0
+        },
+        treasure: 0
+      }
     };
 
     this.renderRow = this.renderRow.bind(this);
@@ -207,7 +235,7 @@ class Minimap extends Component {
   }
 
   mouseMove (event) {
-    if  (!event.buttons) {
+    if (!event.buttons) {
       return;
     }
     var bounds = event.target.getBoundingClientRect();
@@ -268,7 +296,7 @@ class Minimap extends Component {
     if (this.state.scaled) {
       return PREVIEW_SCALE * 1.5;
     }
-    return PREVIEW_SCALE
+    return PREVIEW_SCALE;
   }
 
   render () {
@@ -293,9 +321,32 @@ class Minimap extends Component {
             expanded: this.state.expanded
           }) }>
         </div>
+        <div className={ this.props.classes.statsHolder }>
+          <Tooltip title='Square Connections'>
+            <div className='statsBox'>
+              { this.state.stats.links.square }
+            </div>
+          </Tooltip>
+          <Tooltip title='Cross Connections'>
+            <div className='statsBox'>
+              { this.state.stats.links.cross }
+            </div>
+          </Tooltip>
+          <Tooltip title='Moon Connections'>
+            <div className='statsBox'>
+              { this.state.stats.links.moon }
+            </div>
+          </Tooltip>
+          <Tooltip title='Treasures'>
+            <div className='statsBox'>
+              { this.state.stats.treasure }
+            </div>
+          </Tooltip>
+        </div>
       </div>
     );
   }
+
   previewStyles () {
     let width = this.props.windowWidth;
     let height = this.props.windowHeight;
@@ -408,7 +459,7 @@ class Minimap extends Component {
     return (
       <img
         className={ this.props.classes.cardImage }
-        data-cardName={ this.props.cards[card.card] }
+        data-cardname={ this.props.cards[card.card] }
         data-metadata={ metadata }
         data-card={ card }
         src={ backgroundName }

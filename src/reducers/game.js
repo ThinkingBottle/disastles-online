@@ -195,42 +195,38 @@ export default function reduce (state, action) {
         castles: {...state.castles}
       };
 
-      let result = [];
-      Object.keys(state.castles).forEach(function (player) {
-        if (result.length === 2) {
-          return;
-        }
-        let castle = state.castles[player];
-        castle.nodes.forEach(function (node) {
-          if (action.data.rooms[node.card] !== undefined) {
-            result.push({
-              node, player
-            });
-          }
-        });
-      });
+      let firstPlayer = action.data.rooms[0].castleOwner;
+      let firstCard = state.castles[firstPlayer].nodes.filter((c) => c.card === action.data.rooms[0].room)[0];
 
-      if (result.length !== 2) {
-        console.error('Could not swap rooms, couldn\'t find', Object.keys(action.data.rooms), 'but did find', result);
+      let secondPlayer = action.data.rooms[1].castleOwner;
+      let secondCard = state.castles[secondPlayer].nodes.filter((c) => c.card === action.data.rooms[1].room)[0];
+
+      if (!firstPlayer || !secondPlayer) {
+        console.error('Could not swap rooms, couldn\'t find', action.data.rooms.map((r) => r.room), 'but did find', firstCard, secondCard);
         break;
       }
-      result.forEach(function (swap, i) {
-        var other = result[(i + 1) % 2];
-        var player = swap.player;
-        state.castles[player].nodes = state.castles[player].nodes.map(function (node) {
-          if (node.card === swap.node.card) {
-            return {...other.node,
-              x: node.x,
-              y: node.y,
-              rotation: action.data.rooms[node.card]
-            };
-          }
-          return node;
-        });
+
+      state.castles[firstPlayer].nodes = state.castles[firstPlayer].nodes.map(function (node) {
+        if (node.card === firstCard.card && node.x === firstCard.x && node.y === firstCard.y) {
+          node = {...node,
+            rotation: secondCard.rotation,
+            card: secondCard.card
+          };
+        }
+        return node;
+      });
+      state.castles[secondPlayer].nodes = state.castles[secondPlayer].nodes.map(function (node) {
+        if (node.card === secondCard.card && node.x === secondCard.x && node.y === secondCard.y) {
+          node = {...node,
+            rotation: firstCard.rotation,
+            card: firstCard.card
+          };
+        }
+        return node;
       });
 
-      state.castles[result[0].player] = updateCastle(state.castles[result[0].player]);
-      state.castles[result[1].player] = updateCastle(state.castles[result[1].player]);
+      state.castles[firstPlayer] = updateCastle(state.castles[firstPlayer]);
+      state.castles[secondPlayer] = updateCastle(state.castles[secondPlayer]);
       break;
     case LINK_CREATED:
       console.log('Link created', action);
@@ -247,6 +243,7 @@ export default function reduce (state, action) {
     case ROOM_ACTIVATED:
       console.log('Room activated!', action);
       var player = castleOwner(state, action.data.room);
+      console.log('player owner', player);
       state = {...state,
         castles: {...state.castles,
           [player]: {...state.castles[player],
@@ -300,7 +297,8 @@ export default function reduce (state, action) {
       console.log('Disaster finished');
       state = {...state,
         currentDisaster: null,
-        shop: state.shop.filter((card) => card !== state.currentDisaster)
+        shop: state.shop.filter((card) => card !== state.currentDisaster),
+        disasters: [...state.disasters, state.currentDisaster]
       };
       break;
     case TURN_CHANGED:

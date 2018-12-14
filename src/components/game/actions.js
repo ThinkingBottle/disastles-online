@@ -7,13 +7,14 @@ import { partial } from 'ap';
 import { If } from 'react-extras';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import Card from './card';
 
+import Card from './card';
 import InfoBox from './info';
 import DButton from './button';
 import ActionModal from './modal';
 
 import API from '../../api';
+import { clearActiveCard } from '../../actions/game';
 
 
 /*@TODO
@@ -47,6 +48,7 @@ class ActionBar extends Component {
 
     this.sendAction = this.sendAction.bind(this);
     this.renderAction = this.renderAction.bind(this);
+    this.clearActiveCard = this.clearActiveCard.bind(this);
   }
 
   componentWillReceiveProps (newProps) {
@@ -65,6 +67,7 @@ class ActionBar extends Component {
           case 'MarkRoom':
           case 'ChooseCard':
           case 'DiscardCard':
+          case 'ConfirmMultistepEffect':
             return true;
           default:
             return false;
@@ -79,7 +82,14 @@ class ActionBar extends Component {
     API.send(action);
   }
 
+  clearActiveCard () {
+    this.props.dispatch(clearActiveCard());
+  }
+
   render () {
+    if (this.props.activeCard) {
+      return this.renderActiveCard();
+    }
     let mandatoryAction = this.state.actions.filter((a) => a.mandatory)[0];
     if (mandatoryAction) {
       return this.renderMandatoryAction(mandatoryAction);
@@ -102,6 +112,23 @@ class ActionBar extends Component {
       <div>
         { this.state.actions.map(this.renderAction) }
       </div>
+    );
+  }
+
+  renderActiveCard () {
+    return (
+      <ActionModal
+        onClose={ this.clearActiveCard }
+        >
+        <Typography variant='h3'>
+          Another player has activated a card
+        </Typography>
+          <br />
+          <Card
+            large
+            card={ this.props.activeCard }
+            />
+      </ActionModal>
     );
   }
 
@@ -224,7 +251,8 @@ class ActionBar extends Component {
 
 const mapToProps = obstruction({
   actions: 'game.actions',
-  currentDisaster: 'game.currentDisaster'
+  currentDisaster: 'game.currentDisaster',
+  activeCard: 'game.activeCard'
 });
 
 export default withStyles(styles)(connect(mapToProps)(ActionBar));

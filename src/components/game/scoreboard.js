@@ -17,10 +17,14 @@ class MyComponent extends Component {
   constructor () {
     super();
 
+    this.state = {
+      dismissed: false
+    };
+
     this.renderRow = this.renderRow.bind(this);
   }
   render () {
-    if (!this.props.gameEnded) {
+    if (!this.props.gameEnded || this.state.dismissed) {
       return [];
     }
     var players = this.props.gameStats.stats.sort(function (player1, player2) {
@@ -53,7 +57,9 @@ class MyComponent extends Component {
     });
     console.log('sorted', players);
     return (
-      <Modal noclose>
+      <Modal
+        onClose={ ()=> this.setState({ dismissed: true }) }
+        >
         <div className={ this.props.classes.root }>
           { this.renderHeader() }
           { players.map(this.renderRow) }

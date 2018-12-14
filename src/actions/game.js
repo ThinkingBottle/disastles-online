@@ -46,3 +46,12 @@ export function joinedGame (data) {
     data
   };
 }
+
+export function clearActiveCard () {
+  return {
+    type: CARD_PLAYED,
+    data: {
+      card: false
+    }
+  };
+}

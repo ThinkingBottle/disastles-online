@@ -51,7 +51,6 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    transform: 'scale(' + CARD_ZOOM + ')',
 
     '&.wide': {
       width: 128 * CARD_ZOOM
@@ -61,13 +60,13 @@ const styles = theme => ({
     },
 
     '&.rotation1 > *': {
-      transform: 'rotate(90deg)'
+      transform: 'rotate(90deg) translate3d(0, 0, 0)'
     },
     '&.rotation2 > *': {
-      transform: 'rotate(180deg)'
+      transform: 'rotate(180deg) translate3d(0, 0, 0)'
     },
     '&.rotation3 > *': {
-      transform: 'rotate(270deg)'
+      transform: 'rotate(270deg) translate3d(0, 0, 0)'
     }
   }
 });
@@ -89,12 +88,18 @@ class GridController extends Component {
       maxY: 0,
       widthBuffer: 0,
       heightBuffer: 0,
+      rotationCard: false,
+      rotations: false,
+      rotationActions: false,
+      rotationCoords: false,
+      currentRotation: false,
     };
 
     this.renderRow = this.renderRow.bind(this);
     this.renderCell = this.renderCell.bind(this);
     this.sendAction = this.sendAction.bind(this);
     this.unselectCard = this.unselectCard.bind(this);
+    this.nextRotation = this.nextRotation.bind(this);
   }
 
   componentWillReceiveProps (newProps) {
@@ -138,16 +143,57 @@ class GridController extends Component {
     });
   }
 
-  async sendAction (action, card) {
+  nextRotation () {
+    let rotation = (this.state.currentRotation + 1) % this.state.rotations.length;
+    console.log('Changing to rotation', (this.state.currentRotation + 1) % this.state.rotations.length);
+    this.setState({
+      currentRotation: rotation
+    });
+  }
+
+  async sendAction (card, actions, rotations, x, y) {
+    let action = actions[0];
+
     let actionCards = this.cardsForAction(action);
 
+    // select the card if it isn't already selected for this action
     if (actionCards.indexOf(this.props.selectedCard) === -1) {
       return this.props.dispatch(selectCard(card));
     }
+    // check if there are multiple rotations
+    if (rotations.length > 1) {
+      console.log('Rotating', {
+        rotationCard: this.props.selectedCard,
+        rotations: rotations,
+        rotationActions: actions,
+        rotationCoords: [x, y],
+        currentRotation: 0
+      });
+      return this.setState({
+        rotationCard: this.props.selectedCard,
+        rotations: rotations,
+        rotationActions: actions,
+        rotationCoords: [x, y],
+        currentRotation: 0
+      });
+    } else if (this.state.rotationCoords) {
+      this.setState({
+        rotationCard: false,
+        rotations: false,
+        rotationActions: false,
+        rotationCoords: false,
+        currentRotation: false,
+      });
+    }
 
-    action = {...action,
-      effects: []
-    };
+    // effects is an optional param
+    // clean it to save some bandwidth, might as well
+    if (actions.effects) {
+      action = {...action,
+        effects: []
+      };
+    }
+
     console.log('Sending action', action.action, action);
     API.send(action);
     this.props.dispatch(selectCard(null));
@@ -203,9 +249,13 @@ class GridController extends Component {
 
   renderCell (y, minX, node, i) {
     let x = i + minX;
+    if (this.state.rotationCoords && this.state.rotationCoords[0] === x && this.state.rotationCoords[1] === y) {
+      return this.renderRotationCard();
+    }
     let key = x + ':' + y;
     let actions = [];
-    let isActionable = this.state.actions.reduce((memo, val) => {
+    let actionsTypes = [];
+    this.state.actions.forEach((val) => {
       let actionCards = this.cardsForAction(val);
       if (node && node.card === this.props.selectedCard) {
         if (actionCards.length > 1) {
@@ -216,27 +266,42 @@ class GridController extends Component {
         }
       }
       if (val.castleOwner && val.castleOwner !== this.props.playerId) {
-        return memo;
-      }
-      if (memo && memo.action === 'BuildRoom') {
-        return memo;
+        return;
       }
       if (node && actionCards.indexOf(node.card) !== -1) {
-        if (actions.indexOf(val.action) === -1) {
-          actions.push(val.action);
+        if (actionsTypes.indexOf(val.action) === -1) {
+          actionsTypes.push(val.action);
         }
+        actions.push(val);
         return val;
       }
       if (actionCards.indexOf(this.props.selectedCard) !== -1 && val.x === x && val.y === y) {
-        if (actions.indexOf(val.action) === -1) {
-          actions.push(val.action);
+        if (actionsTypes.indexOf(val.action) === -1) {
+          actionsTypes.push(val.action);
         }
+        actions.push(val);
         return val;
       }
-      return memo;
-    }, false);
+      return;
+    });
 
-    if (!node && !isActionable) {
+    let isClickable = actions.length > 0;
+    let isActionable = isClickable && actions.filter((a) => this.cardsForAction(a).indexOf(this.props.selectedCard) !== -1).length > 0;
+
+    let rotations = [];
+    actions.forEach(function (action) {
+      if (action.rotation !== undefined && rotations.indexOf(action.rotation) === -1) {
+        rotations.push(action.rotation)
+      }
+    });
+
+    rotations = rotations.sort();
+
+    // if (actions.length) {
+    //   console.log(node ? node.card : x + ',' + y, actionsTypes, rotations);
+    // }
+
+    if (!node && !isClickable) {
       return (
         <div
           className={ classNames(
@@ -261,11 +326,41 @@ class GridController extends Component {
         data-action={ isActionable }
         key={ key } >
         <Card
-          tooltip={ isActionable ? splitWords(isActionable.action) : null }
+          tooltip={ isActionable ? splitWords(actions[0].action) : null }
           skinny={ this.state.columnSizes[x] !== 'wide' }
+          height={ 128 * CARD_ZOOM }
           card={ node ? node.card : 'empty' }
-          onClick={ isActionable ? partial(this.sendAction, isActionable, node && node.card) : null }
-          actions={ actions }
+          onClick={ isClickable ? partial(this.sendAction, node && node.card, actions, rotations, x, y) : null }
+          actions={ actionsTypes }
+          />
+      </div>
+    );
+  }
+
+  renderRotationCard () {
+    let [x, y] = this.state.rotationCoords;
+    let key = x + ':' + y;
+    let rotation = this.state.rotations[this.state.currentRotation];
+    let action = this.state.rotationActions.filter((a) => a.rotation === rotation)[0];
+
+    console.log('Rendering at rotation', rotation);
+
+    return (
+      <div
+        className={ classNames(
+          this.props.classes.node,
+          'rotation' + rotation,
+          this.state.columnSizes[x]
+          // this.state.rowSizes[y],
+        ) }
+        key={ key }
+        >
+        <Card
+          tooltip={ splitWords(action.action) }
+          skinny={ this.state.columnSizes[x] !== 'wide' }
+          card={ this.state.rotationCard }
+          onClick={ partial(this.sendAction, this.state.rotationCard, [action], [], x, y) }
+          onRotation={ this.nextRotation }
           />
       </div>
     );
