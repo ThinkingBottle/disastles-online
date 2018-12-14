@@ -1,15 +1,15 @@
 self.__precacheManifest = [
   {
-    "revision": "ab2828d07f2dc348533c846213e2c3e8",
-    "url": "/disastles-online/static/media/15_Staircase2_BLANKROOM.ab2828d0.png"
+    "revision": "1102ac5d107a368371c6c132e526fb66",
+    "url": "/disastles-online/static/media/16_Staircase3_BLANKROOM.1102ac5d.png"
   },
   {
-    "revision": "a9c0c881b4ba6dff1875",
-    "url": "/disastles-online/static/css/main.a184e0ed.chunk.css"
+    "revision": "d1a3a54f561db07bc030",
+    "url": "/disastles-online/static/css/main.74440c7d.chunk.css"
   },
   {
-    "revision": "d61638716bea5a9dfdcb",
-    "url": "/disastles-online/static/js/1.d6163871.chunk.js"
+    "revision": "041fa8dbf51f5a4dffe7",
+    "url": "/disastles-online/static/js/1.041fa8db.chunk.js"
   },
   {
     "revision": "a07426da96600ea0ec0d",
@@ -312,12 +312,12 @@ self.__precacheManifest = [
     "url": "/disastles-online/static/media/14_Staircase1_BLANKROOM.63bf293e.png"
   },
   {
-    "revision": "a9c0c881b4ba6dff1875",
-    "url": "/disastles-online/static/js/main.a9c0c881.chunk.js"
+    "revision": "ab2828d07f2dc348533c846213e2c3e8",
+    "url": "/disastles-online/static/media/15_Staircase2_BLANKROOM.ab2828d0.png"
   },
   {
-    "revision": "1102ac5d107a368371c6c132e526fb66",
-    "url": "/disastles-online/static/media/16_Staircase3_BLANKROOM.1102ac5d.png"
+    "revision": "d1a3a54f561db07bc030",
+    "url": "/disastles-online/static/js/main.d1a3a54f.chunk.js"
   },
   {
     "revision": "032d67077cc4cd28eebfe8652bd3c910",
@@ -604,6 +604,10 @@ self.__precacheManifest = [
     "url": "/disastles-online/static/media/player-10.3bd787d8.png"
   },
   {
+    "revision": "78c8f1f0bc32fb393128189b30254267",
+    "url": "/disastles-online/static/media/disaster-tray.78c8f1f0.png"
+  },
+  {
     "revision": "5b931fc68692e554143380117c497d45",
     "url": "/disastles-online/static/media/BG1.5b931fc6.png"
   },
@@ -624,7 +628,7 @@ self.__precacheManifest = [
     "url": "/disastles-online/static/media/BG5.b1217cd4.png"
   },
   {
-    "revision": "a60ce7f8b38953d8914450837a74067d",
+    "revision": "231f2e1da02ff50a57d0817fb0f38e8c",
     "url": "/disastles-online/index.html"
   }
 ];
