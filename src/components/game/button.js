@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import obstruction from 'obstruction';
+import { classNames } from 'react-extras';
 
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -36,7 +37,7 @@ const styles = theme => ({
     '&:hover': {
       background: 'url(' + bgBlueActive + ') no-repeat'
     },
-    '&:active': {
+    '&:active, &.dark, &.dark:hover': {
       background: 'url(' + bgBlueDark + ') no-repeat',
       color: 'white'
     },
@@ -53,7 +54,11 @@ class DisastlesButton extends Component {
     })(this.props)
     return (
       <Button {...props} classes={ {
-          root: this.props.blue ? this.props.classes.blue : this.props.classes.root,
+          root: classNames({
+            [this.props.classes.blue]: this.props.blue,
+            [this.props.classes.root]: !this.props.blue,
+            dark: this.props.dark
+          })
         } }>
         { this.props.children }
       </Button>

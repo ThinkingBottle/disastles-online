@@ -59,12 +59,13 @@ class ActionBar extends Component {
           return true;
         }
         switch (action.action) {
-          case 'SkipMultiChoice':
-          case 'SkipText':
-          case 'SkipTurn':
+          // not shown
           case 'UnmarkRooms':
           case 'AcceptSacrifice':
           case 'MarkRoom':
+          // shown
+          case 'SkipMultiChoice':
+          case 'SkipText':
           case 'ChooseCard':
           case 'DiscardCard':
           case 'ConfirmMultistepEffect':
@@ -109,7 +110,7 @@ class ActionBar extends Component {
       return this.renderDisaster();
     }
     return (
-      <div>
+      <div className={ this.props.classes.root }>
         { this.state.actions.map(this.renderAction) }
       </div>
     );

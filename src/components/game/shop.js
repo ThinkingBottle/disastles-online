@@ -4,11 +4,12 @@ import { connect } from 'react-redux';
 import obstruction from 'obstruction';
 import { partial } from 'ap';
 
-import Button from '@material-ui/core/Button';
+import { If } from 'react-extras';
 import Typography from '@material-ui/core/Typography';
+import Button from './button';
 import Card from './card';
 
-import { selectCard } from '../../actions/player';
+import { selectCard, selectActions } from '../../actions/player';
 import API from '../../api';
 
 import backgroundLeft from './images/header-shop-left.png';
@@ -18,6 +19,7 @@ import cardSlot from './images/header-card-slot.png';
 
 const styles = theme => ({
   root: {
+    position: 'relative',
     flex: '0 0 auto',
     height: 184,
     display: 'flex',
@@ -38,7 +40,7 @@ const styles = theme => ({
   wrapper: {
     background: 'url(' + backgroundCenter + ') repeat-x',
     height: 184,
-    width: 620,
+    width: 675,
     flex: '1 0 auto',
     paddingTop: 20,
     display: 'flex'
@@ -48,6 +50,16 @@ const styles = theme => ({
     position: 'relative',
     left: -40,
     marginRight: 40,
+  },
+  actions: {
+    width: 210,
+    height: '100%',
+    position: 'absolute',
+    right: 35,
+    paddingTop: 20,
+    '& > *': {
+      marginBottom: 10
+    }
   }
 });
 
@@ -55,13 +67,71 @@ class Shop extends Component {
   constructor () {
     super();
 
+    this.state = {
+      canSkipTurn: false,
+      canMove: false,
+      canSwap: false,
+      canActionCard: false
+    };
+
     this.renderCard = this.renderCard.bind(this);
     this.selectCard = this.selectCard.bind(this);
     this.sendAction = this.sendAction.bind(this);
+    this.moveCards = this.moveCards.bind(this);
+    this.swapCards = this.swapCards.bind(this);
+    this.actionCards = this.actionCards.bind(this);
+  }
+
+  componentWillReceiveProps (newProps) {
+    var canSkipTurn = false;
+    var canMove = false;
+    var canSwap = false;
+    var canActionCard = false;
+    newProps.actions.forEach(function (a) {
+      switch (a.action) {
+        case 'SkipTurn':
+          canSkipTurn = true;
+          break;
+        case 'MoveRoom':
+          canMove = true;
+          break;
+        case 'SwapRooms':
+          canSwap = true;
+          break;
+        case 'PlayActionCard':
+          canActionCard = true;
+          break;
+      }
+    });
+
+    console.log('can skip?', canSkipTurn, newProps.selectedActions, newProps.selectedActions.indexOf('MoveRoom'));
+
+    this.setState({
+      canSkipTurn,
+      canMove,
+      canSwap,
+      canActionCard
+    });
   }
 
   selectCard (card) {
     this.props.dispatch(selectCard(card));
+    this.props.dispatch(selectActions([]));
+  }
+
+  moveCards () {
+    this.props.dispatch(selectCard(null));
+    this.props.dispatch(selectActions(['MoveRoom']));
+  }
+
+  swapCards () {
+    this.props.dispatch(selectCard(null));
+    this.props.dispatch(selectActions(['SwapRooms']));
+  }
+
+  actionCards () {
+    this.props.dispatch(selectCard(null));
+    this.props.dispatch(selectActions(['PlayActionCard']));
   }
 
   sendAction (action, card) {
@@ -69,6 +139,12 @@ class Shop extends Component {
       return this.selectCard(card);
     }
     API.send(action);
+  }
+
+  skipTurn () {
+    API.send({
+      action: 'SkipTurn'
+    });
   }
 
   render () {
@@ -83,7 +159,54 @@ class Shop extends Component {
         </div>
         <div className={ this.props.classes.right }>
         </div>
+        <div className={ this.props.classes.actions }>
+          { this.renderActions() }
+        </div>
       </div>
+    );
+  }
+
+  renderActions () {
+    return (
+      <React.Fragment>
+        <If
+          condition={ this.state.canSkipTurn }
+          render={ ()=>
+            <Button
+              blue
+              onClick={ this.skipTurn } >
+              Skip Turn
+            </Button> } />
+
+        <If
+          condition={ this.state.canMove }
+          render={ ()=>
+            <Button
+              blue
+              dark={ this.props.selectedActions.indexOf('MoveRoom') > -1 }
+              onClick={ this.moveCards } >
+              Move Cards
+            </Button> } />
+
+        <If
+          condition={ this.state.canSwap }
+          render={ ()=>
+            <Button
+              blue
+              dark={ this.props.selectedActions.indexOf('SwapRooms') > -1 }
+              onClick={ this.swapCards } >
+              Swap Cards
+            </Button> } />
+
+        <If
+          condition={ this.state.canActionCard }
+          render={ ()=>
+            <Button
+              blue
+              onClick={ this.actionCards } >
+              Play Card Action
+            </Button> } />
+      </React.Fragment>
     );
   }
 
@@ -126,7 +249,8 @@ class Shop extends Component {
 const mapToProps = obstruction({
   cards: 'cards.knownCards',
   actions: 'game.actions',
-  shop: 'game.shop'
+  shop: 'game.shop',
+  selectedActions: 'game.selectedActions',
 });
 
 export default withStyles(styles)(connect(mapToProps)(Shop));

@@ -28,7 +28,8 @@ import {
 } from '../actions/global';
 
 import {
-  SELECT_CARD
+  SELECT_CARD,
+  SELECT_ACTIONS
 } from '../actions/player';
 
 const defaultState = {
@@ -49,6 +50,7 @@ const defaultState = {
   roundTurn: null,
   actions: [ ],
   selectedCard: null,
+  selectedActions: [],
   currentDisaster: false,
 
   activeCard: null
@@ -134,7 +136,13 @@ export default function reduce (state, action) {
         selectedCard: action.card
       };
       break;
+    case SELECT_ACTIONS:
+      state = {...state,
+        selectedActions: action.actions
+      };
+      break;
     case CARD_PLAYED:
+      console.log('Card played', action.data);
       state = {...state,
         activeCard: action.data.card
       };
@@ -162,9 +170,6 @@ export default function reduce (state, action) {
       state.castles[player] = updateCastle(state.castles[player]);
       break;
     case ROOM_ROTATED:
-      console.log('Rotating room', action);
-      action.data.castleOwner = castleOwner(state, action.data.card);
-      action.data.room = action.data.card;
     case ROOM_MOVED:
       console.log('Moving room', action);
       var player = action.data.castleOwner;
@@ -304,7 +309,9 @@ export default function reduce (state, action) {
     case TURN_CHANGED:
       console.log('turn change', action);
       state = {...state,
-        currentTurn: action.data.currentTurn
+        currentTurn: action.data.currentTurn,
+        selectedCard: null,
+        selectedActions: []
       };
       break;
     case CARD_RETURNED_TO_DRAW_PILE:

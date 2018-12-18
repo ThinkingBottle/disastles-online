@@ -268,6 +268,9 @@ class GridController extends Component {
       if (val.castleOwner && val.castleOwner !== this.props.playerId) {
         return;
       }
+      if (['BuildRoom', 'MarkRoom', 'RotateRoom'].indexOf(val.action) === -1 && this.props.selectedActions.indexOf(val.action) === -1) {
+        return false;
+      }
       if (node && actionCards.indexOf(node.card) !== -1) {
         if (actionsTypes.indexOf(val.action) === -1) {
           actionsTypes.push(val.action);
@@ -381,6 +384,7 @@ function splitWords (word) {
 
 const mapToProps = obstruction({
   selectedCard: 'game.selectedCard',
+  selectedActions: 'game.selectedActions',
   actions: 'game.actions',
   playerId: 'minimap.displayPlayer',
   castles: 'game.castles',
