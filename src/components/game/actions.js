@@ -16,14 +16,6 @@ import ActionModal from './modal';
 import API from '../../api';
 import { clearActiveCard } from '../../actions/game';
 
-
-/*@TODO
-
-read in game.activeCard and show a modal that the card is being played
-use seed 280 to activate watch tower on turn 2 and fuck shit up
-
-*/
-
 const styles = theme => ({
   root: {
   },

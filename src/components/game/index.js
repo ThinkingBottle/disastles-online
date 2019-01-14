@@ -14,6 +14,7 @@ import Actions from './actions';
 import Scoreboard from './scoreboard';
 import PlayerPicker from './player-picker';
 import Disasters from './disasters';
+import PlayerHand from './hand';
 
 import backgroundImage1 from '../backgrounds/BG1.png';
 import backgroundImage2 from '../backgrounds/BG2.png';
@@ -67,6 +68,7 @@ class GameComponent extends Component {
         <Actions />
         <Scoreboard />
         <Disasters />
+        <PlayerHand />
       </div>
     );
   }

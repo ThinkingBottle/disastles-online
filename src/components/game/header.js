@@ -9,8 +9,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Shop from './shop';
 import ActionBar from './actions';
 
-import backgroundLeft from './images/header-left.png';
-import backgroundRight from './images/header-right.png';
+import background from './images/header.png';
 import backgroundDeck from './images/header-deck.png';
 import cardSlot from './images/header-card-slot.png';
 import deckSize1 from './images/deck-1.png';
@@ -34,26 +33,26 @@ const styles = theme => ({
     position: 'fixed',
     top: 0,
     width: '100%',
-    height: 184,
+    height: 182,
 
     display: 'flex',
     flexDirection: 'rows'
   },
   left: {
-    background: 'url(' + backgroundLeft + ') repeat-x',
-    height: 38,
+    background: 'url(' + background + ') repeat-x',
+    height: 37,
     minWidth: 50,
     flex: '1 0 auto'
   },
   right: {
-    background: 'url(' + backgroundRight + ') repeat-x',
-    height: 38,
+    background: 'url(' + background + ') repeat-x',
+    height: 37,
     minWidth: 50,
     flex: '1 0 auto'
   },
   deck: {
-    width: 384,
-    height: 184,
+    width: 320,
+    height: 182,
     background: 'url(' + backgroundDeck + ') repeat-x',
     flex: '0 0 auto',
 
@@ -64,7 +63,7 @@ const styles = theme => ({
     width: 84,
     height: 133,
     marginTop: 20,
-    marginLeft: 75,
+    marginLeft: 60 + 15,
     background: 'url(' + cardSlot + ') repeat-x',
     flex: '0 0 auto'
   },
@@ -72,7 +71,7 @@ const styles = theme => ({
     width: 84,
     height: 133,
     marginTop: 20,
-    marginLeft: 54,
+    marginLeft: 13,
     background: 'url(' + cardSlot + ') repeat-x',
     flex: '0 0 auto'
   },

@@ -268,7 +268,7 @@ class GridController extends Component {
       if (val.castleOwner && val.castleOwner !== this.props.playerId) {
         return;
       }
-      if (['BuildRoom', 'MarkRoom', 'RotateRoom'].indexOf(val.action) === -1 && this.props.selectedActions.indexOf(val.action) === -1) {
+      if ((this.props.selectedActions.length || ['BuildRoom', 'MarkRoom', 'RotateRoom'].indexOf(val.action) === -1) && this.props.selectedActions.indexOf(val.action) === -1) {
         return false;
       }
       if (node && actionCards.indexOf(node.card) !== -1) {
@@ -300,9 +300,9 @@ class GridController extends Component {
 
     rotations = rotations.sort();
 
-    // if (actions.length) {
-    //   console.log(node ? node.card : x + ',' + y, actionsTypes, rotations);
-    // }
+    if (actions.length) {
+      console.log(node ? node.card : x + ',' + y, actionsTypes, rotations, this.props.selectedActions);
+    }
 
     if (!node && !isClickable) {
       return (

@@ -30,15 +30,21 @@ const styles = theme => ({
     },
   },
   'blue': {
-    height: 35,
-    width: 192,
+    height: 26,
+    minHeight: 26,
+    width: 26 * 192 / 34,
+    fontSize: '10pt',
+
     background: 'url(' + bgBlueBase + ') no-repeat',
+    backgroundSize: '100% 100%',
 
     '&:hover': {
-      background: 'url(' + bgBlueActive + ') no-repeat'
+      background: 'url(' + bgBlueActive + ') no-repeat',
+      backgroundSize: '100% 100%',
     },
     '&:active, &.dark, &.dark:hover': {
       background: 'url(' + bgBlueDark + ') no-repeat',
+      backgroundSize: '100% 100%',
       color: 'white'
     },
   }
@@ -51,6 +57,7 @@ class DisastlesButton extends Component {
   render () {
     let props = obstruction({
       onClick: true,
+      disabled: true,
     })(this.props)
     return (
       <Button {...props} classes={ {

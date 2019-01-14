@@ -21,26 +21,26 @@ const styles = theme => ({
   root: {
     position: 'relative',
     flex: '0 0 auto',
-    height: 184,
+    height: 182,
     display: 'flex',
     flexDirection: 'rows',
   },
   left: {
     background: 'url(' + backgroundLeft + ') no-repeat',
-    width: 123,
-    height: 184,
+    width: 68,
+    height: 182,
     flex: '0 0 auto'
   },
   right: {
     background: 'url(' + backgroundRight + ') no-repeat',
-    width: 133,
-    height: 184,
+    width: 70,
+    height: 182,
     flex: '0 0 auto'
   },
   wrapper: {
     background: 'url(' + backgroundCenter + ') repeat-x',
-    height: 184,
-    width: 675,
+    height: 182,
+    width: (39 + 15 + (84 + 15) * 5 + 147 + 15 + 45 - 68 - 70),
     flex: '1 0 auto',
     paddingTop: 20,
     display: 'flex'
@@ -48,14 +48,14 @@ const styles = theme => ({
   card: {
     background: 'url(' + cardSlot + ') no-repeat',
     position: 'relative',
-    left: -40,
-    marginRight: 40,
+    left: -68 + 39 + 15,
+    marginRight: 15,
   },
   actions: {
-    width: 210,
+    width: 147,
     height: '100%',
     position: 'absolute',
-    right: 35,
+    right: 45 + 15,
     paddingTop: 20,
     '& > *': {
       marginBottom: 10
@@ -170,18 +170,20 @@ class Shop extends Component {
     return (
       <React.Fragment>
         <If
-          condition={ this.state.canSkipTurn }
+          condition={ true }
           render={ ()=>
             <Button
+              disabled={ !this.state.canSkipTurn }
               blue
               onClick={ this.skipTurn } >
               Skip Turn
             </Button> } />
 
         <If
-          condition={ this.state.canMove }
+          condition={ true }
           render={ ()=>
             <Button
+              disabled={ !this.state.canMove }
               blue
               dark={ this.props.selectedActions.indexOf('MoveRoom') > -1 }
               onClick={ this.moveCards } >
@@ -189,9 +191,10 @@ class Shop extends Component {
             </Button> } />
 
         <If
-          condition={ this.state.canSwap }
+          condition={ true }
           render={ ()=>
             <Button
+              disabled={ !this.state.canSwap }
               blue
               dark={ this.props.selectedActions.indexOf('SwapRooms') > -1 }
               onClick={ this.swapCards } >
@@ -199,12 +202,13 @@ class Shop extends Component {
             </Button> } />
 
         <If
-          condition={ this.state.canActionCard }
+          condition={ true }
           render={ ()=>
             <Button
+              disabled={ !this.state.canActionCard }
               blue
               onClick={ this.actionCards } >
-              Play Card Action
+              Card Action
             </Button> } />
       </React.Fragment>
     );

@@ -8,6 +8,7 @@ import {
   DISASTER_STARTED,
   DISASTER_FINISHED,
   CARD_RETURNED_TO_DRAW_PILE,
+  CARDS_DRAWN_TO_PLAYER,
   CARD_PLAYED,
 
   ROOM_BUILT,
@@ -80,7 +81,7 @@ export default function reduce (state, action) {
         castles: {},
 
         shop: action.data.snapshot.shop,
-        playerCards: action.data.snapshot.playerCards,
+        playerCards: {},
         disasters: action.data.snapshot.disasters,
         discardPile: action.data.snapshot.discardPile,
         discardPileSize: action.data.snapshot.discardPileSize || action.data.snapshot.discardPile.length,
@@ -92,6 +93,15 @@ export default function reduce (state, action) {
       action.data.snapshot.castles.forEach(function (castle) {
         state.castles[castle.player] = updateCastle(castle);
       });
+      action.data.snapshot.playerCards.forEach(function (playerCards) {
+        state.playerCards[playerCards.player] = playerCards;
+      });
+      while (state.shop.length < 5) {
+        state.shop.push(null);
+      }
+      break;
+    case CARDS_DRAWN_TO_PLAYER:
+      console.log('Player drew some cards?');
       break;
     case CARD_DRAWN_TO_SHOP:
       state = {...state,
@@ -159,13 +169,23 @@ export default function reduce (state, action) {
             nodes: [...state.castles[player].nodes, node]
           }
         },
-        shop: [...state.shop]
+        shop: [...state.shop],
+        playerCards: {...state.playerCards}
       };
       state.shop = state.shop.map(function (card) {
         if (card === node.card) {
           return null;
         }
         return card;
+      });
+      Object.keys(state.playerCards).forEach(function (handPlayer) {
+        state.playerCards[handPlayer].revealed.filter(function (card) {
+          if (card === node.card) {
+            state.playerCards[handPlayer].count--;
+            return false;
+          }
+          return true;
+        });
       });
       state.castles[player] = updateCastle(state.castles[player]);
       break;

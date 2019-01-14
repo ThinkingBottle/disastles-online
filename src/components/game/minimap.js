@@ -31,16 +31,19 @@ const PREVIEW_MARGIN = 100;
 const PREVIEW_SCALE = (128 * CARD_ZOOM) / ( 57 / MINIMAP_SCALE);
 const MINIMAP_SIZE = 410 / MINIMAP_SCALE;
 
+const MINIMAP_WIDTH = 618;
+const MINIMAP_HEIGHT = 465;
+
 const styles = theme => ({
   root: {
-    width: 546 / MINIMAP_SCALE,
-    height: 462 / MINIMAP_SCALE,
+    width: MINIMAP_WIDTH / MINIMAP_SCALE,
+    height: MINIMAP_HEIGHT / MINIMAP_SCALE,
     position: 'fixed',
-    left: (0 - 546 + 100) / MINIMAP_SCALE,
+    left: (0 - MINIMAP_WIDTH + 158) / MINIMAP_SCALE,
     bottom: 20,
     backgroundImage: 'url(' + background + ')',
     backgroundRepeat: 'no-repeat',
-    backgroundSize: 546 / MINIMAP_SCALE + 'px ' + 462 / MINIMAP_SCALE + 'px',
+    backgroundSize: MINIMAP_WIDTH / MINIMAP_SCALE + 'px ' + MINIMAP_HEIGHT / MINIMAP_SCALE + 'px',
     backgroundPosition: 'left center',
     transition: '0.5s left',
 
@@ -54,14 +57,14 @@ const styles = theme => ({
   },
   statsHolder: {
     position: 'absolute',
-    right: -20,
-    top: 0,
+    right: 10,
+    top: 55 / MINIMAP_SCALE,
     width: 80,
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
-    paddingTop: 55 / MINIMAP_SCALE,
-    textAlign: 'right',
+    paddingLeft: 50,
+    textAlign: 'center',
 
     '& .statsBox': {
       height: 93 / MINIMAP_SCALE,
