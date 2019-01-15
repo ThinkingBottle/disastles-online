@@ -46,7 +46,7 @@ class LobbyView extends Component {
     }
   }
 
-  componentDidMount () {
+  async componentDidMount () {
     this.unlisten = Collector();
     this.unlisten(API.events.onLobbyFailed(() => this.props.history.push('/lobby')));
     this.unlisten(API.events.onGameJoined(() => this.props.history.push('/game/' + this.props.reconnectionToken)));
@@ -54,7 +54,8 @@ class LobbyView extends Component {
     if (!this.props.lobbyId) {
       let paramId = this.props.match.params.id;
       console.log('We\'re not in a lobby yet!', paramId, this.state.name);
-      API.joinLobby(paramId);
+      await API.joinLobby(paramId);
+      API.finishedLoading();
     }
   }
 
@@ -114,8 +115,7 @@ class LobbyView extends Component {
                   Joining lobby...
                 </Typography>
               </center>
-            </React.Fragment>
-          } />
+            </React.Fragment> } />
       </div>
     );
   }

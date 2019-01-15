@@ -29,7 +29,7 @@ export default function reduce (state, action) {
         playerId: action.data.playerId,
         playerStatus: {...state.playerStatus,
           [action.data.playerId]: {
-            ready: false
+            status: 'Loading'
           }
         }
       };
@@ -37,14 +37,12 @@ export default function reduce (state, action) {
     case PLAYER_JOINED:
       state = {...state,
         playerStatus: {...state.playerStatus,
-          [action.player.player]: {
-            ready: false
+          [action.player]: {
+            status: action.status
           }
         },
-        players: [...state.players, action.player.player],
-        slots: [...state.slots]
+        players: [...state.players, action.player],
       };
-      state.slots[action.player.slot] = action.player.player;
       break;
     case PLAYER_LEAVE:
       state = {...state,
@@ -62,7 +60,7 @@ export default function reduce (state, action) {
         players: action.snapshot.players,
         id: action.snapshot.id,
         settings: action.snapshot.settings,
-        slots: action.snapshot.slots,
+        slots: [],
         playerStatus: {}
       };
       state.players.forEach(function (playerId) {
@@ -82,13 +80,13 @@ export default function reduce (state, action) {
       state = {...state,
         playerStatus: {...state.playerStatus,
           [action.player]: {
-            ready: action.ready,
+            ready: action.status === 'Ready',
             state: action.status
           }
         }
       };
       if (action.player === state.playerId) {
-        state.isReady = action.ready;
+        state.isReady = action.status === 'Ready';
       }
       break;
     case ALL_READY:

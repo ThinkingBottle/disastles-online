@@ -40,12 +40,19 @@ export async function takeSlot (slot) {
   });
 }
 
+export async function finishedLoading () {
+  await ws.init();
+  ws.send({
+    action: 'SetStatus',
+    status: 'Loaded',
+  });
+}
+
 export async function setReady (ready) {
   await ws.init();
   ws.send({
     action: 'SetStatus',
-    status: '',
-    ready
+    status: ready ? 'Ready' : 'Unready'
   });
 }
 
