@@ -1,19 +1,31 @@
 self.__precacheManifest = [
   {
-    "revision": "1102ac5d107a368371c6c132e526fb66",
-    "url": "/disastles-online/static/media/16_Staircase3_BLANKROOM.1102ac5d.png"
+    "revision": "63bf293e760d3d19e5f01afb7d86b8e9",
+    "url": "/disastles-online/static/media/14_Staircase1_BLANKROOM.63bf293e.png"
   },
   {
-    "revision": "7dcc7f70172f3d227cf1",
-    "url": "/disastles-online/static/css/main.31748ac3.chunk.css"
+    "revision": "4823d23227f8c8b31f79",
+    "url": "/disastles-online/static/css/main.78e16263.chunk.css"
   },
   {
-    "revision": "12036d2e28da7949c4b7",
-    "url": "/disastles-online/static/js/1.12036d2e.chunk.js"
+    "revision": "c84ebe62e0fbf11adf4d",
+    "url": "/disastles-online/static/js/1.c84ebe62.chunk.js"
   },
   {
     "revision": "a07426da96600ea0ec0d",
     "url": "/disastles-online/static/js/runtime~main.a07426da.js"
+  },
+  {
+    "revision": "8257ee83b62c1d06a50b28d72492c43b",
+    "url": "/disastles-online/static/media/MenuBG.8257ee83.png"
+  },
+  {
+    "revision": "8280ff9af0892598cc7a8d0ce75947ad",
+    "url": "/disastles-online/static/media/logo_large.8280ff9a.png"
+  },
+  {
+    "revision": "a3827a5fc3416c05d8bcb212f27b2450",
+    "url": "/disastles-online/static/media/button_active.a3827a5f.png"
   },
   {
     "revision": "45172aea03a2b124d1a3290ace7a1107",
@@ -308,16 +320,16 @@ self.__precacheManifest = [
     "url": "/disastles-online/static/media/13_Hallway7_BLANKROOM.86ad3e9b.png"
   },
   {
-    "revision": "63bf293e760d3d19e5f01afb7d86b8e9",
-    "url": "/disastles-online/static/media/14_Staircase1_BLANKROOM.63bf293e.png"
+    "revision": "4823d23227f8c8b31f79",
+    "url": "/disastles-online/static/js/main.4823d232.chunk.js"
   },
   {
     "revision": "ab2828d07f2dc348533c846213e2c3e8",
     "url": "/disastles-online/static/media/15_Staircase2_BLANKROOM.ab2828d0.png"
   },
   {
-    "revision": "7dcc7f70172f3d227cf1",
-    "url": "/disastles-online/static/js/main.7dcc7f70.chunk.js"
+    "revision": "1102ac5d107a368371c6c132e526fb66",
+    "url": "/disastles-online/static/media/16_Staircase3_BLANKROOM.1102ac5d.png"
   },
   {
     "revision": "032d67077cc4cd28eebfe8652bd3c910",
@@ -628,7 +640,7 @@ self.__precacheManifest = [
     "url": "/disastles-online/static/media/BG5.4197dfe2.png"
   },
   {
-    "revision": "2817029a1449d8f44d951c618d1034c1",
+    "revision": "2a7fbea36f5d6513edbf960ee1e3a177",
     "url": "/disastles-online/index.html"
   }
 ];
