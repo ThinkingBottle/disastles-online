@@ -18,6 +18,7 @@ import CloseIcon from '@material-ui/icons/Close';
 
 import API from '../../api';
 import backgroundImage from '../backgrounds/MenuBG.png';
+import logoImage from './images/logo_small.png';
 
 const styles = theme => ({
   root: {
@@ -83,6 +84,7 @@ class LobbyView extends Component {
   render () {
     return (
       <div className={ this.props.classes.root }>
+        <img src={ logoImage } />
         <If condition={ !!this.props.lobbyId }
           render={ () =>
             <React.Fragment>
