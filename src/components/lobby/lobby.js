@@ -119,7 +119,7 @@ class LobbyView extends Component {
               <center>
                 <CircularProgress size={ 128 }/>
                 <Typography variant="subheading">
-                  Joining lobby...
+                  Joining lobby......
                 </Typography>
               </center>
             </React.Fragment> } />
