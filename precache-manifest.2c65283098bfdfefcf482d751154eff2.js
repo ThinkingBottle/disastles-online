@@ -4,12 +4,12 @@ self.__precacheManifest = [
     "url": "/disastles-online/static/media/16_Staircase3_BLANKROOM.1102ac5d.png"
   },
   {
-    "revision": "c474930f429fdb9b9ccc",
+    "revision": "7dcc7f70172f3d227cf1",
     "url": "/disastles-online/static/css/main.31748ac3.chunk.css"
   },
   {
-    "revision": "c315bbe221444c96ca42",
-    "url": "/disastles-online/static/js/1.c315bbe2.chunk.js"
+    "revision": "12036d2e28da7949c4b7",
+    "url": "/disastles-online/static/js/1.12036d2e.chunk.js"
   },
   {
     "revision": "a07426da96600ea0ec0d",
@@ -316,8 +316,8 @@ self.__precacheManifest = [
     "url": "/disastles-online/static/media/15_Staircase2_BLANKROOM.ab2828d0.png"
   },
   {
-    "revision": "c474930f429fdb9b9ccc",
-    "url": "/disastles-online/static/js/main.c474930f.chunk.js"
+    "revision": "7dcc7f70172f3d227cf1",
+    "url": "/disastles-online/static/js/main.7dcc7f70.chunk.js"
   },
   {
     "revision": "032d67077cc4cd28eebfe8652bd3c910",
@@ -628,7 +628,7 @@ self.__precacheManifest = [
     "url": "/disastles-online/static/media/BG5.4197dfe2.png"
   },
   {
-    "revision": "3daf7dc6188e3648120cab0a9ff3c87b",
+    "revision": "2817029a1449d8f44d951c618d1034c1",
     "url": "/disastles-online/index.html"
   }
 ];
