@@ -17,9 +17,14 @@ import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 
 import API from '../../api';
+import backgroundImage from '../backgrounds/MenuBG.png';
 
 const styles = theme => ({
   root: {
+    height: '100%',
+    minHeight: '100%',
+    background: 'url(' + backgroundImage + ') no-repeat',
+    backgroundSize: 'cover',
   }
 });
 
@@ -77,7 +82,7 @@ class LobbyView extends Component {
 
   render () {
     return (
-      <div>
+      <div className={ this.props.classes.root }>
         <If condition={ !!this.props.lobbyId }
           render={ () =>
             <React.Fragment>

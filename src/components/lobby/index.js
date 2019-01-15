@@ -4,13 +4,67 @@ import { connect } from 'react-redux';
 import obstruction from 'obstruction';
 
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
+import Input from '@material-ui/core/Input';
 import Typography from '@material-ui/core/Typography';
 
 import API from '../../api';
+import logoImage from './images/logo_large.png';
+import backgroundImage from '../backgrounds/MenuBG.png';
+import buttonImage from './images/button.png';
+import buttonHoverImage from './images/button_hover.png';
+import buttonActiveImage from './images/button_active.png';
+
+import boxImage from './images/box.png';
+import boxActiveImage from './images/box_active.png';
 
 const styles = theme => ({
   root: {
+    height: '100%',
+    minHeight: '100%',
+    paddingBottom: '10%',
+    background: 'url(' + backgroundImage + ') no-repeat',
+    backgroundSize: 'cover',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column'
+  },
+  wrapper: {
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'row'
+  },
+  textBox: {
+    width: 192,
+    height: 64,
+    background: 'url(' + boxImage + ') no-repeat',
+    padding: 20,
+    marginBottom: 5
+  },
+  input: {
+    color: 'white',
+    textTransform: 'uppercase',
+    fontWeight: 'bold',
+    fontSize: 24
+  },
+  focused: {
+    background: 'url(' + boxActiveImage + ') no-repeat',
+  },
+  button: {
+    background: 'url(' + buttonImage + ') no-repeat',
+    width: 192,
+    height: 64,
+    border: 0,
+    borderRadius: 32,
+    color: 'white',
+    fontSize: '1.2em',
+
+    '&:hover': {
+      background: 'url(' + buttonHoverImage + ') no-repeat',
+    },
+    '&:active': {
+      background: 'url(' + buttonActiveImage + ') no-repeat',
+    }
   }
 });
 
@@ -43,18 +97,39 @@ class LobbyMenu extends Component {
   };
   render () {
     return (
-      <div>
-        <Typography>This is a lobby view!</Typography>
-        <Button onClick={ this.onNewGame } variant='outlined'>
-          New Game
+      <div className={ this.props.classes.root }>
+        <img src={ logoImage } />
+        <br />
+        <br />
+        <Button
+          onClick={ this.onNewGame }
+          variant='outlined'
+          classes={{
+            root: this.props.classes.button
+          }}
+          >
+          Create Lobby
         </Button>
-        <TextField
+        <br />
+        <Input
+          disableUnderline
           id="lobby-id"
           label="Lobby ID"
+          classes={{
+            root: this.props.classes.textBox,
+            focused: this.props.classes.focused,
+            input: this.props.classes.input,
+          }}
           value={ this.state.lobbyId }
           onChange={this.handleChange('lobbyId')}
         />
-        <Button onClick={ this.onJoinGame } variant='outlined'>
+        <Button
+          onClick={ this.onJoinGame }
+          variant='outlined'
+          classes={{
+            root: this.props.classes.button
+          }}
+          >
           Join Game
         </Button>
       </div>
