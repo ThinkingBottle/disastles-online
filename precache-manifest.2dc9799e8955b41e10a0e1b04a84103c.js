@@ -1,15 +1,15 @@
 self.__precacheManifest = [
   {
-    "revision": "63bf293e760d3d19e5f01afb7d86b8e9",
-    "url": "/static/media/14_Staircase1_BLANKROOM.63bf293e.png"
+    "revision": "86ad3e9bb45a8a68c52de57abed93824",
+    "url": "/static/media/13_Hallway7_BLANKROOM.86ad3e9b.png"
   },
   {
-    "revision": "9bef4c168204c748189a",
-    "url": "/static/css/main.bb33c47f.chunk.css"
+    "revision": "4d7f06df6412e1751925",
+    "url": "/static/css/main.4df85cbc.chunk.css"
   },
   {
-    "revision": "7379d878dda1b175e901",
-    "url": "/static/js/1.7379d878.chunk.js"
+    "revision": "c8d4c8b2fe16003b592b",
+    "url": "/static/js/1.c8d4c8b2.chunk.js"
   },
   {
     "revision": "229c360febb4351a89df",
@@ -20,16 +20,24 @@ self.__precacheManifest = [
     "url": "/static/media/MenuBG.8257ee83.png"
   },
   {
-    "revision": "8280ff9af0892598cc7a8d0ce75947ad",
-    "url": "/static/media/logo_large.8280ff9a.png"
+    "revision": "de3c30eaa45b4ce7e38ac03d813ebf4d",
+    "url": "/static/media/logo-large.de3c30ea.png"
+  },
+  {
+    "revision": "39e382b491e701330b5f8762461f0bfc",
+    "url": "/static/media/launch-game-active.39e382b4.png"
+  },
+  {
+    "revision": "89be6f06e3b5c3c8a43cde7b045b9f03",
+    "url": "/static/media/launch-game-hover.89be6f06.png"
   },
   {
     "revision": "a3827a5fc3416c05d8bcb212f27b2450",
-    "url": "/static/media/button_active.a3827a5f.png"
+    "url": "/static/media/button-active.a3827a5f.png"
   },
   {
-    "revision": "3f9173da67dbf7e1abb9bfa271225581",
-    "url": "/static/media/logo_small.3f9173da.png"
+    "revision": "483d7aea18bb6fa7ac862c99bd0f4f5a",
+    "url": "/static/media/logo-small.483d7aea.png"
   },
   {
     "revision": "45172aea03a2b124d1a3290ace7a1107",
@@ -320,12 +328,12 @@ self.__precacheManifest = [
     "url": "/static/media/12_Hallway6_BLANKROOM.25e23f0a.png"
   },
   {
-    "revision": "86ad3e9bb45a8a68c52de57abed93824",
-    "url": "/static/media/13_Hallway7_BLANKROOM.86ad3e9b.png"
+    "revision": "4d7f06df6412e1751925",
+    "url": "/static/js/main.4d7f06df.chunk.js"
   },
   {
-    "revision": "9bef4c168204c748189a",
-    "url": "/static/js/main.9bef4c16.chunk.js"
+    "revision": "63bf293e760d3d19e5f01afb7d86b8e9",
+    "url": "/static/media/14_Staircase1_BLANKROOM.63bf293e.png"
   },
   {
     "revision": "ab2828d07f2dc348533c846213e2c3e8",
@@ -644,7 +652,7 @@ self.__precacheManifest = [
     "url": "/static/media/BG5.4197dfe2.png"
   },
   {
-    "revision": "0fcf676ee3b45018b4c518262f931ad7",
+    "revision": "ef4e3cc9c7bede07cb79d03a3521af6f",
     "url": "/index.html"
   }
 ];
