@@ -1,21 +1,30 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
+import { classNames } from 'react-extras';
 import obstruction from 'obstruction';
 
-import Button from '@material-ui/core/Button';
+import Button from '../game/button';
+import Box from '../box';
 import Input from '@material-ui/core/Input';
+import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 
 import API from '../../api';
-import logoImage from './images/logo_large.png';
-import backgroundImage from '../backgrounds/MenuBG.png';
-import buttonImage from './images/button.png';
-import buttonHoverImage from './images/button_hover.png';
-import buttonActiveImage from './images/button_active.png';
 
+import backgroundImage from '../backgrounds/MenuBG.png';
+import logoImage from './images/logo-large.png';
 import boxImage from './images/box.png';
-import boxActiveImage from './images/box_active.png';
+import boxActiveImage from './images/box-active.png';
+import bgTopLeftBox from './images/settings-tl.png';
+import bgTopRightBox from './images/settings-tr.png';
+import bgBottomLeftBox from './images/settings-bl.png';
+import bgBottomRightBox from './images/settings-br.png';
+import bgColorBox from './images/settings-color.png';
+import bgLeftBox from './images/settings-left.png';
+import bgRightBox from './images/settings-right.png';
+import bgTopBox from './images/settings-top.png';
+import bgBottomBox from './images/settings-bottom.png';
 
 const styles = theme => ({
   root: {
@@ -27,7 +36,7 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   wrapper: {
     display: 'flex',
@@ -35,36 +44,39 @@ const styles = theme => ({
     flexDirection: 'row'
   },
   textBox: {
+    position: 'absolute',
     width: 192,
-    height: 64,
+    height: 32,
     background: 'url(' + boxImage + ') no-repeat',
-    padding: 20,
-    marginBottom: 5
+    backgroundSize: '100% 100%',
+    padding: 1,
+    margin: 0,
+    '& input': {
+      height: 30,
+      padding: 0,
+      paddingLeft: 9,
+      letterSpacing: 3
+    }
   },
   input: {
     color: 'white',
     textTransform: 'uppercase',
     fontWeight: 'bold',
-    fontSize: 24
+    fontSize: 16
   },
   focused: {
     background: 'url(' + boxActiveImage + ') no-repeat',
+    backgroundSize: '100% 100%',
   },
   button: {
-    background: 'url(' + buttonImage + ') no-repeat',
     width: 192,
-    height: 64,
-    border: 0,
-    borderRadius: 32,
-    color: 'white',
-    fontSize: '1.2em',
-
-    '&:hover': {
-      background: 'url(' + buttonHoverImage + ') no-repeat',
-    },
-    '&:active': {
-      background: 'url(' + buttonActiveImage + ') no-repeat',
-    }
+    height: 32,
+    marginBottom: 10,
+  },
+  matchmaking: {
+    position: 'absolute',
+    marginBottom: 0,
+    bottom: 0
   }
 });
 
@@ -76,7 +88,8 @@ class LobbyMenu extends Component {
     this.onJoinGame = this.onJoinGame.bind(this);
 
     this.state = {
-      lobbyId: ''
+      lobbyId: '',
+      expanded: false
     };
   }
   async onNewGame () {
@@ -88,7 +101,13 @@ class LobbyMenu extends Component {
     this.props.history.push('/lobby/' + id);
   }
   async onJoinGame () {
-    this.props.history.push('/lobby/' + this.state.lobbyId);
+    if (this.state.expanded) {
+      this.props.history.push('/lobby/' + this.state.lobbyId);
+    } else {
+      this.setState({
+        expanded: true
+      });
+    }
   }
   handleChange = name => event => {
     this.setState({
@@ -101,37 +120,74 @@ class LobbyMenu extends Component {
         <img src={ logoImage } />
         <br />
         <br />
-        <Button
-          onClick={ this.onNewGame }
-          variant='outlined'
-          classes={{
-            root: this.props.classes.button
+        <Box
+          half
+          topLeft={ bgTopLeftBox }
+          topRight={ bgTopRightBox }
+          bottomLeft={ bgBottomLeftBox }
+          bottomRight={ bgBottomRightBox }
+          color={ bgColorBox }
+          left={ bgLeftBox }
+          right={ bgRightBox }
+          top={ bgTopBox }
+          bottom={ bgBottomBox }
+          height={ 180 + (this.state.expanded ? 42 : 0) }
+          style={{
+            width: 192,
+            transition: 'height 0.2s'
           }}
           >
-          Create Lobby
-        </Button>
-        <br />
-        <Input
-          disableUnderline
-          id="lobby-id"
-          label="Lobby ID"
-          classes={{
-            root: this.props.classes.textBox,
-            focused: this.props.classes.focused,
-            input: this.props.classes.input,
-          }}
-          value={ this.state.lobbyId }
-          onChange={this.handleChange('lobbyId')}
-        />
-        <Button
-          onClick={ this.onJoinGame }
-          variant='outlined'
-          classes={{
-            root: this.props.classes.button
-          }}
-          >
-          Join Game
-        </Button>
+
+          <Button
+            onClick={ this.onNewGame }
+            blue
+            className={ this.props.classes.button }
+            >
+            Create Lobby
+          </Button>
+          <br />
+          <Button
+            onClick={ this.onJoinGame }
+            blue
+            className={ this.props.classes.button }
+            >
+            Join Game
+          </Button>
+          <div style={{
+            opacity: this.state.expanded ? 1 : 0,
+            transition: 'opacity 0.5s'
+          }}>
+            <Input
+              placeholder='Enter Code'
+              disableUnderline
+              id="lobby-id"
+              label="Lobby ID"
+              classes={{
+                root: this.props.classes.textBox,
+                focused: this.props.classes.focused,
+                input: this.props.classes.input,
+              }}
+              value={ this.state.lobbyId }
+              onChange={this.handleChange('lobbyId')}
+            />
+          </div>
+          <Tooltip
+            title='Coming soon'
+            >
+            <Button
+              onClick={ ()=> {
+                this.setState({
+                  matchmaking: true
+                });
+              }}
+              disabled={ this.state.matchmaking }
+              blue
+              className={ classNames(this.props.classes.button, this.props.classes.matchmaking) }
+              >
+              { this.state.matchmaking ? 'Coming Soon!' : 'Matchmaking' }
+            </Button>
+          </Tooltip>
+        </Box>
       </div>
     );
   }

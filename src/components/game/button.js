@@ -20,6 +20,7 @@ const styles = theme => ({
     height: 35,
     width: 192,
     background: 'url(' + bgBase + ') no-repeat',
+    backgroundSize: '100% 100%',
 
     '&:hover': {
       background: 'url(' + bgActive + ') no-repeat'
@@ -58,10 +59,11 @@ class DisastlesButton extends Component {
     let props = obstruction({
       onClick: true,
       disabled: true,
+      style: true
     })(this.props)
     return (
       <Button {...props} classes={ {
-          root: classNames({
+          root: classNames(this.props.className, {
             [this.props.classes.blue]: this.props.blue,
             [this.props.classes.root]: !this.props.blue,
             dark: this.props.dark
