@@ -6,13 +6,13 @@ import obstruction from 'obstruction';
 
 import Button from '../game/button';
 import Box from '../box';
+import Background from './background';
 import Input from '@material-ui/core/Input';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 
 import API from '../../api';
 
-import backgroundImage from '../backgrounds/MenuBG.png';
 import logoImage from './images/logo-large.png';
 import boxImage from './images/box.png';
 import boxActiveImage from './images/box-active.png';
@@ -31,8 +31,6 @@ const styles = theme => ({
     height: '100%',
     minHeight: '100%',
     paddingBottom: '10%',
-    background: 'url(' + backgroundImage + ') no-repeat',
-    backgroundSize: 'cover',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -116,7 +114,7 @@ class LobbyMenu extends Component {
   };
   render () {
     return (
-      <div className={ this.props.classes.root }>
+      <Background rootClass={ this.props.classes.root }>
         <img src={ logoImage } />
         <br />
         <br />
@@ -188,7 +186,7 @@ class LobbyMenu extends Component {
             </Button>
           </Tooltip>
         </Box>
-      </div>
+      </Background>
     );
   }
 }

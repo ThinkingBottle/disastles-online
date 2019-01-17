@@ -13,6 +13,7 @@
     "fast-levenshtein": "^2.0.6",
     "geval": "^2.2.0",
     "obstruction": "^2.1.0",
+    "raf": "^3.4.1",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-extras": "^0.7.1",
