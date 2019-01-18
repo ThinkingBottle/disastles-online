@@ -1,3 +1,4 @@
+import { bindToEvent } from './util';
 
 export const LOBBY_SNAPSHOT = 'LOBBY_SNAPSHOT';
 export const PLAYER_JOINED = 'PLAYER_JOINED';
@@ -5,6 +6,11 @@ export const PLAYER_LEAVE = 'PLAYER_LEAVE';
 export const PLAYER_SLOT_CHANGED = 'PLAYER_SLOT_CHANGED';
 export const STATUS_CHANGED = 'STATUS_CHANGED';
 export const ALL_READY = 'ALL_READY';
+export const HOST_CHANGED = 'HOST_CHANGED';
+export const SETTING_CHANGED = 'SETTING_CHANGED';
+
+bindToEvent(HOST_CHANGED, 'HostChanged');
+bindToEvent(SETTING_CHANGED, 'SettingChanged');
 
 export function joinLobby (snapshot) {
   return {

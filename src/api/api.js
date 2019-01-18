@@ -2,6 +2,7 @@ import ws from './ws';
 import * as Events from './events';
 
 export const events = Events;
+export { ws };
 
 export async function send (action) {
   await ws.init();

@@ -2,12 +2,16 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import obstruction from 'obstruction';
-import { If } from 'react-extras';
+import { If, classNames } from 'react-extras';
 import { partial } from 'ap';
 import Collector from 'collect-methods';
 import { timeout } from 'thyming';
+import copy from 'clipboard-copy';
 
 import Box from '../box';
+import DisastlesInput from '../input';
+import Background from './background';
+import Counter from './counter';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
@@ -68,13 +72,15 @@ const styles = theme => ({
   root: {
     height: '100%',
     minHeight: '100%',
-    background: 'url(' + bgBackground + ') no-repeat',
-    backgroundSize: 'cover',
   },
   row: {
     display: 'flex',
     flexDirection: 'row',
     padding: 20,
+    lineHeight: '32px',
+    '&.nopadding': {
+      padding: 0
+    }
   },
   column: {
     display: 'flex',
@@ -110,6 +116,10 @@ const styles = theme => ({
     '&:active': {
       background: 'url(' + bgButton + ') no-repeat',
     }
+  },
+  keyField: {
+    textAlign: 'right',
+    color: 'white'
   }
 });
 
@@ -118,21 +128,38 @@ class LobbyView extends Component {
     super();
 
     this.state = {
-      name: props.name
+      name: props.name,
+      disasterCount: this.getSettings('DisastersCount', props.settings),
+      catastropheCount: this.getSettings('CatastrophesCount', props.settings),
     };
 
     this.renderPlayerSlot = this.renderPlayerSlot.bind(this);
     this.takeSlot = this.takeSlot.bind(this);
     this.toggleReady = this.toggleReady.bind(this);
     this.startGame = this.startGame.bind(this);
+    this.updateDisasterCount = this.updateDisasterCount.bind(this);
+    this.updateCatastropheCount = this.updateCatastropheCount.bind(this);
+    this.leaveLobby = this.leaveLobby.bind(this);
   }
 
   componentWillReceiveProps (newProps) {
     console.log('props', newProps);
+    var newState = {};
     if (newProps.name !== this.props.name) {
-      this.setState({
-        name: newProps.name
-      });
+      newState.name = newProps.name;
+    }
+
+    let disasterCount = this.getSettings('DisastersCount', newProps.settings);
+    if (disasterCount !== this.state.disasterCount) {
+      newState.disasterCount = disasterCount;
+    }
+    let catastropheCount = this.getSettings('CatastrophesCount', newProps.settings);
+    if (catastropheCount !== this.state.catastropheCount) {
+      newState.catastropheCount = catastropheCount;
+    }
+
+    if (Object.keys(newState).length) {
+      this.setState(newState);
     }
   }
 
@@ -161,15 +188,79 @@ class LobbyView extends Component {
     API.setReady(!this.props.isReady);
   }
 
+  leaveLobby () {
+    this.props.history.push('/');
+    API.ws.reconnect();
+  }
+
   startGame () {
     API.startGame();
+  }
+
+  getSettings (name, settings = this.props.settings) {
+    return settings.reduce(function (memo, val) {
+      if (memo) {
+        return memo;
+      }
+      if (val.key === name) {
+        return memo = val.value;
+      }
+    }, null);
+  }
+
+  getBounds (name) {
+    return this.props.actions.reduce(function (memo, val) {
+      if (val.key === name) {
+        return memo = val.allowed;
+      }
+      return memo;
+    }, {});
+  }
+
+  isHost () {
+    return this.props.playerId === this.props.host;
+  }
+
+  updateDisasterCount (newCount) {
+    console.log('Setting new diaster count!', newCount);
+    if (!this.isHost()) {
+      console.log('not host');
+      return;
+    }
+    this.setState({
+      disasterCount: newCount
+    });
+    API.send({
+      action: 'ChangeSetting',
+      key: 'DisastersCount',
+      value: newCount
+    });
+  }
+
+  updateCatastropheCount (newCount) {
+    console.log('Setting new diaster count!', newCount);
+    if (!this.isHost()) {
+      console.log('not host');
+      return;
+    }
+    this.setState({
+      catastropheCount: newCount
+    });
+    API.send({
+      action: 'ChangeSetting',
+      key: 'CatastrophesCount',
+      value: newCount
+    });
   }
 
   render () {
     var difficulty = 'Difficult';
 
+    var disasterBounds = this.getBounds('DisastersCount');
+    var catastropheBounds = this.getBounds('CatastrophesCount');
+
     return (
-      <div className={ this.props.classes.root }>
+      <Background rootClass={ this.props.classes.root }>
         <div className={ this.props.classes.row }>
           <a href="/">
             <img src={ bgLogo } />
@@ -209,76 +300,164 @@ class LobbyView extends Component {
           render={ () =>
             <React.Fragment>
               <div className={ this.props.classes.row }>
+                <div className={ this.props.classes.column }>
                 <Box
                   half
                   topLeft={ bgTopLeftBox }
-                  topRight={ bgTopRightBox }
-                  bottomLeft={ bgBottomLeftBox }
-                  bottomRight={ bgBottomRightBox }
-                  color={ bgColorBox }
-                  left={ bgLeftBox }
-                  right={ bgRightBox }
-                  top={ bgTopBox }
-                  bottom={ bgBottomBox }
-                  headerLeft={ bgHeaderLeftBox }
-                  headerRight={ bgHeaderRightBox }
-                  headerMiddle={ bgHeaderMiddleBox }
-                  header='Game Settings'
-                  >
-
-                  <Box
-                    half
-                    topLeft={ bgTopLeftBox2 }
-                    topRight={ bgTopRightBox2 }
-                    bottomLeft={ bgBottomLeftBox2 }
-                    bottomRight={ bgBottomRightBox2 }
-                    color={ bgColorBox2 }
-                    left={ bgLeftBox2 }
-                    right={ bgRightBox2 }
-                    top={ bgTopBox2 }
-                    bottom={ bgBottomBox2 }
-                    headerLeft={ bgHeaderLeftBox2 }
-                    headerRight={ bgHeaderRightBox2 }
-                    headerMiddle={ bgHeaderMiddleBox2 }
-                    header={ 'Difficulty: ' + difficulty }
+                    topRight={ bgTopRightBox }
+                    bottomLeft={ bgBottomLeftBox }
+                    bottomRight={ bgBottomRightBox }
+                    color={ bgColorBox }
+                    left={ bgLeftBox }
+                    right={ bgRightBox }
+                    top={ bgTopBox }
+                    bottom={ bgBottomBox }
+                    headerLeft={ bgHeaderLeftBox }
+                    headerRight={ bgHeaderRightBox }
+                    headerMiddle={ bgHeaderMiddleBox }
+                    header='Game Settings'
+                    style={{
+                      paddingTop: 20
+                    }}
                     >
+
                     <Box
                       half
-                      topLeft={ bgTopLeftBox3 }
-                      topRight={ bgTopRightBox3 }
-                      bottomLeft={ bgBottomLeftBox3 }
-                      bottomRight={ bgBottomRightBox3 }
-                      color={ bgColorBox3 }
-                      left={ bgLeftBox3 }
-                      right={ bgRightBox3 }
-                      top={ bgTopBox3 }
-                      bottom={ bgBottomBox3 }
+                      topLeft={ bgTopLeftBox2 }
+                      topRight={ bgTopRightBox2 }
+                      bottomLeft={ bgBottomLeftBox2 }
+                      bottomRight={ bgBottomRightBox2 }
+                      color={ bgColorBox2 }
+                      left={ bgLeftBox2 }
+                      right={ bgRightBox2 }
+                      top={ bgTopBox2 }
+                      bottom={ bgBottomBox2 }
+                      headerLeft={ bgHeaderLeftBox2 }
+                      headerRight={ bgHeaderRightBox2 }
+                      headerMiddle={ bgHeaderMiddleBox2 }
+                      header={ 'Difficulty: ' + difficulty }
                       >
-                      Disaster settings!
+                      <Box
+                        half
+                        topLeft={ bgTopLeftBox3 }
+                        topRight={ bgTopRightBox3 }
+                        bottomLeft={ bgBottomLeftBox3 }
+                        bottomRight={ bgBottomRightBox3 }
+                        color={ bgColorBox3 }
+                        left={ bgLeftBox3 }
+                        right={ bgRightBox3 }
+                        top={ bgTopBox3 }
+                        bottom={ bgBottomBox3 }
+                        margin={ -12 }
+                        style={{
+                          color: 'white'
+                        }}
+                        >
+                        <Grid container zeroMinWidth spacing={16}>
+                          <Grid item xs={ 8 } className={ this.props.classes.keyField } >
+                            Disaster count:
+                          </Grid>
+                          <Grid item xs={ 4 }>
+                            <Counter
+                              onChange={ this.updateDisasterCount }
+                              min={ disasterBounds.min }
+                              max={ disasterBounds.max }
+                              value={ this.state.disasterCount }
+                              />
+                          </Grid>
+                          <Grid item xs={ 8 } className={ this.props.classes.keyField }>
+                            Catastrophe count:
+                          </Grid>
+                          <Grid item xs={ 4 }>
+                            <Counter
+                              onChange={ this.updateCatastropheCount }
+                              min={ catastropheBounds.min }
+                              max={ catastropheBounds.max }
+                              value={ this.state.catastropheCount }
+                              />
+                          </Grid>
+                        </Grid>
+                      </Box>
+                      <br />
+                      <Grid container zeroMinWidth spacing={16}>
+                        <Grid item xs={ 6 } className={ this.props.classes.keyField }>
+                          Game seed:
+                        </Grid>
+                        <Grid item xs={ 6 }>
+                          <DisastlesInput />
+                        </Grid>
+                        <Grid item xs={ 6 } className={ this.props.classes.keyField }>
+                          Lobbby link:
+                        </Grid>
+                        <Grid item xs={ 6 }>
+                          <DisastlesInput
+                            onFocus={ ()=> copy('https://game.disastles.com/#/lobby/' + this.props.lobbyId) }
+                            value={ 'https://game.disastles.com/#/lobby/' + this.props.lobbyId } />
+                        </Grid>
+                      </Grid>
                     </Box>
                   </Box>
-                  <Typography variant="h3">{ this.props.lobbyId }</Typography>
-                  <Typography>You're in a lobby!</Typography>
-                  { this.props.players.map(this.renderPlayerSlot) }
                   <br />
-                  <Button variant="contained" onClick={ this.toggleReady }>
-                    <If condition={ !this.props.isReady } render={ () =>
-                      <React.Fragment>
-                        <CloseIcon /> Not Ready
-                      </React.Fragment>
-                    } />
-                    <If condition={ !!this.props.isReady } render={() =>
-                      <React.Fragment>
-                        <CheckIcon /> Ready!
-                      </React.Fragment>
-                    } />
-                  </Button>
-                  <If condition={ !!this.props.allReady } render={() =>
-                    <Button variant="contained" onClick={ this.startGame }>
-                      Start Game!
-                    </Button>
-                  } />
-                </Box>
+                  <Box
+                    half
+                    topLeft={ bgTopLeftBox }
+                    topRight={ bgTopRightBox }
+                    bottomLeft={ bgBottomLeftBox }
+                    bottomRight={ bgBottomRightBox }
+                    color={ bgColorBox }
+                    left={ bgLeftBox }
+                    right={ bgRightBox }
+                    top={ bgTopBox }
+                    bottom={ bgBottomBox }
+                    headerLeft={ bgHeaderLeftBox }
+                    headerRight={ bgHeaderRightBox }
+                    headerMiddle={ bgHeaderMiddleBox }
+                    header='Player Settings'
+                    style={{
+                      paddingTop: 20
+                    }}
+                    >
+                    <Grid container zeroMinWidth spacing={16}>
+                      <Grid item xs={ 6 } className={ this.props.classes.keyField }>
+                        Player name:
+                      </Grid>
+                      <Grid item xs={ 6 }>
+                        <DisastlesInput value={this.props.name} />
+                      </Grid>
+                      <Grid item xs={ 2 }>
+                      </Grid>
+                      <Grid item xs={ 4 }>
+                        <Button
+                          onClick={ this.toggleReady }
+                          classes={{
+                            root: this.props.classes.button
+                          }} >
+                          <If condition={ !this.props.isReady } render={ () =>
+                            <React.Fragment>
+                              <CloseIcon /> Not Ready
+                            </React.Fragment>
+                          } />
+                          <If condition={ !!this.props.isReady } render={() =>
+                            <React.Fragment>
+                              <CheckIcon /> Ready!
+                            </React.Fragment>
+                          } />
+                        </Button>
+                      </Grid>
+                      <Grid item xs={ 4 }>
+                        <Button
+                          onClick={ this.leaveLobby }
+                          classes={{
+                            root: this.props.classes.button
+                          }} >
+                          Leave lobby
+                        </Button>
+                      </Grid>
+                      <Grid item xs={ 2 }>
+                      </Grid>
+                    </Grid>
+                  </Box>
+                </div>
               </div>
             </React.Fragment>
           } />
@@ -294,7 +473,7 @@ class LobbyView extends Component {
                 </Typography>
               </center>
             </React.Fragment> } />
-      </div>
+      </Background>
     );
   }
 
@@ -323,8 +502,12 @@ const mapToProps = obstruction({
   players: 'lobby.slots',
   isReady: 'lobby.isReady',
   allReady: 'lobby.allReady',
+  playerId: 'global.playerId',
+  actions: 'global.actions',
   name: 'global.name',
-  playerNames: 'global.playerNames'
+  playerNames: 'global.playerNames',
+  settings: 'lobby.settings',
+  host: 'lobby.host',
 });
 
 export default withStyles(styles)(connect(mapToProps)(LobbyView));

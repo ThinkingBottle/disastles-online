@@ -17,7 +17,8 @@ const defaultState = {
   playerId: 'test',
   name: name(),
   playerNames: {},
-  playerColors: {}
+  playerColors: {},
+  actions: []
 };
 
 export default function reduce (state, action) {

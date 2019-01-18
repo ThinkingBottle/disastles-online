@@ -11,6 +11,8 @@ import bgBottom from '../backgrounds/MenuBG_bott.png';
 import bgTop from '../backgrounds/MenuBG_top.png';
 import bgMiddle from '../backgrounds/MenuBG_mid.png';
 
+const PARRALAX_TIME = 60
+
 const styles = theme => ({
   root: {
     height: '100%',
@@ -26,7 +28,7 @@ const styles = theme => ({
     left: '-5%',
     background: 'url(' + bgMiddle + ') no-repeat',
     backgroundSize: 'cover',
-    transition: 'all 40s',
+    transition: 'all ' + PARRALAX_TIME + 's',
   },
   top: {
     position: 'absolute',
@@ -34,7 +36,7 @@ const styles = theme => ({
     width: '110%',
     background: 'url(' + bgTop + ') no-repeat',
     backgroundSize: 'cover',
-    transition: 'all 40s',
+    transition: 'all ' + PARRALAX_TIME + 's',
   },
   content: {
     position: 'relative',
@@ -59,7 +61,7 @@ class FloatingBackground extends Component {
     this.cancel = interval(()=> {
       this.cancel = null;
       this.randomLocations();
-    }, 20000);
+    }, PARRALAX_TIME * 400);
     timeout(()=> this.randomLocations(), 200);
   }
   componentWillUnmount () {
@@ -80,7 +82,7 @@ class FloatingBackground extends Component {
         <div
           className={ this.props.classes.mid }
           style={{
-            transform: 'translate3d(' + this.state.x/3 + '%, ' + this.state.y/3 + '%, 0)'
+            transform: 'translate3d(' + this.state.x/2 + '%, ' + this.state.y/2 + '%, 0)'
           }} />
         <div
           className={ this.props.classes.top }

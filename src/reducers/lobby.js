@@ -4,7 +4,9 @@ import {
   PLAYER_LEAVE,
   PLAYER_SLOT_CHANGED,
   STATUS_CHANGED,
-  ALL_READY
+  ALL_READY,
+  HOST_CHANGED,
+  SETTING_CHANGED,
 } from '../actions/lobby';
 import {
   HELLO
@@ -15,7 +17,8 @@ const defaultState = {
   isReady: false,
   allReady: false,
   playerStatus: {},
-  players: []
+  players: [],
+  settings: []
 };
 
 export default function reduce (state, action) {
@@ -92,6 +95,23 @@ export default function reduce (state, action) {
     case ALL_READY:
       state = {...state,
         allReady: action.allReady
+      };
+      break;
+    case HOST_CHANGED:
+      console.log('The host changed', action.data.player);
+      state = {...state,
+        host: action.data.player
+      };
+      break;
+    case SETTING_CHANGED:
+      console.log('Host changed the settings...', action.data);
+      state = {...state,
+        settings: state.settings.map(function (setting) {
+          if (setting.key === action.data.key) {
+            setting.value = action.data.value;
+          }
+          return setting;
+        })
       };
       break;
   }

@@ -47,7 +47,7 @@ const styles = theme => ({
     backgroundRepeat: 'repeat-x',
     height: 64,
     whiteSpace: 'nowrap',
-    paddingTop: 10,
+    paddingTop: 5,
     color: 'white'
   },
   content: {
