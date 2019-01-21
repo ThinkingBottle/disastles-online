@@ -8,9 +8,11 @@ export const STATUS_CHANGED = 'STATUS_CHANGED';
 export const ALL_READY = 'ALL_READY';
 export const HOST_CHANGED = 'HOST_CHANGED';
 export const SETTING_CHANGED = 'SETTING_CHANGED';
+export const COLOR_CHANGED = 'COLOR_CHANGED';
 
 bindToEvent(HOST_CHANGED, 'HostChanged');
 bindToEvent(SETTING_CHANGED, 'SettingChanged');
+bindToEvent(COLOR_CHANGED, 'ColorChanged');
 
 export function joinLobby (snapshot) {
   return {

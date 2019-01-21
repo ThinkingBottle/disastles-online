@@ -58,11 +58,13 @@ class FloatingBackground extends Component {
     };
   }
   componentDidMount () {
-    this.cancel = interval(()=> {
-      this.cancel = null;
+    this.cancel = timeout(()=> {
       this.randomLocations();
-    }, PARRALAX_TIME * 400);
-    timeout(()=> this.randomLocations(), 200);
+      this.cancel = interval(()=> {
+        this.cancel = null;
+        this.randomLocations();
+      }, PARRALAX_TIME * 400);
+    }, 200);
   }
   componentWillUnmount () {
     if (this.cancel) {

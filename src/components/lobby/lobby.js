@@ -12,6 +12,8 @@ import Box from '../box';
 import DisastlesInput from '../input';
 import Background from './background';
 import Counter from './counter';
+import PlayerList from './player-list';
+import ThroneRoomSelector from './throne-room-selector';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
@@ -85,6 +87,8 @@ const styles = theme => ({
   column: {
     display: 'flex',
     flexDirection: 'column',
+    width: '33%',
+    marginRight: 20,
   },
   launchGame: {
     background: 'url(' + bgLaunchGame + ') no-repeat',
@@ -140,6 +144,7 @@ class LobbyView extends Component {
     this.updateDisasterCount = this.updateDisasterCount.bind(this);
     this.updateCatastropheCount = this.updateCatastropheCount.bind(this);
     this.leaveLobby = this.leaveLobby.bind(this);
+    this.updateName = this.updateName.bind(this);
   }
 
   componentWillReceiveProps (newProps) {
@@ -250,6 +255,21 @@ class LobbyView extends Component {
       action: 'ChangeSetting',
       key: 'CatastrophesCount',
       value: newCount
+    });
+  }
+
+  updateName (event) {
+    var name = event.target.value;
+    console.log(name);
+    this.setState({
+      name
+    });
+    if (this.cancelName) {
+      this.cancelName();
+    }
+    this.cancelName = timeout(function () {
+      API.setName(name);
+      this.cancelName = null;
     });
   }
 
@@ -422,11 +442,20 @@ class LobbyView extends Component {
                         Player name:
                       </Grid>
                       <Grid item xs={ 6 }>
-                        <DisastlesInput value={this.props.name} />
+                        <DisastlesInput
+                          disabled
+                          onChange={ this.updateName }
+                          value={this.state.name} />
                       </Grid>
-                      <Grid item xs={ 2 }>
+                      <Grid item xs={ 6 } className={ this.props.classes.keyField }>
+                        Throne room (color):
                       </Grid>
-                      <Grid item xs={ 4 }>
+                      <Grid item xs={ 6 }>
+                        <ThroneRoomSelector />
+                      </Grid>
+                      <Grid item xs={ 1 }>
+                      </Grid>
+                      <Grid item xs={ 5 }>
                         <Button
                           onClick={ this.toggleReady }
                           classes={{
@@ -434,17 +463,17 @@ class LobbyView extends Component {
                           }} >
                           <If condition={ !this.props.isReady } render={ () =>
                             <React.Fragment>
-                              <CloseIcon /> Not Ready
+                              <CheckIcon /> Ready Up!
                             </React.Fragment>
                           } />
                           <If condition={ !!this.props.isReady } render={() =>
                             <React.Fragment>
-                              <CheckIcon /> Ready!
+                              <CloseIcon /> Unready
                             </React.Fragment>
                           } />
                         </Button>
                       </Grid>
-                      <Grid item xs={ 4 }>
+                      <Grid item xs={ 5 }>
                         <Button
                           onClick={ this.leaveLobby }
                           classes={{
@@ -453,14 +482,58 @@ class LobbyView extends Component {
                           Leave lobby
                         </Button>
                       </Grid>
-                      <Grid item xs={ 2 }>
+                      <Grid item xs={ 1 }>
                       </Grid>
                     </Grid>
                   </Box>
                 </div>
+                <div className={ this.props.classes.column }>
+                  <Box
+                    half
+                    topLeft={ bgTopLeftBox }
+                      topRight={ bgTopRightBox }
+                      bottomLeft={ bgBottomLeftBox }
+                      bottomRight={ bgBottomRightBox }
+                      color={ bgColorBox }
+                      left={ bgLeftBox }
+                      right={ bgRightBox }
+                      top={ bgTopBox }
+                      bottom={ bgBottomBox }
+                      headerLeft={ bgHeaderLeftBox }
+                      headerRight={ bgHeaderRightBox }
+                      headerMiddle={ bgHeaderMiddleBox }
+                      header='Players'
+                      style={{
+                        paddingTop: 20
+                      }}
+                      >
+                      <PlayerList />
+                  </Box>
+
+                  <Box
+                    half
+                    topLeft={ bgTopLeftBox }
+                      topRight={ bgTopRightBox }
+                      bottomLeft={ bgBottomLeftBox }
+                      bottomRight={ bgBottomRightBox }
+                      color={ bgColorBox }
+                      left={ bgLeftBox }
+                      right={ bgRightBox }
+                      top={ bgTopBox }
+                      bottom={ bgBottomBox }
+                      headerLeft={ bgHeaderLeftBox }
+                      headerRight={ bgHeaderRightBox }
+                      headerMiddle={ bgHeaderMiddleBox }
+                      header='Spectators'
+                      style={{
+                        paddingTop: 20
+                      }}
+                      >
+                      <PlayerList spectator />
+                  </Box>
+                </div>
               </div>
-            </React.Fragment>
-          } />
+            </React.Fragment> } />
         <If condition={ !this.props.lobbyId }
           render={ () =>
             <React.Fragment>

@@ -7,6 +7,7 @@ import {
   ALL_READY,
   HOST_CHANGED,
   SETTING_CHANGED,
+  COLOR_CHANGED,
 } from '../actions/lobby';
 import {
   HELLO
@@ -16,7 +17,7 @@ const defaultState = {
   id: null,
   isReady: false,
   allReady: false,
-  playerStatus: {},
+  playerData: {},
   players: [],
   settings: []
 };
@@ -30,7 +31,7 @@ export default function reduce (state, action) {
     case HELLO:
       state = {...state,
         playerId: action.data.playerId,
-        playerStatus: {...state.playerStatus,
+        playerData: {...state.playerData,
           [action.data.playerId]: {
             status: 'Loading'
           }
@@ -38,59 +39,58 @@ export default function reduce (state, action) {
       };
       break;
     case PLAYER_JOINED:
+      console.log('Player joined', action);
       state = {...state,
-        playerStatus: {...state.playerStatus,
-          [action.player]: {
-            status: action.status
+        playerData: {...state.playerData,
+          [action.player.player]: {...action.player,
+            id: action.player.player
           }
-        },
-        players: [...state.players, action.player],
+        }
       };
       break;
     case PLAYER_LEAVE:
       state = {...state,
-        playerStatus: {...state.playerStatus},
-        players: [...state.players],
-        slots: [...state.slots]
+        playerData: {...state.playerData},
       };
-      state.slots[action.data.slot] = null;
-      state.players.splice(state.players.indexOf(action.data.player), 1);
-      delete state.playerStatus[action.data.player];
+      delete state.playerData[action.data.player];
       break;
     case LOBBY_SNAPSHOT:
       console.log('snapshot', action);
       state = {...state,
-        players: action.snapshot.players,
         id: action.snapshot.id,
         settings: action.snapshot.settings,
+        host: action.snapshot.host,
         slots: [],
-        playerStatus: {}
+        playerData: {}
       };
-      state.players.forEach(function (playerId) {
-        state.playerStatus[playerId] = {
-          ready: false
+      action.snapshot.players.forEach(function (player) {
+        state.playerData[player.id] = {...player,
+          ready: player.status === 'Ready'
         };
       });
       break;
-    case PLAYER_SLOT_CHANGED:
-      state = {...state,
-        slots: [...state.slots]
-      };
-      state.slots[action.data.from] = null;
-      state.slots[action.data.to] = action.data.player;
-      break;
     case STATUS_CHANGED:
       state = {...state,
-        playerStatus: {...state.playerStatus,
-          [action.player]: {
+        playerData: {...state.playerData,
+          [action.player]: {...state.playerData[action.player],
             ready: action.status === 'Ready',
-            state: action.status
+            status: action.status
           }
         }
       };
       if (action.player === state.playerId) {
         state.isReady = action.status === 'Ready';
       }
+      break;
+    case COLOR_CHANGED:
+      console.log('Color changed', action.data);
+      state = {...state,
+        playerData: {...state.playerData,
+          [action.data.player]: {...state.playerData[action.data.player],
+            color: action.data.to,
+          }
+        }
+      };
       break;
     case ALL_READY:
       state = {...state,

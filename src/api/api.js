@@ -72,6 +72,14 @@ export async function setName (name) {
   });
 }
 
+export async function setColor (color) {
+  await ws.init();
+  ws.send({
+    action: 'SetColor',
+    color
+  });
+}
+
 export async function reconnect (token) {
   await ws.init();
   ws.send({
