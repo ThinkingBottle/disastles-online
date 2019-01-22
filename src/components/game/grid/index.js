@@ -16,6 +16,7 @@ import Card from '../card';
 
 import { selectCard } from '../../../actions/player';
 import API from '../../../api';
+import Sound from '../../../sound';
 
 export const CARD_ZOOM = 1.2;
 
@@ -146,9 +147,12 @@ class GridController extends Component {
   nextRotation () {
     let rotation = (this.state.currentRotation + 1) % this.state.rotations.length;
     console.log('Changing to rotation', (this.state.currentRotation + 1) % this.state.rotations.length);
-    this.setState({
-      currentRotation: rotation
-    });
+    if (rotation !== this.state.currentRotation) {
+      Sound.sfx.playSound('rotate');
+      this.setState({
+        currentRotation: rotation
+      });
+    }
   }
 
   async sendAction (card, actions, rotations, x, y) {

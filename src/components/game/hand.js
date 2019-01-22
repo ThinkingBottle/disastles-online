@@ -10,6 +10,7 @@ import API from '../../api';
 import Typography from '@material-ui/core/Typography';
 
 import Card from './card';
+import InfoBox from './info';
 
 const styles = theme => ({
   root: {
@@ -26,6 +27,8 @@ const styles = theme => ({
   },
   hand: {
     pointerEvents: 'initial',
+    display: 'flex',
+    flexDirection: 'row',
   }
 });
 
@@ -57,13 +60,25 @@ class PlayerHand extends Component {
     this.props.dispatch(selectActions([]));
   }
   render () {
+    if (!this.state.hand.length) {
+      return [];
+    }
+
     return (
-      <div className={ this.props.classes.root } >
+      <InfoBox>
         <div className={ this.props.classes.hand } >
           { this.state.hand.map(this.renderCard) }
         </div>
-      </div>
+      </InfoBox>
     );
+
+    // return (
+    //   <div className={ this.props.classes.root } >
+    //     <div className={ this.props.classes.hand } >
+    //       { this.state.hand.map(this.renderCard) }
+    //     </div>
+    //   </div>
+    // );
   }
 
   renderCard (card, i) {

@@ -11,6 +11,7 @@ import Card from './card';
 
 import { selectCard, selectActions } from '../../actions/player';
 import API from '../../api';
+import Sound from '../../sound';
 
 import backgroundLeft from './images/header-shop-left.png';
 import backgroundRight from './images/header-shop-right.png';
@@ -142,6 +143,7 @@ class Shop extends Component {
   }
 
   skipTurn () {
+    Sound.sfx.playSound('skip');
     API.send({
       action: 'SkipTurn'
     });

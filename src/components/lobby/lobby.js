@@ -24,6 +24,7 @@ import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 
 import API from '../../api';
+import Sound from '../../sound';
 import bgBackground from '../backgrounds/MenuBG.png';
 import bgLaunchGame from './images/launch-game.png';
 import bgLaunchGameActive from './images/launch-game-active.png';
@@ -177,6 +178,9 @@ class LobbyView extends Component {
       let paramId = this.props.match.params.id;
       console.log('We\'re not in a lobby yet!', paramId, this.state.name);
       await API.joinLobby(paramId);
+    }
+    if (this.props.playerData[this.props.playerId].status === 'Loading') {
+      await Sound.init();
       API.finishedLoading();
     }
   }
@@ -572,7 +576,7 @@ class LobbyView extends Component {
 const mapToProps = obstruction({
   reconnectionToken: 'global.reconnectionToken',
   lobbyId: 'lobby.id',
-  players: 'lobby.slots',
+  playerData: 'lobby.playerData',
   isReady: 'lobby.isReady',
   allReady: 'lobby.allReady',
   playerId: 'global.playerId',

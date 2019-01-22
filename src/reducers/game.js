@@ -1,4 +1,5 @@
 import Obstruction from 'obstruction';
+import Sound from '../sound';
 
 import {
   JOINED_GAME,
@@ -8,6 +9,7 @@ import {
   DISASTER_STARTED,
   DISASTER_FINISHED,
   CARD_RETURNED_TO_DRAW_PILE,
+  CARDS_RETURNED_FROM_PLAYER,
   CARDS_DRAWN_TO_PLAYER,
   CARD_PLAYED,
 
@@ -43,7 +45,7 @@ const defaultState = {
   castles: {},
 
   shop: [],
-  playerCards: [],
+  playerCards: {},
   disasters: [],
   discardPile: [],
 
@@ -100,10 +102,26 @@ export default function reduce (state, action) {
         state.shop.push(null);
       }
       break;
+    case CARDS_RETURNED_FROM_PLAYER:
+      console.log('Emptying players hand');
+      state = {...state,
+        playerCards: {...state.playerCards},
+        drawPileSize: action.data.drawPileSize
+      };
+      delete state.playerCards[action.data.player];
+      break;
     case CARDS_DRAWN_TO_PLAYER:
-      console.log('Player drew some cards?');
+      console.log('Player drew some cards?', action);
+      Sound.sfx.playSound('draw');
+      state = {...state,
+        playerCards: {...state.playerCards,
+          [action.data.player]: action.data
+        },
+        drawPileSize: action.data.drawPileSize
+      };
       break;
     case CARD_DRAWN_TO_SHOP:
+      Sound.sfx.playSound('draw');
       state = {...state,
         shop: [...state.shop],
         drawPileSize: action.data.drawPileSize
@@ -114,6 +132,7 @@ export default function reduce (state, action) {
       break;
     case CARD_DISCARDED:
       console.log('card discarded', action);
+      Sound.sfx.playSound('discard');
       state = {...state,
         discardPile: [...state.discardPile],
         discardPileSize: action.data.discardPileSize,
@@ -153,6 +172,9 @@ export default function reduce (state, action) {
       break;
     case CARD_PLAYED:
       console.log('Card played', action.data);
+      if (action.data.card) {
+        Sound.sfx.playSound('action');
+      }
       state = {...state,
         activeCard: action.data.card
       };
@@ -255,6 +277,7 @@ export default function reduce (state, action) {
       break;
     case LINK_CREATED:
       console.log('Link created', action);
+      Sound.sfx.playSound('connection');
       var player = action.data.castleOwner;
       state = {...state,
         castles: {...state.castles,
@@ -314,6 +337,7 @@ export default function reduce (state, action) {
 
     case DISASTER_STARTED:
       console.log('Disaster started');
+      Sound.sfx.playSound('disaster');
       state = {...state,
         currentDisaster: action.data.card
       };

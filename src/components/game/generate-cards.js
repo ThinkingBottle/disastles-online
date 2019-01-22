@@ -235,6 +235,41 @@ function getData () {
       "assetType": "Card"
     },
     {
+      "id": "card-throne-room-6",
+      "categories": [
+        "Throne"
+      ],
+      "assetType": "Card"
+    },
+    {
+      "id": "card-throne-room-7",
+      "categories": [
+        "Throne"
+      ],
+      "assetType": "Card"
+    },
+    {
+      "id": "card-throne-room-8",
+      "categories": [
+        "Throne"
+      ],
+      "assetType": "Card"
+    },
+    {
+      "id": "card-throne-room-9",
+      "categories": [
+        "Throne"
+      ],
+      "assetType": "Card"
+    },
+    {
+      "id": "card-throne-room-10",
+      "categories": [
+        "Throne"
+      ],
+      "assetType": "Card"
+    },
+    {
       "id": "card-1-black-market",
       "categories": [
         "Blank"

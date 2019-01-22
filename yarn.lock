@@ -1431,6 +1431,11 @@ atob@^2.1.1:
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
+audio-context@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/audio-context/-/audio-context-1.0.3.tgz#aae5636691a8cdc15fc91059704cbc7c2fb7abf9"
+  integrity sha512-RH3/rM74f2ITlohhjgC7oYZVS97wtv/SEjXLCzEinnrIPIDxc39m2aFc6wmdkM0NYRKo1DMleYPMAIbnTRW0eA==
+
 auto-bind@^1.2.0:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/auto-bind/-/auto-bind-1.2.1.tgz#807f7910b0210db9eefe133f3492c28e89698b96"

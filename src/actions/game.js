@@ -20,6 +20,7 @@ export const ROOM_ACTIVATED = 'ROOM_ACTIVATED';
 export const ROOM_DEACTIVATED = 'ROOM_DEACTIVATED';
 export const CASTLE_STATS_CHANGED = 'CASTLE_STATS_CHANGED';
 export const CARD_PLAYED = 'CARD_PLAYED';
+export const CARDS_RETURNED_FROM_PLAYER = 'CARDS_RETURNED_FROM_PLAYER';
 
 bindToEvent(JOINED_GAME, 'JoinedGame');
 bindToEvent(CARD_DRAWN_TO_SHOP, 'CardDrawnToShop');
@@ -41,6 +42,7 @@ bindToEvent(ROOM_ACTIVATED, 'RoomActivated');
 bindToEvent(ROOM_DEACTIVATED, 'RoomDeactivated');
 bindToEvent(CASTLE_STATS_CHANGED, 'CastleStatsChanged');
 bindToEvent(CARD_PLAYED, 'CardPlayed');
+bindToEvent(CARDS_RETURNED_FROM_PLAYER, 'CardsReturnedFromPlayer');
 
 export function joinedGame (data) {
   return {

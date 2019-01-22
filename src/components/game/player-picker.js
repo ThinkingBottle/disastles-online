@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import obstruction from 'obstruction';
 import { classNames } from 'react-extras';
 import { selectDisplayPlayer } from '../../actions/minimap';
+import Sound from '../../sound';
 
 import Typography from '@material-ui/core/Typography';
 
@@ -104,6 +105,13 @@ class PlayerPicker extends Component {
     this.renderPlayer = this.renderPlayer.bind(this);
   }
 
+  componentWillReceiveProps (props) {
+    console.log('player turn thing!');
+    if (props.playerId === props.currentTurn && this.props.playerId !== this.props.currentTurn) {
+      Sound.sfx.playSound('turn');
+    }
+  }
+
   selectPlayer (player) {
     return () => {
       this.props.dispatch(selectDisplayPlayer(player));
@@ -135,6 +143,7 @@ class PlayerPicker extends Component {
 }
 
 const mapToProps = obstruction({
+  playerId: 'global.playerId',
   players: 'global.playerColors',
   playerNames: 'global.playerNames',
   currentTurn: 'game.currentTurn',
