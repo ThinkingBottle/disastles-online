@@ -1,19 +1,63 @@
 self.__precacheManifest = [
   {
-    "revision": "25e23f0a4400e40a3de9e594a28e9369",
-    "url": "/static/media/12_Hallway6_BLANKROOM.25e23f0a.png"
+    "revision": "298667a1bed5201a51fdaddd6a3f8225",
+    "url": "/static/media/3_Corridor3_BLANKROOM.298667a1.png"
   },
   {
-    "revision": "c6dfb3f7193d8b3b65fc",
-    "url": "/static/css/main.6ee33c8c.chunk.css"
+    "revision": "1e3d7f9366e7ee7568c6",
+    "url": "/static/css/main.2f39b878.chunk.css"
   },
   {
-    "revision": "fe7512d63a74772a14c1",
-    "url": "/static/js/1.fe7512d6.chunk.js"
+    "revision": "faecdfd63fab7744493a",
+    "url": "/static/js/1.faecdfd6.chunk.js"
   },
   {
     "revision": "229c360febb4351a89df",
     "url": "/static/js/runtime~main.229c360f.js"
+  },
+  {
+    "revision": "e3c24116ef04223e3928622f93d089b0",
+    "url": "/static/media/throne-1.e3c24116.png"
+  },
+  {
+    "revision": "cf65aa1823a13c9325519e4f760c6c02",
+    "url": "/static/media/throne-2.cf65aa18.png"
+  },
+  {
+    "revision": "e00362f3cfdcb1293d7c84bde4b02574",
+    "url": "/static/media/throne-3.e00362f3.png"
+  },
+  {
+    "revision": "3fabb9bc0c9d00f44cbcf88a3e73aa13",
+    "url": "/static/media/throne-4.3fabb9bc.png"
+  },
+  {
+    "revision": "ba7450e0ddc33d0f0d14c816ac273959",
+    "url": "/static/media/throne-5.ba7450e0.png"
+  },
+  {
+    "revision": "ef54516093fa112ed4d4dc056a30731a",
+    "url": "/static/media/throne-6.ef545160.png"
+  },
+  {
+    "revision": "8ad8ac4d6f0d08b29bb138fec536e0ae",
+    "url": "/static/media/throne-7.8ad8ac4d.png"
+  },
+  {
+    "revision": "30af9f245bc4b628fa35fb9638d03bdb",
+    "url": "/static/media/throne-8.30af9f24.png"
+  },
+  {
+    "revision": "24e42efb50ed263f1f9ceef9fcb0c02b",
+    "url": "/static/media/throne-9.24e42efb.png"
+  },
+  {
+    "revision": "6d395f1f0de53243c76d216f6f702e83",
+    "url": "/static/media/throne-10.6d395f1f.png"
+  },
+  {
+    "revision": "f819b6c0961a991ffea5d7cb15178fc5",
+    "url": "/static/media/spectator.f819b6c0.png"
   },
   {
     "revision": "2a4876cabb5115603786ba06320dc9d5",
@@ -30,6 +74,14 @@ self.__precacheManifest = [
   {
     "revision": "de3c30eaa45b4ce7e38ac03d813ebf4d",
     "url": "/static/media/logo-large.de3c30ea.png"
+  },
+  {
+    "revision": "5bd7920b0158c38673a9eceabbd67ce5",
+    "url": "/static/media/state-notready.5bd7920b.png"
+  },
+  {
+    "revision": "00c5009875598c4c80aadeaff041b8aa",
+    "url": "/static/media/state-ready.00c50098.png"
   },
   {
     "revision": "39e382b491e701330b5f8762461f0bfc",
@@ -66,6 +118,26 @@ self.__precacheManifest = [
   {
     "revision": "844daa543acd119ef9296c57e5c2a740",
     "url": "/static/media/5_Red_Owlbeari_ThroneRoom.844daa54.png"
+  },
+  {
+    "revision": "39ecca44f49c60da85d6408696971d8d",
+    "url": "/static/media/6_Orange_Scramlin_ThroneRoom.39ecca44.png"
+  },
+  {
+    "revision": "b0cbc8abad32dc8d9165cfdda0111e1d",
+    "url": "/static/media/7_Black_Shoggoth_ThroneRoom.b0cbc8ab.png"
+  },
+  {
+    "revision": "e90db33f330434d0780c41b71b662a90",
+    "url": "/static/media/8_Pink_Gubbin_ThroneRoom.e90db33f.png"
+  },
+  {
+    "revision": "11b5e4c59b26349c3f491c038a8e1fee",
+    "url": "/static/media/9_Purple_Saurac_ThroneRoom.11b5e4c5.png"
+  },
+  {
+    "revision": "99beca643b563b5dec65600889b24a61",
+    "url": "/static/media/10_Yellow_Krake_ThroneRoom.99beca64.png"
   },
   {
     "revision": "c4ca940ffbc80d151b441851f100b95a",
@@ -296,8 +368,8 @@ self.__precacheManifest = [
     "url": "/static/media/2_Corridor2_BLANKROOM.f6e5ac7d.png"
   },
   {
-    "revision": "298667a1bed5201a51fdaddd6a3f8225",
-    "url": "/static/media/3_Corridor3_BLANKROOM.298667a1.png"
+    "revision": "1e3d7f9366e7ee7568c6",
+    "url": "/static/js/main.1e3d7f93.chunk.js"
   },
   {
     "revision": "b0bf6048435ef6380dd0bbfa3ff0be72",
@@ -332,8 +404,8 @@ self.__precacheManifest = [
     "url": "/static/media/11_Hallway5_BLANKROOM.9c73a23d.png"
   },
   {
-    "revision": "c6dfb3f7193d8b3b65fc",
-    "url": "/static/js/main.c6dfb3f7.chunk.js"
+    "revision": "25e23f0a4400e40a3de9e594a28e9369",
+    "url": "/static/media/12_Hallway6_BLANKROOM.25e23f0a.png"
   },
   {
     "revision": "86ad3e9bb45a8a68c52de57abed93824",
@@ -664,7 +736,7 @@ self.__precacheManifest = [
     "url": "/static/media/MenuBG.8257ee83.png"
   },
   {
-    "revision": "32efe95c20b233a3840301bf4fd0c305",
+    "revision": "b9f60d7ead5bfa57c9723c07bfd4b964",
     "url": "/index.html"
   }
 ];
