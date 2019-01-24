@@ -21,6 +21,8 @@ export const ROOM_DEACTIVATED = 'ROOM_DEACTIVATED';
 export const CASTLE_STATS_CHANGED = 'CASTLE_STATS_CHANGED';
 export const CARD_PLAYED = 'CARD_PLAYED';
 export const CARDS_RETURNED_FROM_PLAYER = 'CARDS_RETURNED_FROM_PLAYER';
+export const CLEAR_DISASTER_MODAL = 'CLEAR_DISASTER_MODAL';
+export const DISASTER_SACRIFICES_REQUIRED = 'DISASTER_SACRIFICES_REQUIRED';
 
 bindToEvent(JOINED_GAME, 'JoinedGame');
 bindToEvent(CARD_DRAWN_TO_SHOP, 'CardDrawnToShop');
@@ -43,6 +45,7 @@ bindToEvent(ROOM_DEACTIVATED, 'RoomDeactivated');
 bindToEvent(CASTLE_STATS_CHANGED, 'CastleStatsChanged');
 bindToEvent(CARD_PLAYED, 'CardPlayed');
 bindToEvent(CARDS_RETURNED_FROM_PLAYER, 'CardsReturnedFromPlayer');
+bindToEvent(DISASTER_SACRIFICES_REQUIRED, 'DisasterSacrificesRequired');
 
 export function joinedGame (data) {
   return {
@@ -57,5 +60,11 @@ export function clearActiveCard () {
     data: {
       card: false
     }
+  };
+}
+
+export function clearDisasterModal () {
+  return {
+    type: CLEAR_DISASTER_MODAL
   };
 }

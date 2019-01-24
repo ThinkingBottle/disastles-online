@@ -15,6 +15,7 @@ import Scoreboard from './scoreboard';
 import PlayerPicker from './player-picker';
 import Disasters from './disasters';
 import PlayerHand from './hand';
+import DisasterAlert from './disaster-alert';
 
 import backgroundImage1 from '../backgrounds/BG1.png';
 import backgroundImage2 from '../backgrounds/BG2.png';
@@ -63,6 +64,7 @@ class GameComponent extends Component {
         // everything else is "hovering" over it
         <Header />
         <PlayerPicker />
+        <DisasterAlert />
 
         <Minimap />
         <Actions />

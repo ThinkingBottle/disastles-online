@@ -29,6 +29,7 @@ import bgBackground from '../backgrounds/MenuBG.png';
 import bgLaunchGame from './images/launch-game.png';
 import bgLaunchGameActive from './images/launch-game-active.png';
 import bgLaunchGameHover from './images/launch-game-hover.png';
+import bgLaunchGameDisabled from './images/launch-game-disabled.png';
 import bgButton from './images/button.png';
 import bgButtonHover from './images/button-hover.png';
 import bgButtonActive from './images/button-active.png';
@@ -103,6 +104,10 @@ const styles = theme => ({
     '&:hover': {
       bgLaunchGameActive
     }
+  },
+  disabled: {
+    background: 'url(' + bgLaunchGameDisabled + ') no-repeat',
+    backgroundSize: '100% 100%',
   },
   button: {
     background: 'url(' + bgButtonActive + ') no-repeat',
@@ -307,7 +312,8 @@ class LobbyView extends Component {
               disabled={ !this.props.allReady }
               onClick={ this.startGame }
               classes={{
-                root: this.props.classes.launchGame
+                root: this.props.classes.launchGame,
+                disabled: this.props.classes.disabled,
               }}>
               &nbsp;
             </Button>

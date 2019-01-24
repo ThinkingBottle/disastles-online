@@ -14,7 +14,7 @@ const sounds = {
   turn: '/mp3/sfx_player_turn.mp3',
   rotate: '/mp3/sfx_rotation.mp3',
   skip: '/mp3/sfx_skip_turn.mp3',
-  disaster: '/mp3/sfx_start_disastles.mp3',
+  startGame: '/mp3/sfx_start_disastles.mp3',
   action: '/mp3/sfx_take_action.mp3',
   negative: '/mp3/sfx_uisound_negative.mp3',
   positive: '/mp3/sfx_uisound_positive.mp3',

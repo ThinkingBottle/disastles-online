@@ -17,8 +17,16 @@ const styles = theme => ({
   root: {
     height: '100%',
     minHeight: '100%',
+  },
+  bottom: {
+    position: 'absolute',
+    height: '110%',
+    width: '110%',
+    top: '-5%',
+    left: '-5%',
     background: 'url(' + bgBottom + ') no-repeat',
     backgroundSize: 'cover',
+    transition: 'all ' + PARRALAX_TIME + 's',
   },
   mid: {
     position: 'absolute',
@@ -79,8 +87,12 @@ class FloatingBackground extends Component {
   }
   render () {
     return (
-      <div className={ this.props.classes.root }
-        >
+      <div className={ this.props.classes.root }>
+        <div
+          className={ this.props.classes.bottom }
+          style={{
+            transform: 'translate3d(' + this.state.x/4 + '%, ' + this.state.y/4 + '%, 0)'
+          }} />
         <div
           className={ this.props.classes.mid }
           style={{

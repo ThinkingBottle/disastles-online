@@ -120,7 +120,7 @@ class Card extends Component {
     if (this.props.skinny) {
       width = height * (84 / 128);
     }
-    return {
+    return {...this.props.style,
       width, height,
     };
   }

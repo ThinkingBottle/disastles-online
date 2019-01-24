@@ -8,6 +8,7 @@ import {
   TURN_CHANGED,
   DISASTER_STARTED,
   DISASTER_FINISHED,
+  DISASTER_SACRIFICES_REQUIRED,
   CARD_RETURNED_TO_DRAW_PILE,
   CARDS_RETURNED_FROM_PLAYER,
   CARDS_DRAWN_TO_PLAYER,
@@ -21,8 +22,9 @@ import {
   ROOM_ACTIVATED,
   ROOM_DEACTIVATED,
   CASTLE_STATS_CHANGED,
+  CLEAR_DISASTER_MODAL,
 
-  GAME_ENDED
+  GAME_ENDED,
 
 } from '../actions/game';
 
@@ -55,6 +57,7 @@ const defaultState = {
   selectedCard: null,
   selectedActions: [],
   currentDisaster: false,
+  disasterModal: null,
 
   activeCard: null
 };
@@ -74,6 +77,7 @@ export default function reduce (state, action) {
       break;
     case JOINED_GAME:
       console.log('joined game', action.data.snapshot);
+      Sound.sfx.playSound('startGame');
       state = {...state,
         inGame: true,
         drawPileSize: action.data.snapshot.drawPileSize,
@@ -336,10 +340,25 @@ export default function reduce (state, action) {
       // end castle stuff
 
     case DISASTER_STARTED:
-      console.log('Disaster started');
-      Sound.sfx.playSound('disaster');
+      console.log('Disaster started', action);
+      // Sound.sfx.playSound('disaster');
       state = {...state,
-        currentDisaster: action.data.card
+        currentDisaster: action.data.card,
+        disasterModal: action.data
+      };
+      break;
+    case DISASTER_SACRIFICES_REQUIRED:
+      console.log('Disaster sacrifices', action);
+      // Sound.sfx.playSound('disaster');
+      state = {...state,
+        disasterModal: {...state.disasterModal,
+          damage: action.data.sacrifices[0].damageDetails.incoming
+        },
+      };
+      break;
+    case CLEAR_DISASTER_MODAL:
+      state = {...state,
+        disasterModal: null,
       };
       break;
     case DISASTER_FINISHED:

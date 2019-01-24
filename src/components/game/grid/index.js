@@ -15,6 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import Card from '../card';
 
 import { selectCard } from '../../../actions/player';
+import { moveCamera } from '../../../actions/minimap';
 import API from '../../../api';
 import Sound from '../../../sound';
 
@@ -24,7 +25,8 @@ const styles = theme => ({
   root: {
     position: 'absolute',
     width: '100%',
-    height: '100%'
+    height: '100%',
+    userSelect: 'none',
   },
   castle: {
     position: 'absolute',
@@ -42,6 +44,8 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    pointerEvents: 'none',
+    userSelect: 'none',
 
     flexDirection: 'row',
   },
@@ -52,6 +56,12 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    pointerEvents: 'none',
+    userSelect: 'none',
+
+    '& > *': {
+      pointerEvents: 'initial',
+    },
 
     '&.wide': {
       width: 128 * CARD_ZOOM
@@ -101,6 +111,35 @@ class GridController extends Component {
     this.sendAction = this.sendAction.bind(this);
     this.unselectCard = this.unselectCard.bind(this);
     this.nextRotation = this.nextRotation.bind(this);
+    this.dragStart = this.dragStart.bind(this);
+    this.dragEnd = this.dragEnd.bind(this);
+    this.drag = this.drag.bind(this);
+  }
+
+  drag (event) {
+    if (!event.buttons || !this.dragX || !this.dragY) {
+      return;
+    }
+    console.log('drag');
+    console.log(event.target);
+    var bounds = event.target.getBoundingClientRect();
+    var x = (this.dragX - (event.clientX - bounds.left));
+    var y = (this.dragY - (event.clientY - bounds.top));
+    console.log(x - this.dragX, y - this.dragY);
+    this.props.dispatch(moveCamera(this.props.x + x, this.props.y + y));
+    this.dragX += x;
+    this.dragY += y;
+  }
+  dragStart (event) {
+    console.log('drag start');
+    var bounds = event.target.getBoundingClientRect();
+    var x = event.clientX - bounds.left;
+    var y = event.clientY - bounds.top;
+    this.dragX = x;
+    this.dragY = y;
+  }
+  dragEnd (event) {
+    console.log('drag end');
   }
 
   componentWillReceiveProps (newProps) {
@@ -109,6 +148,11 @@ class GridController extends Component {
     let castleWidth = 0;
     let heightBuffer = 0;
     let widthBuffer = 0;
+
+    if (this.dragX && this.dragY) {
+      this.dragX += this.props.x - newProps.x;
+      this.dragY += this.props.y - newProps.y;
+    }
     if (castle) {
       for (let i = castle.minX, l = castle.maxX; i <= l; ++i) {
         if (castle.columnSizes[i] && castle.columnSizes[i] === 'wide') {
@@ -227,6 +271,9 @@ class GridController extends Component {
       <div
         ref={ this.rootEl }
         onClick={ this.unselectCard }
+        onMouseDown={ this.dragStart }
+        onMouseUp={ this.dragEnd }
+        onMouseMove={ this.drag }
         className={ this.props.classes.root }
         >
         <div
