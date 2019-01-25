@@ -349,7 +349,7 @@ export default function reduce (state, action) {
       break;
     case DISASTER_SACRIFICES_REQUIRED:
       console.log('Disaster sacrifices', action);
-      // Sound.sfx.playSound('disaster');
+      Sound.sfx.playSound('disaster');
       state = {...state,
         disasterModal: {...state.disasterModal,
           damage: action.data.sacrifices[0].damageDetails.incoming
@@ -385,6 +385,7 @@ export default function reduce (state, action) {
       break;
     case GAME_ENDED:
       console.log('The game has ended', action.data);
+      Sound.sfx.playSound('gameover');
       state = {...state,
         gameEnded: true,
         gameStats: action.data

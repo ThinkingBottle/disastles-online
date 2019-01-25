@@ -6,6 +6,7 @@ import obstruction from 'obstruction';
 
 import Button from '../game/button';
 import Box from '../box';
+import MusicPlayer from '../music-player';
 import Background from './background';
 import Input from '@material-ui/core/Input';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -118,6 +119,7 @@ class LobbyMenu extends Component {
   render () {
     return (
       <Background rootClass={ this.props.classes.root }>
+        <MusicPlayer />
         <img src={ logoImage } />
         <br />
         <br />

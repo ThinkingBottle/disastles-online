@@ -1,7 +1,9 @@
 import AudioContext from 'audio-context';
 import { partial } from 'ap';
-import { interval } from 'thyming';
+import { interval, timeout } from 'thyming';
 import Collector from 'collect-methods';
+import Event from 'geval';
+import songs from './songs';
 
 const soundBuffers = {};
 const audio = {};
@@ -18,11 +20,26 @@ const sounds = {
   action: '/mp3/sfx_take_action.mp3',
   negative: '/mp3/sfx_uisound_negative.mp3',
   positive: '/mp3/sfx_uisound_positive.mp3',
+
+  disaster: '/mp3/stinger_disaster.mp3',
+  gameover: '/mp3/stinger_endscreen.mp3',
 };
 
 export default audio;
 
 const context = AudioContext();
+const SoundStartEvent = Event(function (broadcast) {
+  let hasStarted = false;
+  context.onstatechange = async function () {
+    if (!hasStarted && context.state === 'running') {
+      hasStarted = true;
+      await audio.init();
+      broadcast();
+    }
+  }
+});
+
+export const onStart = SoundStartEvent;
 
 document.body.addEventListener('focus', resumeAudioContext);
 document.body.addEventListener('click', resumeAudioContext);
@@ -43,14 +60,18 @@ audio.init = function () { return audio.loadPromise; };
 async function loadAll () {
   audio.sfx = createVolumeChannel();
   audio.ambience = createVolumeChannel();
+  audio.music = createVolumeChannel();
   audio.sfx.setVolume(0.4);
   audio.ambience.setVolume(0.1);
+  audio.music.setVolume(0.6);
 
   await Promise.all(Object.keys(sounds).map(async function (name) {
     return loadSound(name, sounds[name]);
   }));
+  await Promise.all(songs.map(loadSong));
   audio.startAmbience = startAmbience;
   audio.stopAmbience = Collector();
+  resumeAudioContext();
   startAmbience();
 }
 
@@ -71,12 +92,53 @@ function createVolumeChannel () {
 
   return {
     playSound: partial(playSound, gainNode),
-    setVolume: partial(setVolume, gainNode)
+    playSong: partial(playSong, gainNode),
+    setVolume: partial(setVolume, gainNode),
+    stopMusic
   };
 }
 
 function setVolume (node, volume) {
   node.gain.setValueAtTime(volume, context.currentTime);
+}
+
+var currentSong = false;
+function stopMusic (skipFade) {
+  if (currentSong) {
+    currentSong(skipFade);
+    currentSong = false;
+  }
+}
+function playSong (node, index, offset) {
+  if (currentSong) {
+    currentSong();
+    currentSong = false;
+  }
+  currentSong = stop;
+
+  let source = context.createBufferSource();
+  var gainNode = context.createGain();
+  let currentVolume = 1;
+  gainNode.gain.setValueAtTime(1, context.currentTime);
+
+  source.buffer = songs[index].buffer;
+  source.connect(gainNode);
+  gainNode.connect(node);
+
+  console.log('Starting at offset?', index, offset);
+
+  source.start(0, offset/1000 || 0);
+
+  return stop;
+
+  function stop (skipFade) {
+    if (!skipFade && currentVolume > 0) {
+      currentVolume -= 0.01;
+      gainNode.gain.setValueAtTime(currentVolume, context.currentTime);
+      return timeout(stop, 1000/60);
+    }
+    source.stop();
+  }
 }
 
 function playSound (node, name) {
@@ -93,6 +155,11 @@ function playSound (node, name) {
 
 async function loadSound (name, url) {
   soundBuffers[name] = await loadSoundData(url);
+}
+
+async function loadSong (data) {
+  data.buffer = await loadSoundData('/mp3/songs/' + data.file);
+  return data.buffer;
 }
 
 async function loadSoundData (url) {

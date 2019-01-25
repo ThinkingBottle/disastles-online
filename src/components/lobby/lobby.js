@@ -9,6 +9,7 @@ import { timeout } from 'thyming';
 import copy from 'clipboard-copy';
 
 import Box from '../box';
+import MusicPlayer from '../music-player';
 import DisastlesInput from '../input';
 import Background from './background';
 import Counter from './counter';
@@ -290,6 +291,7 @@ class LobbyView extends Component {
 
     return (
       <Background rootClass={ this.props.classes.root }>
+        <MusicPlayer />
         <div className={ this.props.classes.row }>
           <a href="/">
             <img src={ bgLogo } />
