@@ -69,11 +69,13 @@ const styles = theme => ({
   play: {
     background: 'url(' + bgPlay + ') no-repeat',
     backgroundSize: '100% 100%',
-    width: 32 / SCALE / 1.3,
-    minWidth: 32 / SCALE / 1.3,
+    width: 41 / SCALE / 1.3,
+    minWidth: 41 / SCALE / 1.3,
     height: 62 / SCALE / 1.3,
     minHeight: 62 / SCALE / 1.3,
     padding: 0,
+    marginLeft: 5 + (41 - 41 / 1.3) / 2 / SCALE + 'px !important',
+    marginRight: (41 - 41 / 1.3) / 2 / SCALE + 'px',
 
     '&:hover': {
       background: 'url(' + bgPlayHover + ') no-repeat',
@@ -129,7 +131,7 @@ class MusicPlayer extends Component {
     super();
 
     this.state = {
-      time: Math.floor((Date.now() - props.startTime + props.offset) / 1000)
+      time: Math.floor((currentOffset(props)) / 1000)
     };
 
     this.back = this.back.bind(this);
@@ -143,6 +145,12 @@ class MusicPlayer extends Component {
       this.songTimer();
     }
     this.songTimer = timeout(this.skip, (1000 * songs[newProps.songNumber].length) - currentOffset(newProps) - 5000);
+    let time = Math.floor((currentOffset(newProps)) / 1000);
+    if (time !== this.state.time) {
+      this.setState({
+        time
+      });
+    }
   }
   back () {
     this.props.dispatch(previous());
@@ -165,7 +173,7 @@ class MusicPlayer extends Component {
     this.stopTimer = interval(() => {
       if (this.props.playing) {
         this.setState({
-          time: Math.floor((Date.now() - this.props.startTime + this.props.offset) / 1000)
+          time: Math.floor((currentOffset(this.props)) / 1000)
         });
       }
     }, 1000);
