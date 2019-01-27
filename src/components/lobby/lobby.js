@@ -455,7 +455,6 @@ class LobbyView extends Component {
                       </Grid>
                       <Grid item xs={ 6 }>
                         <DisastlesInput
-                          disabled
                           onChange={ this.updateName }
                           value={this.state.name} />
                       </Grid>
