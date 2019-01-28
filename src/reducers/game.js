@@ -229,9 +229,9 @@ export default function reduce (state, action) {
       state.castles[player].nodes = state.castles[player].nodes.map(function (node) {
         if (action.data.room === node.card) {
           return {...node,
-            rotation: action.data.rotation || node.rotation,
-            x: action.data.x || node.x,
-            y: action.data.y || node.y,
+            rotation: action.data.rotation !== undefined ? action.data.rotation : node.rotation,
+            x: action.data.x !== undefined ? action.data.x : node.x,
+            y: action.data.y !== undefined ? action.data.y : node.y,
           };
         }
         return node;
