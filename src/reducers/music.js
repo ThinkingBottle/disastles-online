@@ -14,7 +14,7 @@ const defaultState = {
   playing: false,
   init: false,
   songNumber: Math.floor(Math.random() * songs.length),
-  songName: 'N/A',
+  songName: 'Loading...',
 };
 
 export default function reduce (state, action) {

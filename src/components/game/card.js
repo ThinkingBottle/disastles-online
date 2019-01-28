@@ -12,6 +12,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 import cardImages from './cards';
 import cardOutline from './images/card-outline.png';
 import cardRotation from './images/rotation.png';
+import cardRotationActive from './images/rotation-active.png';
+import cardConfirm from './images/card-confirm.png';
+import cardConfirmActive from './images/card-confirm-active.png';
 
 const styles = theme => ({
   root: {
@@ -70,8 +73,7 @@ const styles = theme => ({
     borderRadius: 0,
     opacity: 1
   },
-  rotationButton: {
-    background: 'url(' + cardRotation + ') center no-repeat',
+  cardButton: {
     position: 'absolute',
     borderRadius: 32,
     width: 52,
@@ -85,10 +87,36 @@ const styles = theme => ({
     transform: 'translate(-50%, -50%)',
     transition: 'transform 1s',
 
+    '&.confirm': {
+      top: 'initial',
+      transform: 'translate(-50%, 0)',
+      bottom: 0,
+    }
+  },
+  rotationButton: {
+    background: 'url(' + cardRotation + ') center no-repeat',
+
     '&:hover': {
       transform: 'translate(-50%, -50%) rotate(45deg)',
+    },
+    '&:active': {
+      background: 'url(' + cardRotationActive + ') center no-repeat',
     }
-  }
+  },
+  confirmButton: {
+    background: 'url(' + cardConfirm + ') center no-repeat',
+    borderRadius: 32,
+    width: 52,
+    minWidth: 52,
+    height: 52,
+    minHeight: 52,
+    padding: 0,
+    margin: 0,
+
+    '&:active': {
+      background: 'url(' + cardConfirmActive + ') center no-repeat',
+    }
+  },
 });
 
 class Card extends Component {
@@ -194,10 +222,12 @@ class Card extends Component {
     if (typeof tooltipTitle === 'string') {
       removeTooltipStyles = false;
     }
+    let confirm = this.props.confirm;
+    let clickable = confirm ? null : this.props.onClick;
     return (
       <div
         className={ classNames(this.props.className, this.props.classes.root, {
-          [this.props.classes.clickable]: !!this.props.onClick,
+          [this.props.classes.clickable]: !!clickable,
           [this.props.classes.skinny]: !!this.props.skinny,
           large: this.props.large
         }) }
@@ -220,18 +250,33 @@ class Card extends Component {
             }) }
             src={ cardImages[cardName] }
             alt={ cardName }
-            onClick={ this.props.onClick }
+            onClick={ clickable }
             />
         </Tooltip>
         <If
           condition={ !!this.props.onRotation }
           render={ () =>
             <Button
-              className={ this.props.classes.rotationButton }
+              className={ classNames(this.props.classes.cardButton, this.props.classes.rotationButton) }
               onClick={ this.props.onRotation }
               >
               &nbsp;
             </Button> } />
+        <If
+          condition={ !!confirm }
+          render={ () =>
+            <div className={ classNames(this.props.classes.cardButton, {
+                confirm: !!this.props.onRotation,
+              }) }>
+              <Button
+                className={ classNames(this.props.classes.confirmButton, {
+                  unrotate: !!this.props.onRotation,
+                }) }
+                onClick={ this.props.onClick }
+                >
+                &nbsp;
+              </Button>
+            </div> } />
       </div>
     );
   }

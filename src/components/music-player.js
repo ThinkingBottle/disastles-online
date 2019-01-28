@@ -6,6 +6,8 @@ import { interval, timeout } from 'thyming';
 import obstruction from 'obstruction';
 
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import Marquee from 'react-marquee';
 
 import {
   previous,
@@ -37,20 +39,31 @@ const SCALE = 2;
 
 const styles = theme => ({
   root: {
-    display: 'flex',
-    flexDirection: 'row',
     position: 'absolute',
     top: 0,
+    width: 200,
+    padding: 20,
     right: 0,
     marginTop: 10,
     marginRight: 10,
+    background: '#222222aa',
+    justifyItems: 'right',
+    color: 'white',
+
+    '& hr': {
+      borderColor: '#88888888',
+    },
     '& > button': {
       minHeight: 0,
       minWidth: 0,
-      marginLeft: 5,
+      margin: '0 auto',
       fontSize: '0.1em',
       lineHeight: '1px',
     }
+  },
+  controls: {
+    flex: '0 0',
+    width: 90,
   },
   back: {
     background: 'url(' + bgBackward + ') no-repeat',
@@ -69,13 +82,11 @@ const styles = theme => ({
   play: {
     background: 'url(' + bgPlay + ') no-repeat',
     backgroundSize: '100% 100%',
-    width: 41 / SCALE / 1.3,
-    minWidth: 41 / SCALE / 1.3,
+    width: 38 / SCALE,
+    minWidth: 38 / SCALE,
     height: 62 / SCALE / 1.3,
     minHeight: 62 / SCALE / 1.3,
     padding: 0,
-    marginLeft: 5 + (41 - 41 / 1.3) / 2 / SCALE + 'px !important',
-    marginRight: (41 - 41 / 1.3) / 2 / SCALE + 'px',
 
     '&:hover': {
       background: 'url(' + bgPlayHover + ') no-repeat',
@@ -197,26 +208,48 @@ class MusicPlayer extends Component {
   render () {
     return (
       <div className={ this.props.classes.root }>
-        <div className={ this.props.classes.label }>
-          { this.props.songName } - { this.formatTime(this.state.time) }
-        </div>
-        <Button
-          onClick={ this.back }
-          classes={{ root: this.props.classes.back }}>&nbsp;</Button>
-        <If condition={ !this.props.playing }
-          render={ ()=> <Button
-            onClick={ this.play }
-            classes={{ root: this.props.classes.play }}>&nbsp;</Button> } />
-        <If condition={ !!this.props.playing }
-          render={ ()=> <Button
-            onClick={ this.pause }
-            classes={{ root: this.props.classes.pause }}>&nbsp;</Button> } />
-        <Button
-          onClick={ this.stop }
-          classes={{ root: this.props.classes.stop }}>&nbsp;</Button>
-        <Button
-          onClick={ this.skip }
-          classes={{ root: this.props.classes.forward }}>&nbsp;</Button>
+        <Grid container>
+          <Grid item xs={2}>
+            <Button
+              onClick={ this.back }
+              classes={{ root: this.props.classes.back }}>&nbsp;</Button>
+          </Grid>
+          <Grid item xs={2}>
+            <If condition={ !this.props.playing }
+              render={ ()=> <Button
+                onClick={ this.play }
+                classes={{ root: this.props.classes.play }}>&nbsp;</Button> } />
+            <If condition={ !!this.props.playing }
+              render={ ()=> <Button
+                onClick={ this.pause }
+                classes={{ root: this.props.classes.pause }}>&nbsp;</Button> } />
+          </Grid>
+          <Grid item xs={2}>
+            <Button
+              onClick={ this.stop }
+              classes={{ root: this.props.classes.stop }}>&nbsp;</Button>
+          </Grid>
+          <Grid item xs={2}>
+            <Button
+              onClick={ this.skip }
+              classes={{ root: this.props.classes.forward }}>&nbsp;</Button>
+          </Grid>
+          <Grid item xs={1}>
+          </Grid>
+          <Grid item xs={3}>
+            { this.formatTime(this.state.time) }
+          </Grid>
+          <Grid item xs={12}>
+            <hr />
+          </Grid>
+          <Grid item xs={12}>
+            <div className={ this.props.classes.label }>
+              <Marquee
+                hoverToStop
+                text={ this.props.songName } />
+            </div>
+          </Grid>
+        </Grid>
       </div>
     );
   }

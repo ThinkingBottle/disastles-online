@@ -14,7 +14,7 @@ import Typography from '@material-ui/core/Typography';
 
 import Card from '../card';
 
-import { selectCard } from '../../../actions/player';
+import { selectCard, selectActions } from '../../../actions/player';
 import { moveCamera } from '../../../actions/minimap';
 import API from '../../../api';
 import Sound from '../../../sound';
@@ -50,6 +50,7 @@ const styles = theme => ({
     flexDirection: 'row',
   },
   node: {
+    position: 'relative',
     width: 85 * CARD_ZOOM,
     height: 128 * CARD_ZOOM,
     margin: 5,
@@ -71,13 +72,22 @@ const styles = theme => ({
     },
 
     '&.rotation1 > *': {
-      transform: 'rotate(90deg) translate3d(0, 0, 0)'
+      transform: 'rotate(90deg) translate3d(0, 0, 0)',
+      '& .unrotate': {
+        transform: 'rotate(-90deg) translate3d(0, 0, 0)',
+      }
     },
     '&.rotation2 > *': {
-      transform: 'rotate(180deg) translate3d(0, 0, 0)'
+      transform: 'rotate(180deg) translate3d(0, 0, 0)',
+      '& .unrotate': {
+        transform: 'rotate(-180deg) translate3d(0, 0, 0)',
+      }
     },
     '&.rotation3 > *': {
-      transform: 'rotate(270deg) translate3d(0, 0, 0)'
+      transform: 'rotate(270deg) translate3d(0, 0, 0)',
+      '& .unrotate': {
+        transform: 'rotate(-270deg) translate3d(0, 0, 0)',
+      }
     }
   }
 });
@@ -204,34 +214,26 @@ class GridController extends Component {
 
     let actionCards = this.cardsForAction(action);
 
-    // select the card if it isn't already selected for this action
-    if (actionCards.indexOf(this.props.selectedCard) === -1) {
-      return this.props.dispatch(selectCard(card));
-    }
     // check if there are multiple rotations
     if (rotations.length > 1) {
       console.log('Rotating', {
-        rotationCard: this.props.selectedCard,
+        rotationCard: card,
         rotations: rotations,
         rotationActions: actions,
         rotationCoords: [x, y],
         currentRotation: 0
       });
       return this.setState({
-        rotationCard: this.props.selectedCard,
+        rotationCard: card,
         rotations: rotations,
         rotationActions: actions,
         rotationCoords: [x, y],
         currentRotation: 0
       });
-    } else if (this.state.rotationCoords) {
-      this.setState({
-        rotationCard: false,
-        rotations: false,
-        rotationActions: false,
-        rotationCoords: false,
-        currentRotation: false,
-      });
+    }
+    // select the card if it isn't already selected for this action
+    if (card !== this.state.rotationCard && actionCards.indexOf(this.props.selectedCard) === -1) {
+      return this.props.dispatch(selectCard(card));
     }
 
     // effects is an optional param
@@ -245,6 +247,14 @@ class GridController extends Component {
     console.log('Sending action', action.action, action);
     API.send(action);
     this.props.dispatch(selectCard(null));
+    this.props.dispatch(selectActions([]));
+    this.setState({
+      rotationCard: false,
+      rotations: false,
+      rotationActions: false,
+      rotationCoords: false,
+      currentRotation: false,
+    });
   }
 
   unselectCard (event) {
@@ -301,6 +311,7 @@ class GridController extends Component {
   renderCell (y, minX, node, i) {
     let x = i + minX;
     if (this.state.rotationCoords && this.state.rotationCoords[0] === x && this.state.rotationCoords[1] === y) {
+      console.log('This is a rotation room');
       return this.renderRotationCard();
     }
     let key = x + ':' + y;
@@ -381,6 +392,7 @@ class GridController extends Component {
         key={ key } >
         <Card
           tooltip={ isActionable ? splitWords(actions[0].action) : null }
+          confirm={ isActionable }
           skinny={ this.state.columnSizes[x] !== 'wide' }
           height={ 128 * CARD_ZOOM }
           card={ node ? node.card : 'empty' }
@@ -415,6 +427,7 @@ class GridController extends Component {
           card={ this.state.rotationCard }
           onClick={ partial(this.sendAction, this.state.rotationCard, [action], [], x, y) }
           onRotation={ this.nextRotation }
+          confirm
           />
       </div>
     );

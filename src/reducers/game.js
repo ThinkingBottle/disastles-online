@@ -205,7 +205,8 @@ export default function reduce (state, action) {
         return card;
       });
       Object.keys(state.playerCards).forEach(function (handPlayer) {
-        state.playerCards[handPlayer].revealed.filter(function (card) {
+        state.playerCards[handPlayer].revealed
+           = state.playerCards[handPlayer].revealed.filter(function (card) {
           if (card === node.card) {
             state.playerCards[handPlayer].count--;
             return false;
@@ -228,11 +229,9 @@ export default function reduce (state, action) {
       state.castles[player].nodes = state.castles[player].nodes.map(function (node) {
         if (action.data.room === node.card) {
           return {...node,
-            ...Obstruction({
-              rotation: true,
-              x: true,
-              y: true,
-            })(action.data)
+            rotation: action.data.rotation || node.rotation,
+            x: action.data.x || node.x,
+            y: action.data.y || node.y,
           };
         }
         return node;

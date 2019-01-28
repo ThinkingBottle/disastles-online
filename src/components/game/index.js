@@ -45,7 +45,7 @@ const styles = theme => ({
   },
   music: {
     position: 'absolute',
-    top: 80,
+    top: 38,
     right: 0
   }
 });
