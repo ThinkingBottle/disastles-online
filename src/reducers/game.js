@@ -344,7 +344,13 @@ export default function reduce (state, action) {
       // Sound.sfx.playSound('disaster');
       state = {...state,
         currentDisaster: action.data.card,
-        disasterModal: action.data
+        disasterModal: {...action.data,
+          damage: {
+            square: 0,
+            cross: 0,
+            moon: 0,
+          }
+        }
       };
       break;
     case DISASTER_SACRIFICES_REQUIRED:

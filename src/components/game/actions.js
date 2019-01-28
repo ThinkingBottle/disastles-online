@@ -98,6 +98,10 @@ class ActionBar extends Component {
         return this.renderMultiChoice(options, multiChoice);
       }
     }
+    multiChoice = this.state.actions.filter((a) => a.action === 'ConfirmMultistepEffect')[0];
+    if (multiChoice) {
+      return this.renderConfirmDialog(multiChoice);
+    }
     if (this.props.currentDisaster) {
       return this.renderDisaster();
     }
@@ -172,6 +176,22 @@ class ActionBar extends Component {
         <br />
         <span className={ this.props.classes.skip }>Skip</span>
       </ActionModal>
+    );
+  }
+
+  renderConfirmDialog (actions) {
+    return (
+      <InfoBox>
+        <Typography color="primary">
+          When you are finished with this action, click this button.
+        </Typography>
+        <br />
+        <DButton
+          onClick={ partial(this.sendAction, actions) }
+          >
+          Action Complete
+        </DButton>
+      </InfoBox>
     );
   }
 

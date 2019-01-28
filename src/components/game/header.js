@@ -85,7 +85,7 @@ const styles = theme => ({
 
 function deckSize (num, height) {
   return {
-    background: 'url(' + deckSizes[num - 1] + ') repeat-x',
+    background: 'url(' + deckSizes[num - 1] + ') no-repeat',
     marginTop: 20 - (height - 131),
     height
   };
@@ -96,8 +96,8 @@ class GameHeader extends Component {
     super();
   }
   render () {
-    let deckSize = Math.ceil(6 * this.props.drawPileSize / 100);
-    let discardSize = Math.ceil(6 * this.props.discardPileSize / 100);
+    let deckSize = Math.ceil(6 * this.props.drawPileSize / 120);
+    let discardSize = Math.ceil(6 * this.props.discardPileSize / 120);
 
     return (
       <div className={ this.props.classes.root }>

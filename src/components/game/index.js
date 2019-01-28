@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 
 import API from '../../api';
 
+import MusicPlayer from '../music-player';
 import GridController from './grid';
 import Minimap from './minimap';
 import Header from './header';
@@ -41,6 +42,11 @@ const styles = theme => ({
   header: {
     width: '100%',
     height: '100px',
+  },
+  music: {
+    position: 'absolute',
+    top: 80,
+    right: 0
   }
 });
 
@@ -63,6 +69,9 @@ class GameComponent extends Component {
         // grid goes first because it's fullscreen covering the background
         // everything else is "hovering" over it
         <Header />
+        <div className={ this.props.classes.music }>
+          <MusicPlayer />
+        </div>
         <PlayerPicker />
         <DisasterAlert />
 
