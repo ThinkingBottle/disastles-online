@@ -7,7 +7,7 @@ import obstruction from 'obstruction';
 
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import Marquee from 'react-marquee';
+import Marquee from './marquee';
 
 import {
   previous,
@@ -245,10 +245,10 @@ class MusicPlayer extends Component {
           <Grid item xs={12}>
             <div className={ this.props.classes.label }>
               <Marquee
-                hoverToStop
+                hoverToStop={ this.props.songName !== 'Loading...' }
                 loop
+                double={ this.props.songName !== 'Loading...' }
                 leading={500}
-                trailing={500}
                 text={ this.props.songName } />
             </div>
           </Grid>

@@ -116,7 +116,6 @@ async function playSong (node, index, offset) {
   }
   currentSong = stop;
 
-  let source = context.createBufferSource();
   var gainNode = context.createGain();
   let currentVolume = 1;
   gainNode.gain.setValueAtTime(1, context.currentTime);
@@ -124,6 +123,7 @@ async function playSong (node, index, offset) {
   if (!songs[index].buffer) {
     songs[index].buffer = await decodeAudioData(songs[index].response);
   }
+  let source = context.createBufferSource();
   source.buffer = songs[index].buffer;
   source.connect(gainNode);
   gainNode.connect(node);
@@ -140,7 +140,9 @@ async function playSong (node, index, offset) {
       gainNode.gain.setValueAtTime(currentVolume, context.currentTime);
       return timeout(stop, 1000/60);
     }
-    source.stop();
+    if (source) {
+      source.stop();
+    }
   }
 }
 
