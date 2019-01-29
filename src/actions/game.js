@@ -6,6 +6,7 @@ export const CARD_DRAWN_TO_SHOP = 'CARD_DRAWN_TO_SHOP';
 export const CARD_DISCARDED = 'CARD_DISCARDED';
 export const TURN_CHANGED = 'TURN_CHANGED';
 export const ROOM_BUILT = 'ROOM_BUILT';
+export const ROOM_BUILT_AND_SWAPPED = 'ROOM_BUILT_AND_SWAPPED';
 export const ROOM_MOVED = 'ROOM_MOVED';
 export const DISASTER_STARTED = 'DISASTER_STARTED';
 export const DISASTER_FINISHED = 'DISASTER_FINISHED';
@@ -23,6 +24,8 @@ export const CARD_PLAYED = 'CARD_PLAYED';
 export const CARDS_RETURNED_FROM_PLAYER = 'CARDS_RETURNED_FROM_PLAYER';
 export const CLEAR_DISASTER_MODAL = 'CLEAR_DISASTER_MODAL';
 export const DISASTER_SACRIFICES_REQUIRED = 'DISASTER_SACRIFICES_REQUIRED';
+export const ROOM_MARKED = 'ROOM_MARKED';
+export const ROOMS_UNMARKED = 'ROOMS_UNMARKED';
 
 bindToEvent(JOINED_GAME, 'JoinedGame');
 bindToEvent(CARD_DRAWN_TO_SHOP, 'CardDrawnToShop');
@@ -30,6 +33,7 @@ bindToEvent(CARD_DISCARDED, 'CardDiscarded');
 bindToEvent(TURN_CHANGED, 'TurnChanged');
 bindToEvent(CARD_REVEALED, 'CardRevealed');
 bindToEvent(ROOM_BUILT, 'RoomBuilt');
+bindToEvent(ROOM_BUILT_AND_SWAPPED, 'RoomBuiltAndSwapped');
 bindToEvent(ROOM_MOVED, 'RoomMoved');
 bindToEvent(DISASTER_STARTED, 'DisasterStarted');
 bindToEvent(DISASTER_FINISHED, 'DisasterFinished');
@@ -46,6 +50,8 @@ bindToEvent(CASTLE_STATS_CHANGED, 'CastleStatsChanged');
 bindToEvent(CARD_PLAYED, 'CardPlayed');
 bindToEvent(CARDS_RETURNED_FROM_PLAYER, 'CardsReturnedFromPlayer');
 bindToEvent(DISASTER_SACRIFICES_REQUIRED, 'DisasterSacrificesRequired');
+bindToEvent(ROOM_MARKED, 'RoomMarked');
+bindToEvent(ROOMS_UNMARKED, 'RoomsUnmarked');
 
 export function joinedGame (data) {
   return {
