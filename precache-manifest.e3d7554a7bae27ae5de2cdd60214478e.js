@@ -4,12 +4,12 @@ self.__precacheManifest = [
     "url": "/static/media/8_Hallway2_BLANKROOM.50a02775.png"
   },
   {
-    "revision": "09203a20300179fe2551",
-    "url": "/static/css/main.443cd697.chunk.css"
+    "revision": "581db9daabff4163989f",
+    "url": "/static/css/main.77682fb3.chunk.css"
   },
   {
-    "revision": "a06f23a0a95fe02845d9",
-    "url": "/static/js/1.a06f23a0.chunk.js"
+    "revision": "7773c8d64d2c5c7f0ab5",
+    "url": "/static/js/1.7773c8d6.chunk.js"
   },
   {
     "revision": "229c360febb4351a89df",
@@ -400,8 +400,8 @@ self.__precacheManifest = [
     "url": "/static/media/7_Hallway1_BLANKROOM.6d3f2fea.png"
   },
   {
-    "revision": "09203a20300179fe2551",
-    "url": "/static/js/main.09203a20.chunk.js"
+    "revision": "581db9daabff4163989f",
+    "url": "/static/js/main.581db9da.chunk.js"
   },
   {
     "revision": "fe6f8452f088f642acf8cee69fd2ef9d",
@@ -648,6 +648,10 @@ self.__precacheManifest = [
     "url": "/static/media/15_thesingularity_CATASTROPHE.72a7cc7d.png"
   },
   {
+    "revision": "c01cf4205faac0be8097dda3136bafff",
+    "url": "/static/media/card-marked.c01cf420.png"
+  },
+  {
     "revision": "3d02a64cb502c5dbbe5737d6d2fa75a0",
     "url": "/static/media/minimap.3d02a64c.png"
   },
@@ -796,7 +800,7 @@ self.__precacheManifest = [
     "url": "/static/media/MenuBG.8257ee83.png"
   },
   {
-    "revision": "497b277e4cb7394babd4cb865d86e0e2",
+    "revision": "bc5ef63311f4c7f4342258da8a07fd2b",
     "url": "/index.html"
   }
 ];

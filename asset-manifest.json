@@ -1,9 +1,9 @@
 {
-  "main.css": "/static/css/main.443cd697.chunk.css",
-  "main.js": "/static/js/main.09203a20.chunk.js",
-  "main.js.map": "/static/js/main.09203a20.chunk.js.map",
-  "static/js/1.a06f23a0.chunk.js": "/static/js/1.a06f23a0.chunk.js",
-  "static/js/1.a06f23a0.chunk.js.map": "/static/js/1.a06f23a0.chunk.js.map",
+  "main.css": "/static/css/main.77682fb3.chunk.css",
+  "main.js": "/static/js/main.581db9da.chunk.js",
+  "main.js.map": "/static/js/main.581db9da.chunk.js.map",
+  "static/js/1.7773c8d6.chunk.js": "/static/js/1.7773c8d6.chunk.js",
+  "static/js/1.7773c8d6.chunk.js.map": "/static/js/1.7773c8d6.chunk.js.map",
   "runtime~main.js": "/static/js/runtime~main.229c360f.js",
   "runtime~main.js.map": "/static/js/runtime~main.229c360f.js.map",
   "static/media/15_Staircase2_BLANKROOM.png": "/static/media/15_Staircase2_BLANKROOM.ab2828d0.png",
@@ -164,6 +164,7 @@
   "static/media/22_TimeAnomaly_CATASTROPHE.png": "/static/media/22_TimeAnomaly_CATASTROPHE.40e8b892.png",
   "static/media/20_CelestialGoddess_CATASTROPHE.png": "/static/media/20_CelestialGoddess_CATASTROPHE.1a1beea3.png",
   "static/media/15_thesingularity_CATASTROPHE.png": "/static/media/15_thesingularity_CATASTROPHE.72a7cc7d.png",
+  "static/media/card-marked.png": "/static/media/card-marked.c01cf420.png",
   "static/media/minimap.png": "/static/media/minimap.3d02a64c.png",
   "static/media/header-deck.png": "/static/media/header-deck.18991308.png",
   "static/media/deck-1.png": "/static/media/deck-1.20cf9cab.png",
@@ -201,8 +202,8 @@
   "static/media/BG4.png": "/static/media/BG4.68814f77.png",
   "static/media/BG5.png": "/static/media/BG5.4197dfe2.png",
   "static/media/MenuBG.png": "/static/media/MenuBG.8257ee83.png",
-  "static/css/main.443cd697.chunk.css.map": "/static/css/main.443cd697.chunk.css.map",
+  "static/css/main.77682fb3.chunk.css.map": "/static/css/main.77682fb3.chunk.css.map",
   "index.html": "/index.html",
-  "precache-manifest.32405124dc5e4ad46ba8fe5ffbc73252.js": "/precache-manifest.32405124dc5e4ad46ba8fe5ffbc73252.js",
+  "precache-manifest.e3d7554a7bae27ae5de2cdd60214478e.js": "/precache-manifest.e3d7554a7bae27ae5de2cdd60214478e.js",
   "service-worker.js": "/service-worker.js"
 }
