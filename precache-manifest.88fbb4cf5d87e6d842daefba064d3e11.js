@@ -1,15 +1,15 @@
 self.__precacheManifest = [
   {
-    "revision": "fe6f8452f088f642acf8cee69fd2ef9d",
-    "url": "/static/media/9_Hallway3_BLANKROOM.fe6f8452.png"
+    "revision": "50a02775f5c6c093bc4a3142177bc0de",
+    "url": "/static/media/8_Hallway2_BLANKROOM.50a02775.png"
   },
   {
-    "revision": "a84e6f181975a3d9c228",
-    "url": "/static/css/main.ea2eee21.chunk.css"
+    "revision": "f8ba17f069b65aa76bff",
+    "url": "/static/css/main.df208b38.chunk.css"
   },
   {
-    "revision": "0aabd72e69443b9faf5e",
-    "url": "/static/js/1.0aabd72e.chunk.js"
+    "revision": "ee1fcf387615f09de7be",
+    "url": "/static/js/1.ee1fcf38.chunk.js"
   },
   {
     "revision": "229c360febb4351a89df",
@@ -58,6 +58,14 @@ self.__precacheManifest = [
   {
     "revision": "f819b6c0961a991ffea5d7cb15178fc5",
     "url": "/static/media/spectator.f819b6c0.png"
+  },
+  {
+    "revision": "aaa10ceb389db594f964b06d0fffc47d",
+    "url": "/static/media/buygame.aaa10ceb.png"
+  },
+  {
+    "revision": "ca37749f4212e1d680aff810685bb9c3",
+    "url": "/static/media/buygame-active.ca37749f.png"
   },
   {
     "revision": "2a4876cabb5115603786ba06320dc9d5",
@@ -392,12 +400,12 @@ self.__precacheManifest = [
     "url": "/static/media/7_Hallway1_BLANKROOM.6d3f2fea.png"
   },
   {
-    "revision": "50a02775f5c6c093bc4a3142177bc0de",
-    "url": "/static/media/8_Hallway2_BLANKROOM.50a02775.png"
+    "revision": "f8ba17f069b65aa76bff",
+    "url": "/static/js/main.f8ba17f0.chunk.js"
   },
   {
-    "revision": "a84e6f181975a3d9c228",
-    "url": "/static/js/main.a84e6f18.chunk.js"
+    "revision": "fe6f8452f088f642acf8cee69fd2ef9d",
+    "url": "/static/media/9_Hallway3_BLANKROOM.fe6f8452.png"
   },
   {
     "revision": "0e1c4015e45834ca77cab3942f12abab",
@@ -788,7 +796,7 @@ self.__precacheManifest = [
     "url": "/static/media/MenuBG.8257ee83.png"
   },
   {
-    "revision": "4a7d8a69b69a91215a885d64f899f16a",
+    "revision": "d47d3ff8a70ba95cc7438b642daef28c",
     "url": "/index.html"
   }
 ];
