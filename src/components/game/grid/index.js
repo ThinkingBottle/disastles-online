@@ -127,7 +127,7 @@ class GridController extends Component {
   }
 
   drag (event) {
-    if (!event.buttons || !this.dragX || !this.dragY) {
+    if (!this.dragging || !event.buttons || !this.dragX || !this.dragY) {
       return;
     }
     console.log('drag');
@@ -145,10 +145,12 @@ class GridController extends Component {
     var bounds = event.target.getBoundingClientRect();
     var x = event.clientX - bounds.left;
     var y = event.clientY - bounds.top;
+    this.dragging = true;
     this.dragX = x;
     this.dragY = y;
   }
   dragEnd (event) {
+    this.dragging = false;
     console.log('drag end');
   }
 

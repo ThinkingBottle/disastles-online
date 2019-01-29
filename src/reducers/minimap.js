@@ -9,7 +9,9 @@ import {
 
 const initialState = {
   x: 0,
-  y: 0
+  y: 0,
+  displayPlayer: null,
+  minimapPlayer: null,
 };
 
 export default function reduce (state = initialState, action) {

@@ -7,6 +7,8 @@ import { selectDisplayPlayer } from '../../actions/minimap';
 import Sound from '../../sound';
 
 import Typography from '@material-ui/core/Typography';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import background1 from './images/player-1.png';
 import background2 from './images/player-2.png';
@@ -19,18 +21,49 @@ import background8 from './images/player-8.png';
 import background9 from './images/player-9.png';
 import background10 from './images/player-10.png';
 import bgCurrentTurn from './images/current-player.png';
+import bgCheckbox from './images/checkbox.png';
+import bgCheckboxActive from './images/checkbox-active.png';
+import bgCheckboxChecked from './images/checkbox-checked.png';
 
 const styles = theme => ({
   root: {
     position: 'absolute',
-    top: 200,
+    top: 150,
     right: 0,
     display: 'flex',
     flexDirection: 'column',
     pointerEvents: 'none',
+    alignItems: 'flex-end',
   },
 
   currentTurn: {
+  },
+  checkbox: {
+    background: 'url(' + bgCheckbox + ') no-repeat',
+    backgroundSize: '100% 100%',
+    width: 41,
+    height: 41,
+    minWidth: 41,
+    minHeight: 41,
+    '&:hover': {
+      background: 'url(' + bgCheckboxActive + ') no-repeat',
+      backgroundSize: '100% 100%',
+    }
+  },
+
+  autoFollow: {
+    width: 213,
+    flex: '0 0',
+    pointerEvents: 'all',
+
+    '& label': {
+      marginRight: 0,
+    },
+    '& label span': {
+      fontSize: '1.2em',
+      color: '#b8fdff',
+      textShadow: '1px 1px 1px #222222aa',
+    }
   },
 
   player: {
@@ -38,7 +71,7 @@ const styles = theme => ({
     left: 550,
     height: 91,
     width: 654,
-    marginBottom: 20,
+    marginTop: 20,
     display: 'flex',
     alignItems: 'center',
     transition: 'left 0.6s',
@@ -48,7 +81,6 @@ const styles = theme => ({
     fontSize: 28,
     textAlign: 'center',
     justifyContent: 'center',
-    alignItems: 'center',
     cursor: 'pointer',
     userSelect: 'none',
     pointerEvents: 'all',
@@ -102,7 +134,12 @@ class PlayerPicker extends Component {
   constructor () {
     super();
 
+    this.state = {
+      followTurn: !sessionStorage.dontFollowTurn
+    };
+
     this.renderPlayer = this.renderPlayer.bind(this);
+    this.toggleFollowTurn = this.toggleFollowTurn.bind(this);
   }
 
   componentWillReceiveProps (props) {
@@ -110,16 +147,42 @@ class PlayerPicker extends Component {
     if (props.playerId === props.currentTurn && this.props.playerId !== this.props.currentTurn) {
       Sound.sfx.playSound('turn');
     }
+    if (this.state.followTurn && props.displayPlayer !== props.currentTurn) {
+      this.props.dispatch(selectDisplayPlayer(props.currentTurn));
+    }
+  }
+
+  toggleFollowTurn () {
+    if (!this.state.followTurn) {
+      this.props.dispatch(selectDisplayPlayer(this.props.currentTurn));
+    }
+    this.setState({
+      followTurn: !this.state.followTurn
+    });
   }
 
   selectPlayer (player) {
     return () => {
+      if (this.state.followTurn) {
+        this.setState({
+          followTurn: false
+        });
+      }
       this.props.dispatch(selectDisplayPlayer(player));
     }
   }
   render () {
     return (
       <div className={ this.props.classes.root } >
+        <div className={ this.props.classes.autoFollow }>
+          <FormControlLabel
+            label="Follow Current Turn"
+            control={
+              <Checkbox
+                checked={ this.state.followTurn }
+                onChange={ this.toggleFollowTurn }
+                value="followTurn" /> } />
+        </div>
         { Object.keys(this.props.players).map(this.renderPlayer) }
       </div>
     );
@@ -147,6 +210,7 @@ const mapToProps = obstruction({
   players: 'global.playerColors',
   playerNames: 'global.playerNames',
   currentTurn: 'game.currentTurn',
+  displayPlayer: 'minimap.displayPlayer',
 });
 
 export default withStyles(styles)(connect(mapToProps)(PlayerPicker));
