@@ -30,6 +30,10 @@ const styles = theme => ({
     height: 456/SCALE,
     margin: '0 auto',
     marginTop: '10%',
+
+    '&:focus': {
+      outline: 'none'
+    },
   },
   bottom: {
     position: 'absolute',

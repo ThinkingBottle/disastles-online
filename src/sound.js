@@ -109,7 +109,7 @@ function stopMusic (skipFade) {
     currentSong = false;
   }
 }
-function playSong (node, index, offset) {
+async function playSong (node, index, offset) {
   if (currentSong) {
     currentSong();
     currentSong = false;
@@ -121,6 +121,9 @@ function playSong (node, index, offset) {
   let currentVolume = 1;
   gainNode.gain.setValueAtTime(1, context.currentTime);
 
+  if (!songs[index].buffer) {
+    songs[index].buffer = await decodeAudioData(songs[index].response);
+  }
   source.buffer = songs[index].buffer;
   source.connect(gainNode);
   gainNode.connect(node);
@@ -141,6 +144,12 @@ function playSong (node, index, offset) {
   }
 }
 
+async function decodeAudioData (data) {
+  return new Promise(function (resolve, reject) {
+    context.decodeAudioData(data, resolve, reject);
+  });
+}
+
 function playSound (node, name) {
   let source = context.createBufferSource();
   source.buffer = soundBuffers[name];
@@ -154,12 +163,12 @@ function playSound (node, name) {
 }
 
 async function loadSound (name, url) {
-  soundBuffers[name] = await loadSoundData(url);
+  soundBuffers[name] = await decodeAudioData(await loadSoundData(url));
 }
 
 async function loadSong (data) {
-  data.buffer = await loadSoundData('/mp3/songs/' + data.file);
-  return data.buffer;
+  data.response = await loadSoundData('/mp3/songs/' + data.file);
+  return data.response;
 }
 
 async function loadSoundData (url) {
@@ -170,7 +179,7 @@ async function loadSoundData (url) {
     request.open('GET', url);
     request.responseType = 'arraybuffer';
     request.onload = function () {
-      context.decodeAudioData(request.response, resolve, reject);
+      resolve(request.response);
     };
     request.send();
   });

@@ -11,6 +11,7 @@ import copy from 'clipboard-copy';
 import Box from '../box';
 import MusicPlayer from '../music-player';
 import DisastlesInput from '../input';
+import SellStuff from '../shill';
 import Background from './background';
 import Counter from './counter';
 import PlayerList from './player-list';
@@ -292,6 +293,7 @@ class LobbyView extends Component {
     return (
       <Background rootClass={ this.props.classes.root }>
         <MusicPlayer />
+        <SellStuff />
         <div className={ this.props.classes.row }>
           <a href="/">
             <img src={ bgLogo } />
@@ -419,7 +421,7 @@ class LobbyView extends Component {
                           <DisastlesInput />
                         </Grid>
                         <Grid item xs={ 6 } className={ this.props.classes.keyField }>
-                          Lobbby link:
+                          Lobby link:
                         </Grid>
                         <Grid item xs={ 6 }>
                           <DisastlesInput

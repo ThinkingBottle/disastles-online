@@ -246,6 +246,9 @@ class MusicPlayer extends Component {
             <div className={ this.props.classes.label }>
               <Marquee
                 hoverToStop
+                loop
+                leading={500}
+                trailing={500}
                 text={ this.props.songName } />
             </div>
           </Grid>
