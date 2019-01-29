@@ -11,6 +11,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 import cardImages from './cards';
 import cardOutline from './images/card-outline.png';
+import cardMarked from './images/card-marked.png';
 import cardRotation from './images/rotation.png';
 import cardRotationActive from './images/rotation-active.png';
 import cardConfirm from './images/card-confirm.png';
@@ -19,7 +20,7 @@ import cardConfirmActive from './images/card-confirm-active.png';
 const styles = theme => ({
   root: {
     display: 'flex',
-    borderRadius: 3,
+    borderRadius: 8,
     width: 128,
     height: 128,
     justifyContent: 'center',
@@ -41,13 +42,13 @@ const styles = theme => ({
     width: 'auto',
     '&.card': {
       border: '1px solid black',
-      borderRadius: 3,
+      borderRadius: 8,
       backgroundColor: 'white',
     },
     '&.empty': {
     },
     '&.selected img': {
-      borderRadius: 3,
+      borderRadius: 8,
       boxShadow: '1px 1px 20px #ffffff55'
     },
   },
@@ -117,6 +118,13 @@ const styles = theme => ({
       background: 'url(' + cardConfirmActive + ') center no-repeat',
     }
   },
+  marked: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    background: 'url(' + cardMarked + ') no-repeat',
+    backgroundSize: '100% 100%',
+  }
 });
 
 class Card extends Component {
@@ -262,6 +270,9 @@ class Card extends Component {
               >
               &nbsp;
             </Button> } />
+        <If
+          condition={ !!this.props.marked }
+          render={ () => <div className={ this.props.classes.marked } /> } />
         <If
           condition={ !!confirm }
           render={ () =>

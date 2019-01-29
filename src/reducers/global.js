@@ -1,3 +1,4 @@
+import window from 'global/window';
 import {
   LOBBY_SNAPSHOT,
   PLAYER_LEAVE
@@ -8,7 +9,8 @@ import {
 import {
   HELLO,
   NAME_CHANGED,
-  ACTIONS_CHANGED
+  ACTIONS_CHANGED,
+  RECONNECTION_FAILED
 } from '../actions/global';
 
 import name from 'american-sounding-names';
@@ -74,6 +76,9 @@ export default function reduce (state, action) {
         state.playerNames[player.id] = player.name;
         state.playerColors[player.id] = player.color;
       });
+      break;
+    case RECONNECTION_FAILED:
+      window.location.href = '/';
       break;
   }
 

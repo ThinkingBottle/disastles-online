@@ -149,7 +149,7 @@ class PlayerList extends Component {
     let playerData = this.props.playerData[player];
 
     if (!playerData) {
-      return this.renderEmptyPlayer();
+      return this.renderEmptyPlayer(i);
     }
 
     return (

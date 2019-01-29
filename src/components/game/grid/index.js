@@ -391,6 +391,7 @@ class GridController extends Component {
         data-action={ isActionable }
         key={ key } >
         <Card
+          marked= { node && node.marked }
           tooltip={ isActionable ? splitWords(actions[0].action) : null }
           confirm={ isActionable }
           skinny={ this.state.columnSizes[x] !== 'wide' }

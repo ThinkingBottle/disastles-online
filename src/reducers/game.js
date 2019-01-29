@@ -9,6 +9,8 @@ import {
   DISASTER_STARTED,
   DISASTER_FINISHED,
   DISASTER_SACRIFICES_REQUIRED,
+  ROOM_MARKED,
+  ROOMS_UNMARKED,
   CARD_RETURNED_TO_DRAW_PILE,
   CARDS_RETURNED_FROM_PLAYER,
   CARDS_DRAWN_TO_PLAYER,
@@ -98,6 +100,12 @@ export default function reduce (state, action) {
         currentDisaster: action.data.snapshot.currentDisaster
       }
       action.data.snapshot.castles.forEach(function (castle) {
+        castle.nodes = castle.nodes.map(function (node) {
+          node.marked = action.data.snapshot.sacrifices.reduce(function (memo, player) {
+            return memo || (player.markedRooms.indexOf(node.card) !== -1);
+          }, false);
+          return node;
+        });
         state.castles[castle.player] = updateCastle(castle);
       });
       action.data.snapshot.playerCards.forEach(function (playerCards) {
@@ -184,6 +192,43 @@ export default function reduce (state, action) {
         activeCard: action.data.card
       };
       break;
+    case ROOM_BUILT_AND_SWAPPED:
+      console.log('Moving room for build & swap', action);
+      var roomX = null;
+      var roomY = null;
+
+      var player = action.data.castleOwner;
+      state = {...state,
+        castles: {...state.castles,
+          [player]: {...state.castles[player]}
+        }
+      };
+
+      state.castles[player].nodes = state.castles[player].nodes.map(function (node) {
+        if (action.data.swap === node.card) {
+          roomX = node.x;
+          roomY = node.y;
+          return {...node,
+            rotation: action.data.swapRotation,
+            x: action.data.x,
+            y: action.data.y,
+          };
+        }
+        return node;
+      });
+
+      state.castles[player] = updateCastle(state.castles[player]);
+      // pass on action to room built
+      action = {
+        data: {
+          castleOwner: action.data.castleOwner,
+          rotation: action.data.swapRotation,
+          x: action.data.x,
+          y: action.data.y,
+          card: action.data.card
+        }
+      };
+      // intentionally no break
     case ROOM_BUILT:
       console.log(action.data);
       var player = action.data.castleOwner;
@@ -331,6 +376,36 @@ export default function reduce (state, action) {
         castles: {...state.castles,
           [player]: {...state.castles[player],
             stats: action.data.stats
+          }
+        }
+      };
+      break;
+    case ROOM_MARKED:
+      console.log('room marked for destruction', action);
+      var player = action.data.castleOwner;
+      state = {...state,
+        castles: {...state.castles,
+          [player]: {...state.castles[player],
+            nodes: state.castles[player].nodes.map(function (node) {
+              if (node.card === action.data.room) {
+                node.marked = true;
+              }
+              return node;
+            })
+          }
+        }
+      };
+      break;
+    case ROOMS_UNMARKED:
+      console.log('rooms unmarked!', action);
+      var player = action.data.castleOwner;
+      state = {...state,
+        castles: {...state.castles,
+          [player]: {...state.castles[player],
+            nodes: state.castles[player].nodes.map(function (node) {
+              node.marked = false;
+              return node;
+            })
           }
         }
       };
