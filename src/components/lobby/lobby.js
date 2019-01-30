@@ -425,8 +425,8 @@ class LobbyView extends Component {
                         </Grid>
                         <Grid item xs={ 6 }>
                           <DisastlesInput
-                            onFocus={ ()=> copy('https://game.disastles.com/#/lobby/' + this.props.lobbyId) }
-                            value={ 'https://game.disastles.com/#/lobby/' + this.props.lobbyId } />
+                            onFocus={ ()=> copy('https://game.disastles.com/lobby/' + this.props.lobbyId) }
+                            value={ 'https://game.disastles.com/lobby/' + this.props.lobbyId } />
                         </Grid>
                       </Grid>
                     </Box>

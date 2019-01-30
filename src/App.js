@@ -23,7 +23,11 @@ if (process.env.NODE_ENV === 'production') {
   let x = '//'; // this is to fix stupid highlighting in JSX
 
   Sentry.init({
-    dsn: url
+    dsn: url,
+    integrations: integrations => {
+      // integrations will be all default integrations
+      return integrations.filter(integration => integration.name !== 'Breadcrumbs');
+    }
   });
 }
 

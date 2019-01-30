@@ -303,7 +303,7 @@ export default function reduce (state, action) {
       }
 
       state.castles[firstPlayer].nodes = state.castles[firstPlayer].nodes.map(function (node) {
-        if (node.card === firstCard.card && node.x === firstCard.x && node.y === firstCard.y) {
+        if (node.x === firstCard.x && node.y === firstCard.y) {
           node = {...node,
             rotation: secondCard.rotation,
             card: secondCard.card
@@ -312,7 +312,7 @@ export default function reduce (state, action) {
         return node;
       });
       state.castles[secondPlayer].nodes = state.castles[secondPlayer].nodes.map(function (node) {
-        if (node.card === secondCard.card && node.x === secondCard.x && node.y === secondCard.y) {
+        if (node.x === secondCard.x && node.y === secondCard.y) {
           node = {...node,
             rotation: firstCard.rotation,
             card: firstCard.card

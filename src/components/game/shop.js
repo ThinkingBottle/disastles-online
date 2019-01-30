@@ -88,7 +88,15 @@ class Shop extends Component {
     var canMove = false;
     var canSwap = false;
     var canActionCard = false;
+    var allMoves = newProps.actions.length > 0;
+    var allSwaps = newProps.actions.length > 0;
     newProps.actions.forEach(function (a) {
+      if (a.action !== 'SwapRooms' && a.action !== 'SkipText') {
+        allSwaps = false;
+      }
+      if (a.action !== 'MoveRoom' && a.action !== 'SkipText') {
+        allMoves = false;
+      }
       switch (a.action) {
         case 'SkipTurn':
           canSkipTurn = true;
@@ -104,6 +112,13 @@ class Shop extends Component {
           break;
       }
     });
+
+    if (allSwaps && newProps.selectedActions.indexOf('SwapRooms') === -1) {
+      this.props.dispatch(selectActions(['SwapRooms']));
+    }
+    if (allMoves && newProps.selectedActions.indexOf('MoveRoom') === -1) {
+      this.props.dispatch(selectActions(['MoveRoom']));
+    }
 
     console.log('can skip?', canSkipTurn, newProps.selectedActions, newProps.selectedActions.indexOf('MoveRoom'));
 
@@ -140,6 +155,7 @@ class Shop extends Component {
       return this.selectCard(card);
     }
     API.send(action);
+    this.props.dispatch(selectActions([]));
   }
 
   skipTurn () {
@@ -230,7 +246,7 @@ class Shop extends Component {
       }
     });
     console.log(card);
-    if (isClickable) {
+    if (isClickable && card) {
       return (
         <Card
           className= { this.props.classes.card }

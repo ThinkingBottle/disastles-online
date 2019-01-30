@@ -1,7 +1,7 @@
 import Event from 'geval/event';
 
 const MessageEvent = Event();
-const url = 'ws://34.246.160.198/api/ws';
+const url = 'wss://www.ocwalk.com/api/ws';
 
 var ws = null;
 var initPromise = null;
