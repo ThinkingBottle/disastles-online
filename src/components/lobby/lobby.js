@@ -369,7 +369,7 @@ class LobbyView extends Component {
                       headerLeft={ bgHeaderLeftBox2 }
                       headerRight={ bgHeaderRightBox2 }
                       headerMiddle={ bgHeaderMiddleBox2 }
-                      header={ 'Difficulty: ' + difficulty }
+                      header={ 'Difficulty' }
                       >
                       <Box
                         half
@@ -412,24 +412,24 @@ class LobbyView extends Component {
                           </Grid>
                         </Grid>
                       </Box>
-                      <br />
-                      <Grid container zeroMinWidth spacing={16}>
-                        <Grid item xs={ 6 } className={ this.props.classes.keyField }>
-                          Game seed:
-                        </Grid>
-                        <Grid item xs={ 6 }>
-                          <DisastlesInput />
-                        </Grid>
-                        <Grid item xs={ 6 } className={ this.props.classes.keyField }>
-                          Lobby link:
-                        </Grid>
-                        <Grid item xs={ 6 }>
-                          <DisastlesInput
-                            onFocus={ ()=> copy('https://game.disastles.com/lobby/' + this.props.lobbyId) }
-                            value={ 'https://game.disastles.com/lobby/' + this.props.lobbyId } />
-                        </Grid>
-                      </Grid>
                     </Box>
+                    <br />
+                    <Grid container zeroMinWidth spacing={16}>
+                      <Grid item xs={ 6 } className={ this.props.classes.keyField }>
+                        Game seed:
+                      </Grid>
+                      <Grid item xs={ 6 }>
+                        <DisastlesInput />
+                      </Grid>
+                      <Grid item xs={ 6 } className={ this.props.classes.keyField }>
+                        Lobby link:
+                      </Grid>
+                      <Grid item xs={ 6 }>
+                        <DisastlesInput
+                          onFocus={ ()=> copy('https://game.disastles.com/lobby/' + this.props.lobbyId) }
+                          value={ 'https://game.disastles.com/lobby/' + this.props.lobbyId } />
+                      </Grid>
+                    </Grid>
                   </Box>
                   <br />
                   <Box

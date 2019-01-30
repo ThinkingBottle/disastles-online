@@ -73,10 +73,10 @@ class Counter extends Component {
     };
   }
   updateValue (value) {
-    if (this.props.min) {
+    if (this.props.min !== undefined) {
       value = Math.max(value, this.props.min);
     }
-    if (this.props.max) {
+    if (this.props.max !== undefined) {
       value = Math.min(value, this.props.max);
     }
     if (value === this.getValue()) {
