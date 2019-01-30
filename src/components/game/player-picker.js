@@ -132,11 +132,12 @@ const styles = theme => ({
 });
 
 class PlayerPicker extends Component {
-  constructor () {
+  constructor (props) {
     super();
 
     this.state = {
-      followTurn: !sessionStorage.dontFollowTurn
+      followTurn: !sessionStorage.dontFollowTurn,
+      displayPlayer: props.displayPlayer
     };
 
     this.renderPlayer = this.renderPlayer.bind(this);
@@ -149,7 +150,12 @@ class PlayerPicker extends Component {
       Sound.sfx.playSound('turn');
     }
     if (this.state.followTurn && props.displayPlayer !== props.currentTurn) {
-      this.props.dispatch(selectDisplayPlayer(props.currentTurn));
+      if (this.state.displayPlayer !== props.currentTurn) {
+        this.props.dispatch(selectDisplayPlayer(props.currentTurn));
+        this.setState({
+          displayPlayer: props.currentTurn
+        });
+      }
     }
   }
 
@@ -158,7 +164,8 @@ class PlayerPicker extends Component {
       this.props.dispatch(selectDisplayPlayer(this.props.currentTurn));
     }
     this.setState({
-      followTurn: !this.state.followTurn
+      followTurn: !this.state.followTurn,
+      displayPlayer: this.props.currentTurn,
     });
   }
 
