@@ -1,7 +1,7 @@
 import Event from 'geval/event';
 
 const MessageEvent = Event();
-const url = 'wss://disastles.herokuapp.com/api/ws';
+const url = 'ws://34.246.160.198/api/ws';
 
 var ws = null;
 var initPromise = null;
