@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
-import { If } from 'react-extras';
+import { If, classNames } from 'react-extras';
 import { interval, timeout } from 'thyming';
 import obstruction from 'obstruction';
 
@@ -18,6 +18,8 @@ import {
   pause,
   stop,
   skip,
+  changeVolume,
+  muteMusic,
 } from '../actions/music';
 import { currentOffset } from '../reducers/music';
 import songs from '../songs';
@@ -39,6 +41,7 @@ import bgBackwardHover from './images/music/backward-hover.png';
 import bgBackwardActive from './images/music/backward-active.png';
 import bgVolume from './images/music/volume.png';
 import bgVolumeHover from './images/music/volume-active.png';
+import bgVolumeMuted from './images/music/volume-muted.png';
 
 const SCALE = 2;
 
@@ -152,8 +155,17 @@ const styles = theme => ({
     '&:hover': {
       background: 'url(' + bgVolumeHover + ') no-repeat',
       backgroundSize: '100% 100%',
+    },
+    '&.muted': {
+      background: 'url(' + bgVolumeMuted + ') no-repeat',
+      backgroundSize: '100% 100%',
     }
-  }
+  },
+  sliderWrapper: {
+    padding: 10,
+    height: 100,
+    overflow: 'hidden',
+  },
 });
 
 class MusicPlayer extends Component {
@@ -162,7 +174,7 @@ class MusicPlayer extends Component {
 
     this.state = {
       time: Math.floor((currentOffset(props)) / 1000),
-      popoverEl: null
+      popoverEl: null,
     };
 
     this.back = this.back.bind(this);
@@ -172,6 +184,10 @@ class MusicPlayer extends Component {
     this.skip = this.skip.bind(this);
     this.toggleVolume = this.toggleVolume.bind(this);
     this.closeVolume = this.closeVolume.bind(this);
+    this.changeVolume = this.changeVolume.bind(this);
+    this.showVolume = this.showVolume.bind(this);
+    this.cancelShowVolume = this.cancelShowVolume.bind(this);
+    this.toggleMute = this.toggleMute.bind(this);
   }
   componentWillReceiveProps (newProps) {
     if (this.songTimer) {
@@ -191,10 +207,41 @@ class MusicPlayer extends Component {
       popoverEl: false
     });
   }
+  toggleMute (event) {
+    let newMute = !this.props.musicMuted;
+    this.props.dispatch(muteMusic(newMute));
+    if (!newMute) {
+      this.showVolume(event);
+    }
+  }
   toggleVolume (event) {
     this.setState({
       popoverEl: this.state.popoverEl ? null : event.target
     });
+  }
+  showVolume (event) {
+    if (this.volumeShowTimer) {
+      return;
+    }
+    let target = event.target;
+    this.volumeShowTimer = timeout(() => {
+      this.volumeShowTimer = false;
+      if (!this.props.musicMuted) {
+        this.setState({
+          popoverEl: target
+        });
+      }
+    }, 350);
+  }
+  cancelShowVolume (event) {
+    if (this.volumeShowTimer) {
+      this.volumeShowTimer();
+      this.volumeShowTimer = false;
+      return;
+    }
+  }
+  changeVolume (event, value) {
+    this.props.dispatch(changeVolume(value));
   }
   back () {
     this.props.dispatch(previous());
@@ -244,6 +291,14 @@ class MusicPlayer extends Component {
         <Grid container>
           <Grid item xs={2}>
           <Popover
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
             open={ !!this.state.popoverEl }
             anchorEl={ this.state.popoverEl }
             onClose={ this.closeVolume }
@@ -251,8 +306,13 @@ class MusicPlayer extends Component {
               { this.renderSlider() }
           </Popover>
           <Button
-            className={ this.props.classes.volume }
-            onMouseOver={ this.toggleVolume } >
+            className={ classNames(this.props.classes.volume, {
+              muted: this.props.musicMuted
+            }) }
+            onMouseOver={ this.showVolume }
+            onMouseOut={ this.cancelShowVolume }
+            onClick={ this.toggleMute }
+            >
             &nbsp;
           </Button>
           </Grid>
@@ -304,8 +364,10 @@ class MusicPlayer extends Component {
 
   renderSlider () {
     return (
-      <div className={ this.props.classes.volume }>
+      <div className={ this.props.classes.sliderWrapper }>
         <Slider
+          value={ this.props.musicVolume }
+          onChange={ this.changeVolume }
           vertical />
       </div>
     );
@@ -318,6 +380,8 @@ const mapToProps = obstruction({
   offset: 'music.offset',
   playing: 'music.playing',
   songNumber: 'music.songNumber',
+  musicVolume: 'music.musicVolume',
+  musicMuted: 'music.musicMuted',
 });
 
 export default withStyles(styles)(connect(mapToProps)(MusicPlayer));

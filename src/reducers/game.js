@@ -65,6 +65,8 @@ const defaultState = {
   activeCard: null
 };
 
+var shuffleWasPlayed = false;
+
 export default function reduce (state, action) {
   if (!state) {
     state = defaultState;
@@ -134,7 +136,13 @@ export default function reduce (state, action) {
       };
       break;
     case CARD_DRAWN_TO_SHOP:
-      Sound.sfx.playSound('draw');
+      if (!shuffleWasPlayed) {
+        shuffleWasPlayed = true;
+        Sound.sfx.playSound('shuffle');
+        setTimeout(function () {
+          shuffleWasPlayed = false;
+        }, 1000);
+      }
       state = {...state,
         shop: [...state.shop],
         drawPileSize: action.data.drawPileSize
