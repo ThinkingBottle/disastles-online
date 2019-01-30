@@ -3,6 +3,8 @@ import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import obstruction from 'obstruction';
 import { classNames } from 'react-extras';
+import { timeout } from 'thyming';
+
 import { selectDisplayPlayer } from '../../actions/minimap';
 import Sound from '../../sound';
 
@@ -149,19 +151,30 @@ class PlayerPicker extends Component {
     if (props.playerId === props.currentTurn && this.props.playerId !== this.props.currentTurn) {
       Sound.sfx.playSound('turn');
     }
-    if (this.state.followTurn && props.displayPlayer !== props.currentTurn) {
+    if (this.state.followTurn && props.currentTurn && props.displayPlayer !== props.currentTurn) {
       if (this.state.displayPlayer !== props.currentTurn) {
-        this.props.dispatch(selectDisplayPlayer(props.currentTurn));
         this.setState({
           displayPlayer: props.currentTurn
         });
+        if (this.cancelFollow) {
+          this.cancelFollow();
+        }
+        this.cancelFollow = timeout(() => this.props.dispatch(selectDisplayPlayer(props.currentTurn)), 1000);
       }
+    }
+  }
+
+  componentWillUnmount () {
+    if (this.cancelFollow) {
+      this.cancelFollow();
     }
   }
 
   toggleFollowTurn () {
     if (!this.state.followTurn) {
       this.props.dispatch(selectDisplayPlayer(this.props.currentTurn));
+    } else if (this.cancelFollow) {
+      this.cancelFollow();
     }
     this.setState({
       followTurn: !this.state.followTurn,
@@ -175,6 +188,9 @@ class PlayerPicker extends Component {
         this.setState({
           followTurn: false
         });
+        if (this.cancelFollow) {
+          this.cancelFollow();
+        }
       }
       this.props.dispatch(selectDisplayPlayer(player));
     }
