@@ -213,6 +213,7 @@ class GridController extends Component {
 
   async sendAction (card, actions, rotations, x, y) {
     let action = actions[0];
+    card = card || this.props.selectedCard;
 
     let actionCards = this.cardsForAction(action);
 
