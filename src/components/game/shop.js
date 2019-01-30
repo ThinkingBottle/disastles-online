@@ -230,7 +230,7 @@ class Shop extends Component {
       }
     });
     console.log(card);
-    if (isClickable) {
+    if (isClickable && card) {
       return (
         <Card
           className= { this.props.classes.card }
