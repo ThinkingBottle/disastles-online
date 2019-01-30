@@ -80,6 +80,7 @@ export default function reduce (state, action) {
       state = {...state,
         musicMuted: action.mute
       };
+      localStorage.musicMuted = action.mute;
       if (action.mute) {
         Sound.stopAmbience();
         Sound.music.setVolume(0);

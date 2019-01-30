@@ -19,7 +19,7 @@ import { moveCamera } from '../../../actions/minimap';
 import API from '../../../api';
 import Sound from '../../../sound';
 
-export const CARD_ZOOM = 1.2;
+export const CARD_ZOOM = 1.3;
 
 const styles = theme => ({
   root: {

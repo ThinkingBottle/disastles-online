@@ -63,7 +63,6 @@ async function loadAll () {
   audio.music = createVolumeChannel();
   audio.sfx.setVolume(0.4);
   audio.ambience.setVolume(0.1);
-  audio.music.setVolume(localStorage.musicVolume ? Number(localStorage.musicVolume) / 100 : 0.8);
 
   await Promise.all(Object.keys(sounds).map(async function (name) {
     return loadSound(name, sounds[name]);
@@ -72,7 +71,13 @@ async function loadAll () {
   audio.startAmbience = startAmbience;
   audio.stopAmbience = Collector();
   resumeAudioContext();
-  startAmbience();
+
+  if (localStorage.musicMuted === 'true') {
+    audio.music.setVolume(0);
+  } else {
+    startAmbience();
+    audio.music.setVolume(localStorage.musicVolume ? Number(localStorage.musicVolume) / 100 : 0.8);
+  }
 }
 
 function startAmbience () {
