@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
-import { If } from 'react-extras';
+import { If, classNames } from 'react-extras';
 import { interval, timeout } from 'thyming';
 import obstruction from 'obstruction';
 
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import Popover from '@material-ui/core/Popover';
+import Slider from '@material-ui/lab/Slider';
+
 import Marquee from './marquee';
 
 import {
@@ -15,6 +18,8 @@ import {
   pause,
   stop,
   skip,
+  changeVolume,
+  muteMusic,
 } from '../actions/music';
 import { currentOffset } from '../reducers/music';
 import songs from '../songs';
@@ -34,6 +39,9 @@ import bgForwardActive from './images/music/forward-active.png';
 import bgBackward from './images/music/backward.png';
 import bgBackwardHover from './images/music/backward-hover.png';
 import bgBackwardActive from './images/music/backward-active.png';
+import bgVolume from './images/music/volume.png';
+import bgVolumeHover from './images/music/volume-active.png';
+import bgVolumeMuted from './images/music/volume-muted.png';
 
 const SCALE = 2;
 
@@ -53,7 +61,7 @@ const styles = theme => ({
     '& hr': {
       borderColor: '#88888888',
     },
-    '& > button': {
+    '& button': {
       minHeight: 0,
       minWidth: 0,
       margin: '0 auto',
@@ -135,6 +143,29 @@ const styles = theme => ({
       backgroundSize: '100% 100%',
     }
   },
+  volume: {
+    background: 'url(' + bgVolume + ') no-repeat',
+    backgroundSize: '100% 100%',
+    width: 42 / SCALE,
+    minWidth: 42 / SCALE,
+    height: 42 / SCALE,
+    minHeight: 42 / SCALE,
+    padding: 0,
+
+    '&:hover': {
+      background: 'url(' + bgVolumeHover + ') no-repeat',
+      backgroundSize: '100% 100%',
+    },
+    '&.muted': {
+      background: 'url(' + bgVolumeMuted + ') no-repeat',
+      backgroundSize: '100% 100%',
+    }
+  },
+  sliderWrapper: {
+    padding: 10,
+    height: 100,
+    overflow: 'hidden',
+  },
 });
 
 class MusicPlayer extends Component {
@@ -142,7 +173,8 @@ class MusicPlayer extends Component {
     super();
 
     this.state = {
-      time: Math.floor((currentOffset(props)) / 1000)
+      time: Math.floor((currentOffset(props)) / 1000),
+      popoverEl: null,
     };
 
     this.back = this.back.bind(this);
@@ -150,6 +182,12 @@ class MusicPlayer extends Component {
     this.pause = this.pause.bind(this);
     this.stop = this.stop.bind(this);
     this.skip = this.skip.bind(this);
+    this.toggleVolume = this.toggleVolume.bind(this);
+    this.closeVolume = this.closeVolume.bind(this);
+    this.changeVolume = this.changeVolume.bind(this);
+    this.showVolume = this.showVolume.bind(this);
+    this.cancelShowVolume = this.cancelShowVolume.bind(this);
+    this.toggleMute = this.toggleMute.bind(this);
   }
   componentWillReceiveProps (newProps) {
     if (this.songTimer) {
@@ -162,6 +200,48 @@ class MusicPlayer extends Component {
         time
       });
     }
+  }
+
+  closeVolume () {
+    this.setState({
+      popoverEl: false
+    });
+  }
+  toggleMute (event) {
+    let newMute = !this.props.musicMuted;
+    this.props.dispatch(muteMusic(newMute));
+    if (!newMute) {
+      this.showVolume(event);
+    }
+  }
+  toggleVolume (event) {
+    this.setState({
+      popoverEl: this.state.popoverEl ? null : event.target
+    });
+  }
+  showVolume (event) {
+    if (this.volumeShowTimer) {
+      return;
+    }
+    let target = event.target;
+    this.volumeShowTimer = timeout(() => {
+      this.volumeShowTimer = false;
+      if (!this.props.musicMuted) {
+        this.setState({
+          popoverEl: target
+        });
+      }
+    }, 350);
+  }
+  cancelShowVolume (event) {
+    if (this.volumeShowTimer) {
+      this.volumeShowTimer();
+      this.volumeShowTimer = false;
+      return;
+    }
+  }
+  changeVolume (event, value) {
+    this.props.dispatch(changeVolume(value));
   }
   back () {
     this.props.dispatch(previous());
@@ -210,6 +290,33 @@ class MusicPlayer extends Component {
       <div className={ this.props.classes.root }>
         <Grid container>
           <Grid item xs={2}>
+          <Popover
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={ !!this.state.popoverEl }
+            anchorEl={ this.state.popoverEl }
+            onClose={ this.closeVolume }
+            >
+              { this.renderSlider() }
+          </Popover>
+          <Button
+            className={ classNames(this.props.classes.volume, {
+              muted: this.props.musicMuted
+            }) }
+            onMouseOver={ this.showVolume }
+            onMouseOut={ this.cancelShowVolume }
+            onClick={ this.toggleMute }
+            >
+            &nbsp;
+          </Button>
+          </Grid>
+          <Grid item xs={2}>
             <Button
               onClick={ this.back }
               classes={{ root: this.props.classes.back }}>&nbsp;</Button>
@@ -235,8 +342,6 @@ class MusicPlayer extends Component {
               classes={{ root: this.props.classes.forward }}>&nbsp;</Button>
           </Grid>
           <Grid item xs={1}>
-          </Grid>
-          <Grid item xs={3}>
             { this.formatTime(this.state.time) }
           </Grid>
           <Grid item xs={12}>
@@ -256,6 +361,17 @@ class MusicPlayer extends Component {
       </div>
     );
   }
+
+  renderSlider () {
+    return (
+      <div className={ this.props.classes.sliderWrapper }>
+        <Slider
+          value={ this.props.musicVolume }
+          onChange={ this.changeVolume }
+          vertical />
+      </div>
+    );
+  }
 }
 
 const mapToProps = obstruction({
@@ -264,6 +380,8 @@ const mapToProps = obstruction({
   offset: 'music.offset',
   playing: 'music.playing',
   songNumber: 'music.songNumber',
+  musicVolume: 'music.musicVolume',
+  musicMuted: 'music.musicMuted',
 });
 
 export default withStyles(styles)(connect(mapToProps)(MusicPlayer));

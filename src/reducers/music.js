@@ -3,7 +3,9 @@ import {
   PLAY,
   STOP,
   SKIP,
-  PREVIOUS
+  PREVIOUS,
+  CHANGE_VOLUME,
+  MUTE,
 } from '../actions/music';
 import songs from '../songs';
 import Sound from '../sound';
@@ -15,6 +17,9 @@ const defaultState = {
   init: false,
   songNumber: Math.floor(Math.random() * songs.length),
   songName: 'Loading...',
+
+  musicVolume: localStorage.musicVolume ? Number(localStorage.musicVolume) : 80,
+  musicMuted: localStorage.musicMuted === 'true',
 };
 
 export default function reduce (state, action) {
@@ -63,6 +68,25 @@ export default function reduce (state, action) {
         startTime: Date.now(),
       };
       actuallyPlaySong(state);
+      break;
+    case CHANGE_VOLUME:
+      state = {...state,
+        musicVolume: action.volume
+      };
+      localStorage.musicVolume = action.volume;
+      Sound.music.setVolume(action.volume / 100);
+      break;
+    case MUTE:
+      state = {...state,
+        musicMuted: action.mute
+      };
+      if (action.mute) {
+        Sound.stopAmbience();
+        Sound.music.setVolume(0);
+      } else {
+        Sound.music.setVolume(state.musicVolume / 100);
+        Sound.startAmbience();
+      }
       break;
   }
 
