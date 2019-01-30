@@ -7,6 +7,9 @@ import obstruction from 'obstruction';
 
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import Popover from '@material-ui/core/Popover';
+import Slider from '@material-ui/lab/Slider';
+
 import Marquee from './marquee';
 
 import {
@@ -34,6 +37,8 @@ import bgForwardActive from './images/music/forward-active.png';
 import bgBackward from './images/music/backward.png';
 import bgBackwardHover from './images/music/backward-hover.png';
 import bgBackwardActive from './images/music/backward-active.png';
+import bgVolume from './images/music/volume.png';
+import bgVolumeHover from './images/music/volume-active.png';
 
 const SCALE = 2;
 
@@ -53,7 +58,7 @@ const styles = theme => ({
     '& hr': {
       borderColor: '#88888888',
     },
-    '& > button': {
+    '& button': {
       minHeight: 0,
       minWidth: 0,
       margin: '0 auto',
@@ -135,6 +140,20 @@ const styles = theme => ({
       backgroundSize: '100% 100%',
     }
   },
+  volume: {
+    background: 'url(' + bgVolume + ') no-repeat',
+    backgroundSize: '100% 100%',
+    width: 42 / SCALE,
+    minWidth: 42 / SCALE,
+    height: 42 / SCALE,
+    minHeight: 42 / SCALE,
+    padding: 0,
+
+    '&:hover': {
+      background: 'url(' + bgVolumeHover + ') no-repeat',
+      backgroundSize: '100% 100%',
+    }
+  }
 });
 
 class MusicPlayer extends Component {
@@ -142,7 +161,8 @@ class MusicPlayer extends Component {
     super();
 
     this.state = {
-      time: Math.floor((currentOffset(props)) / 1000)
+      time: Math.floor((currentOffset(props)) / 1000),
+      popoverEl: null
     };
 
     this.back = this.back.bind(this);
@@ -150,6 +170,8 @@ class MusicPlayer extends Component {
     this.pause = this.pause.bind(this);
     this.stop = this.stop.bind(this);
     this.skip = this.skip.bind(this);
+    this.toggleVolume = this.toggleVolume.bind(this);
+    this.closeVolume = this.closeVolume.bind(this);
   }
   componentWillReceiveProps (newProps) {
     if (this.songTimer) {
@@ -162,6 +184,17 @@ class MusicPlayer extends Component {
         time
       });
     }
+  }
+
+  closeVolume () {
+    this.setState({
+      popoverEl: false
+    });
+  }
+  toggleVolume (event) {
+    this.setState({
+      popoverEl: this.state.popoverEl ? null : event.target
+    });
   }
   back () {
     this.props.dispatch(previous());
@@ -210,6 +243,20 @@ class MusicPlayer extends Component {
       <div className={ this.props.classes.root }>
         <Grid container>
           <Grid item xs={2}>
+          <Popover
+            open={ !!this.state.popoverEl }
+            anchorEl={ this.state.popoverEl }
+            onClose={ this.closeVolume }
+            >
+              { this.renderSlider() }
+          </Popover>
+          <Button
+            className={ this.props.classes.volume }
+            onMouseOver={ this.toggleVolume } >
+            &nbsp;
+          </Button>
+          </Grid>
+          <Grid item xs={2}>
             <Button
               onClick={ this.back }
               classes={{ root: this.props.classes.back }}>&nbsp;</Button>
@@ -235,8 +282,6 @@ class MusicPlayer extends Component {
               classes={{ root: this.props.classes.forward }}>&nbsp;</Button>
           </Grid>
           <Grid item xs={1}>
-          </Grid>
-          <Grid item xs={3}>
             { this.formatTime(this.state.time) }
           </Grid>
           <Grid item xs={12}>
@@ -253,6 +298,15 @@ class MusicPlayer extends Component {
             </div>
           </Grid>
         </Grid>
+      </div>
+    );
+  }
+
+  renderSlider () {
+    return (
+      <div className={ this.props.classes.volume }>
+        <Slider
+          vertical />
       </div>
     );
   }
