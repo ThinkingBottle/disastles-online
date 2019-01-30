@@ -167,12 +167,12 @@ class MusicPlayer extends Component {
     this.props.dispatch(previous());
   }
   play () {
-    this.props.dispatch(play());
     delete sessionStorage.disableAutoPlay;
+    this.props.dispatch(play());
   }
   stop () {
-    this.props.dispatch(stop());
     sessionStorage.disableAutoPlay = true;
+    this.props.dispatch(stop());
   }
   skip () {
     this.props.dispatch(skip());
