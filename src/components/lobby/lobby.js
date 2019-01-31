@@ -7,6 +7,7 @@ import { partial } from 'ap';
 import Collector from 'collect-methods';
 import { timeout } from 'thyming';
 import copy from 'clipboard-copy';
+import window from 'global/window';
 
 import Box from '../box';
 import MusicPlayer from '../music-player';
@@ -153,6 +154,7 @@ class LobbyView extends Component {
     this.updateCatastropheCount = this.updateCatastropheCount.bind(this);
     this.leaveLobby = this.leaveLobby.bind(this);
     this.updateName = this.updateName.bind(this);
+    this.showHowToPlay = this.showHowToPlay.bind(this);
   }
 
   componentWillReceiveProps (newProps) {
@@ -194,6 +196,11 @@ class LobbyView extends Component {
 
   componentWillUnmount () {
     this.unlisten();
+  }
+
+  showHowToPlay () {
+    let a = '//';
+    window.open('http://disastles.com/about', '_blank');
   }
 
   async takeSlot (slot) {
@@ -322,7 +329,7 @@ class LobbyView extends Component {
               &nbsp;
             </Button>
             <Button
-              onClick={ null }
+              onClick={ this.showHowToPlay }
               classes={{
                 root: this.props.classes.button
               }} >
