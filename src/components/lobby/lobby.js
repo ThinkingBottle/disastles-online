@@ -77,7 +77,7 @@ import bgBottomBox3 from './images/settings3-bottom.png';
 const styles = theme => ({
   root: {
     height: '100%',
-    minHeight: '100%',
+    minHeight: 800,
   },
   row: {
     display: 'flex',
@@ -522,28 +522,6 @@ class LobbyView extends Component {
                       >
                       <PlayerList />
                   </Box>
-
-                  <Box
-                    half
-                    topLeft={ bgTopLeftBox }
-                      topRight={ bgTopRightBox }
-                      bottomLeft={ bgBottomLeftBox }
-                      bottomRight={ bgBottomRightBox }
-                      color={ bgColorBox }
-                      left={ bgLeftBox }
-                      right={ bgRightBox }
-                      top={ bgTopBox }
-                      bottom={ bgBottomBox }
-                      headerLeft={ bgHeaderLeftBox }
-                      headerRight={ bgHeaderRightBox }
-                      headerMiddle={ bgHeaderMiddleBox }
-                      header='Spectators'
-                      style={{
-                        paddingTop: 20
-                      }}
-                      >
-                      <PlayerList spectator />
-                  </Box>
                 </div>
               </div>
             </React.Fragment> } />
@@ -597,3 +575,27 @@ const mapToProps = obstruction({
 });
 
 export default withStyles(styles)(connect(mapToProps)(LobbyView));
+/*
+
+                  <Box
+                    half
+                    topLeft={ bgTopLeftBox }
+                      topRight={ bgTopRightBox }
+                      bottomLeft={ bgBottomLeftBox }
+                      bottomRight={ bgBottomRightBox }
+                      color={ bgColorBox }
+                      left={ bgLeftBox }
+                      right={ bgRightBox }
+                      top={ bgTopBox }
+                      bottom={ bgBottomBox }
+                      headerLeft={ bgHeaderLeftBox }
+                      headerRight={ bgHeaderRightBox }
+                      headerMiddle={ bgHeaderMiddleBox }
+                      header='Spectators'
+                      style={{
+                        paddingTop: 20
+                      }}
+                      >
+                      <PlayerList spectator />
+                  </Box>
+*/

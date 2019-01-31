@@ -41,6 +41,7 @@ import {
 } from '../actions/player';
 
 const defaultState = {
+  playerId: null,
   inGame: false,
   actionable: false,
   drawPileSize: 0,
@@ -443,6 +444,7 @@ export default function reduce (state, action) {
         disasterModal: {...state.disasterModal,
           damage: action.data.sacrifices[0].damageDetails.incoming
         },
+        sacrifices: action.data.sacrifices
       };
       break;
     case CLEAR_DISASTER_MODAL:

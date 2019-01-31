@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import obstruction from 'obstruction';
+import document from 'global/document';
 
 import Typography from '@material-ui/core/Typography';
 
@@ -37,7 +38,7 @@ const styles = theme => ({
     width: '100%',
     minHeight: '100%',
     backgroundImage: 'url(' + backgroundImage + ')',
-    backgroundSize: 'cover'
+    backgroundSize: 'cover',
   },
   header: {
     width: '100%',
@@ -59,6 +60,11 @@ class GameComponent extends Component {
     if (!this.props.inGame) {
       API.reconnect(this.props.match.params.id);
     }
+    document.body.className = 'noscroll';
+  }
+
+  componentWillUnmount () {
+    document.body.className = '';
   }
 
   render () {

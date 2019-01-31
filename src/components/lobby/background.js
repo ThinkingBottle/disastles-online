@@ -15,11 +15,11 @@ const PARRALAX_TIME = 60
 
 const styles = theme => ({
   root: {
-    height: '100%',
+    position: 'relative',
     minHeight: '100%',
   },
   bottom: {
-    position: 'absolute',
+    position: 'fixed',
     height: '110%',
     width: '110%',
     top: '-5%',
@@ -29,7 +29,7 @@ const styles = theme => ({
     transition: 'all ' + PARRALAX_TIME + 's',
   },
   mid: {
-    position: 'absolute',
+    position: 'fixed',
     height: '110%',
     width: '110%',
     top: '-5%',
@@ -39,7 +39,7 @@ const styles = theme => ({
     transition: 'all ' + PARRALAX_TIME + 's',
   },
   top: {
-    position: 'absolute',
+    position: 'fixed',
     height: '110%',
     width: '110%',
     background: 'url(' + bgTop + ') no-repeat',

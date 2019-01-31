@@ -41,6 +41,7 @@ class ActionBar extends Component {
     this.sendAction = this.sendAction.bind(this);
     this.renderAction = this.renderAction.bind(this);
     this.clearActiveCard = this.clearActiveCard.bind(this);
+    this.renderRoomMarkWarning = this.renderRoomMarkWarning.bind(this);
   }
 
   componentWillReceiveProps (newProps) {
@@ -248,8 +249,14 @@ class ActionBar extends Component {
   }
 
   renderRoomMarkWarning () {
+    var roomCount = 0;
+    this.props.sacrifices.forEach((sac) => {
+      if (sac.player === this.props.playerId) {
+        roomCount = sac.damageDetails.taken;
+      }
+    });
     return (
-      <Typography color="secondary">You must mark rooms for destruction!</Typography>
+      <Typography color="secondary">You must mark { roomCount } rooms for destruction!</Typography>
     );
   }
 
@@ -263,9 +270,11 @@ class ActionBar extends Component {
 }
 
 const mapToProps = obstruction({
+  playerId: 'global.playerId',
   actions: 'game.actions',
   currentDisaster: 'game.currentDisaster',
-  activeCard: 'game.activeCard'
+  activeCard: 'game.activeCard',
+  sacrifices: 'game.sacrifices',
 });
 
 export default withStyles(styles)(connect(mapToProps)(ActionBar));
