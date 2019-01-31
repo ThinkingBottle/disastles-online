@@ -80,6 +80,14 @@ export async function setColor (color) {
   });
 }
 
+export async function kickPlayer (player) {
+  await ws.init();
+  ws.send({
+    action: 'KickPlayer',
+    id: player
+  });
+}
+
 export async function reconnect (token) {
   await ws.init();
   ws.send({

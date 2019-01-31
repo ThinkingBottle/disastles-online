@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import obstruction from 'obstruction';
 import { classNames, If } from 'react-extras';
 
+import API from '../../api';
+
 import ThroneRoom from './throne';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
@@ -129,6 +131,13 @@ class PlayerList extends Component {
 
     this.renderPlayer = this.renderPlayer.bind(this);
   }
+
+  kickPlayer (player) {
+    return kick;
+    function kick () {
+      API.kickPlayer(player);
+    }
+  }
   render () {
     var playerList = Object.keys(this.props.playerData)
       .filter((player) => this.props.playerData[player].spectator === !!this.props.spectator);
@@ -159,7 +168,8 @@ class PlayerList extends Component {
             classes={{
               root: this.props.classes.boot,
               disabled: this.props.classes.disabled,
-            }}>
+            }}
+            onClick={ this.kickPlayer(player) } >
             &nbsp;
           </Button>
         </div>

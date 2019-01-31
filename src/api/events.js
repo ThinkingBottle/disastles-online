@@ -1,3 +1,4 @@
+import window from 'global/window';
 import Event from 'geval/event';
 import ws from './ws';
 import store from '../store';
@@ -24,6 +25,12 @@ const GameStartingEvent = Event();
 export const onGameStarting = GameStartingEvent.listen;
 const GameJoinedEvent = Event();
 export const onGameJoined = GameJoinedEvent.listen;
+const KickedEvent = Event();
+export const onKicked = KickedEvent.listen;
+
+onKicked(function () {
+  window.location.href = '/';
+});
 
 var wasAllReady = false;
 
@@ -95,6 +102,10 @@ ws.onEvent(function handleEvent (event) {
 function handleDisconnect (event) {
   if (event.reason.startsWith('lobby does not exist')) {
     LobbyFailedEvent.broadcast(404);
+    return;
+  }
+  if (event.reason.startsWith('kicked from lobby')) {
+    KickedEvent.broadcast();
     return;
   }
   console.log('Unknown disconnect reason:', event.reason);
