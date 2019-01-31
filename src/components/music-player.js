@@ -177,6 +177,8 @@ class MusicPlayer extends Component {
       popoverEl: null,
     };
 
+    this.resetSongTimer(props);
+
     this.back = this.back.bind(this);
     this.play = this.play.bind(this);
     this.pause = this.pause.bind(this);
@@ -193,13 +195,17 @@ class MusicPlayer extends Component {
     if (this.songTimer) {
       this.songTimer();
     }
-    this.songTimer = timeout(this.skip, (1000 * songs[newProps.songNumber].length) - currentOffset(newProps) - 5000);
+    this.resetSongTimer(newProps);
     let time = Math.floor((currentOffset(newProps)) / 1000);
     if (time !== this.state.time) {
       this.setState({
         time
       });
     }
+  }
+
+  resetSongTimer (props) {
+    this.songTimer = timeout(this.skip, (1000 * songs[props.songNumber].length) - currentOffset(props) - 5000);
   }
 
   closeVolume () {
