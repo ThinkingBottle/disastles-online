@@ -53,6 +53,7 @@ const styles = theme => ({
   item: {
     flex: '0 0',
     textAlign: 'center',
+    whiteSpace: 'nowrap',
 
     '&.status': {
       width: 190,

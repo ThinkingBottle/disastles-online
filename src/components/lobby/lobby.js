@@ -301,47 +301,55 @@ class LobbyView extends Component {
       <Background rootClass={ this.props.classes.root }>
         <MusicPlayer />
         <SellStuff />
-        <div className={ this.props.classes.row }>
-          <a href="/">
-            <img src={ bgLogo } />
-          </a>
-          <Box
-            half
-            topLeft={ bgTopLeftBox }
-            topRight={ bgTopRightBox }
-            bottomLeft={ bgBottomLeftBox }
-            bottomRight={ bgBottomRightBox }
-            color={ bgColorBox }
-            left={ bgLeftBox }
-            right={ bgRightBox }
-            top={ bgTopBox }
-            bottom={ bgBottomBox }
-            height={120}
-            margin={ -12 }
-            >
-            <Button
-              disabled={ !this.props.allReady }
-              onClick={ this.startGame }
-              classes={{
-                root: this.props.classes.launchGame,
-                disabled: this.props.classes.disabled,
-              }}>
-              &nbsp;
-            </Button>
-            <Button
-              onClick={ this.showHowToPlay }
-              classes={{
-                root: this.props.classes.button
-              }} >
-              How To Play
-            </Button>
-          </Box>
-        </div>
+        <Grid container>
+          <Grid item xs={4}>
+            <a href="/">
+              <img src={ bgLogo } />
+            </a>
+          </Grid>
+          <Grid item xs={6}>
+            <Box
+              half
+              topLeft={ bgTopLeftBox }
+              topRight={ bgTopRightBox }
+              bottomLeft={ bgBottomLeftBox }
+              bottomRight={ bgBottomRightBox }
+              color={ bgColorBox }
+              left={ bgLeftBox }
+              right={ bgRightBox }
+              top={ bgTopBox }
+              bottom={ bgBottomBox }
+              height={120}
+              width={555}
+              margin={ -12 }
+              >
+              <Button
+                disabled={ !this.props.allReady }
+                onClick={ this.startGame }
+                classes={{
+                  root: this.props.classes.launchGame,
+                  disabled: this.props.classes.disabled,
+                }}>
+                &nbsp;
+              </Button>
+              <Button
+                onClick={ this.showHowToPlay }
+                classes={{
+                  root: this.props.classes.button
+                }} >
+                How To Play
+              </Button>
+            </Box>
+          </Grid>
+          <Grid item xs={2}>
+          </Grid>
+        </Grid>
+        <br />
+        <br />
         <If condition={ !!this.props.lobbyId }
           render={ () =>
-            <React.Fragment>
-              <div className={ this.props.classes.row }>
-                <div className={ this.props.classes.column }>
+            <Grid container spacing={32}>
+              <Grid item xs={12} md={6} lg={4}>
                 <Box
                   half
                   topLeft={ bgTopLeftBox }
@@ -506,8 +514,8 @@ class LobbyView extends Component {
                       </Grid>
                     </Grid>
                   </Box>
-                </div>
-                <div className={ this.props.classes.column }>
+                </Grid>
+                <Grid item xs={12} md={6} lg={4}>
                   <Box
                     half
                     topLeft={ bgTopLeftBox }
@@ -529,9 +537,8 @@ class LobbyView extends Component {
                       >
                       <PlayerList />
                   </Box>
-                </div>
-              </div>
-            </React.Fragment> } />
+                </Grid>
+                </Grid> } />
         <If condition={ !this.props.lobbyId }
           render={ () =>
             <React.Fragment>

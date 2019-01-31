@@ -104,7 +104,8 @@ class BoxComponent extends Component {
           thirtytwo: this.props.half
         }) }
         style={{
-          height: this.props.height
+          height: this.props.height,
+          width: this.props.width,
         }}
         >
         <div
