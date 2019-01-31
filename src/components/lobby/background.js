@@ -17,6 +17,7 @@ const styles = theme => ({
   root: {
     position: 'relative',
     minHeight: '100%',
+    height: '100%',
   },
   bottom: {
     position: 'fixed',
