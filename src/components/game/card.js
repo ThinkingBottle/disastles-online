@@ -19,6 +19,7 @@ import cardConfirmActive from './images/card-confirm-active.png';
 
 const styles = theme => ({
   root: {
+    position: 'relative',
     display: 'flex',
     borderRadius: 8,
     width: 128,

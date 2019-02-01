@@ -160,6 +160,7 @@ export default function reduce (state, action) {
         discardPileSize: action.data.discardPileSize,
         shop: [...state.shop],
         castles: {...state.castles},
+        playerCards: {...state.playerCards},
       };
       state.discardPile.push({
         card: action.data.card
@@ -173,6 +174,17 @@ export default function reduce (state, action) {
         castle.nodes = castle.nodes.filter(function (node) {
           if (node.card === action.data.card) {
             changedPlayerCastle = player;
+            return false;
+          }
+          return true;
+        });
+      });
+      Object.keys(state.playerCards).forEach(function (handPlayer) {
+        state.playerCards[handPlayer].revealed
+           = state.playerCards[handPlayer].revealed.filter(function (card) {
+          if (card === action.data.card) {
+            state.playerCards[handPlayer].count--;
+            changedPlayerCastle = handPlayer;
             return false;
           }
           return true;

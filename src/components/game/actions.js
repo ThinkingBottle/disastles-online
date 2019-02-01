@@ -60,7 +60,6 @@ class ActionBar extends Component {
           case 'SkipMultiChoice':
           case 'SkipText':
           case 'ChooseCard':
-          case 'DiscardCard':
           case 'ConfirmMultistepEffect':
             return true;
           default:
