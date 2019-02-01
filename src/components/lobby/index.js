@@ -93,6 +93,11 @@ class LobbyMenu extends Component {
       expanded: false
     };
   }
+  componentWillReceiveProps (newProps) {
+    if (newProps.lobbyId) {
+      this.props.history.push('/lobby/' + newProps.lobbyId);
+    }
+  }
   async onNewGame () {
     console.log('Start new game or something...');
     Sound.sfx.playSound('positive');
@@ -163,6 +168,7 @@ class LobbyMenu extends Component {
             transition: 'opacity 0.5s'
           }}>
             <Input
+              disabled={ !this.state.expanded }
               placeholder='Enter Code'
               disableUnderline
               id="lobby-id"
@@ -181,6 +187,7 @@ class LobbyMenu extends Component {
             >
             <Button
               onClick={ ()=> {
+                API.matchmaking();
                 this.setState({
                   matchmaking: true
                 });
@@ -189,7 +196,7 @@ class LobbyMenu extends Component {
               blue
               className={ classNames(this.props.classes.button, this.props.classes.matchmaking) }
               >
-              { this.state.matchmaking ? 'Coming Soon!' : 'Matchmaking' }
+              { this.state.matchmaking ? 'Searching...' : 'Matchmaking' }
             </Button>
           </Tooltip>
         </Box>
@@ -199,6 +206,7 @@ class LobbyMenu extends Component {
 }
 
 const mapToProps = obstruction({
+  lobbyId: 'lobby.id'
 });
 
 export default withStyles(styles)(connect(mapToProps)(LobbyMenu));

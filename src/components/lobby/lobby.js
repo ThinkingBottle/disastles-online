@@ -204,7 +204,7 @@ class LobbyView extends Component {
       console.log('We\'re not in a lobby yet!', paramId, this.state.name);
       await API.joinLobby(paramId);
     }
-    if (this.props.playerData[this.props.playerId].status === 'Loading') {
+    if (this.props.playerData[this.props.playerId] && this.props.playerData[this.props.playerId].status === 'Loading') {
       await Sound.init();
       API.finishedLoading();
     }

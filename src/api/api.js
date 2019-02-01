@@ -9,6 +9,13 @@ export async function send (action) {
   ws.send(action);
 }
 
+export async function matchmaking () {
+  await ws.init();
+  ws.send({
+    action: 'SearchForGame'
+  });
+}
+
 export async function createLobby () {
   await ws.init();
   return new Promise((resolve, reject) => {
