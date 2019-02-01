@@ -144,7 +144,10 @@ class LobbyView extends Component {
       name: props.name,
       disasterCount: this.getSettings('DisastersCount', props.settings),
       catastropheCount: this.getSettings('CatastrophesCount', props.settings),
+      seed: this.getSettings('Seed', props.settings) || '',
+      turnTimers: this.getSettings('EnableTurnTimer', props.settings),
     };
+    this.unlisten = Collector();
 
     this.renderPlayerSlot = this.renderPlayerSlot.bind(this);
     this.takeSlot = this.takeSlot.bind(this);
@@ -152,6 +155,8 @@ class LobbyView extends Component {
     this.startGame = this.startGame.bind(this);
     this.updateDisasterCount = this.updateDisasterCount.bind(this);
     this.updateCatastropheCount = this.updateCatastropheCount.bind(this);
+    this.toggleTurnTimers = this.toggleTurnTimers.bind(this);
+    this.updateSeed = this.updateSeed.bind(this);
     this.leaveLobby = this.leaveLobby.bind(this);
     this.updateName = this.updateName.bind(this);
     this.showHowToPlay = this.showHowToPlay.bind(this);
@@ -172,6 +177,14 @@ class LobbyView extends Component {
     if (catastropheCount !== this.state.catastropheCount) {
       newState.catastropheCount = catastropheCount;
     }
+    let turnTimers = this.getSettings('EnableTurnTimer', newProps.settings);
+    if (turnTimers !== this.state.turnTimers) {
+      newState.turnTimers = turnTimers;
+    }
+    let seed = this.getSettings('Seed', newProps.settings);
+    if (seed !== this.state.seed) {
+      newState.seed = seed;
+    }
 
     if (Object.keys(newState).length) {
       this.setState(newState);
@@ -179,7 +192,6 @@ class LobbyView extends Component {
   }
 
   async componentDidMount () {
-    this.unlisten = Collector();
     this.unlisten(API.events.onLobbyFailed(() => this.props.history.push('/lobby')));
     this.unlisten(API.events.onGameJoined(() => this.props.history.push('/game/' + this.props.reconnectionToken)));
     this.unlisten(timeout(() => API.setName(this.state.name), 1000));
@@ -253,11 +265,7 @@ class LobbyView extends Component {
     this.setState({
       disasterCount: newCount
     });
-    API.send({
-      action: 'ChangeSetting',
-      key: 'DisastersCount',
-      value: newCount
-    });
+    API.changeSetting('DisastersCount', newCount);
   }
 
   updateCatastropheCount (newCount) {
@@ -269,11 +277,28 @@ class LobbyView extends Component {
     this.setState({
       catastropheCount: newCount
     });
-    API.send({
-      action: 'ChangeSetting',
-      key: 'CatastrophesCount',
-      value: newCount
+    API.changeSetting('CatastrophesCount', newCount);
+  }
+  toggleTurnTimers (event) {
+
+  }
+  updateSeed (event) {
+    let value = event.target.value;
+    let bounds = this.getBounds('Seed');
+    if (value.length > bounds.maxLength) {
+      value = value.substr(0, bounds.maxLength);
+    }
+    this.setState({
+      seed: value
     });
+    if (this.seedTimer) {
+      this.seedTimer();
+    }
+    this.seedTimer = timeout(() => {
+      API.changeSetting('Seed', this.state.seed);
+    }, 200);
+
+    this.unlisten(this.seedTimer);
   }
 
   updateName (event) {
@@ -408,6 +433,7 @@ class LobbyView extends Component {
                           </Grid>
                           <Grid item xs={ 4 }>
                             <Counter
+                              disabled={ !this.isHost() }
                               onChange={ this.updateDisasterCount }
                               min={ disasterBounds.min }
                               max={ disasterBounds.max }
@@ -419,6 +445,7 @@ class LobbyView extends Component {
                           </Grid>
                           <Grid item xs={ 4 }>
                             <Counter
+                              disabled={ !this.isHost() }
                               onChange={ this.updateCatastropheCount }
                               min={ catastropheBounds.min }
                               max={ catastropheBounds.max }
@@ -434,7 +461,11 @@ class LobbyView extends Component {
                         Game seed:
                       </Grid>
                       <Grid item xs={ 6 }>
-                        <DisastlesInput />
+                        <DisastlesInput
+                          disabled={ !this.isHost() }
+                          value={ this.state.seed || '' }
+                          onChange={ this.updateSeed }
+                          />
                       </Grid>
                       <Grid item xs={ 6 } className={ this.props.classes.keyField }>
                         Lobby link:

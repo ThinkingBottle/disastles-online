@@ -57,6 +57,14 @@ export async function setReady (ready) {
   });
 }
 
+export async function changeSetting (key, value) {
+  await ws.init();
+  ws.send({
+    action: 'ChangeSetting',
+    key, value
+  });
+}
+
 export async function startGame (ready) {
   await ws.init();
   ws.send({
