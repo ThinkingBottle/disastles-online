@@ -85,6 +85,7 @@ export async function setName (name) {
     action: 'SetName',
     name
   });
+  localStorage.playerName = name;
 }
 
 export async function setColor (color) {

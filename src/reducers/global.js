@@ -17,7 +17,7 @@ import name from 'american-sounding-names';
 
 const defaultState = {
   playerId: 'test',
-  name: name(),
+  name: localStorage.playerName || name(),
   playerNames: {},
   playerColors: {},
   actions: []

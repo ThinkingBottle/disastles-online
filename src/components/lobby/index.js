@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
-import { classNames } from 'react-extras';
+import { classNames, If } from 'react-extras';
 import obstruction from 'obstruction';
 
 import Button from '../game/button';
@@ -28,6 +28,7 @@ import bgLeftBox from './images/settings-left.png';
 import bgRightBox from './images/settings-right.png';
 import bgTopBox from './images/settings-top.png';
 import bgBottomBox from './images/settings-bottom.png';
+import bgDiscord from '../images/discord-white.png';
 
 const styles = theme => ({
   root: {
@@ -78,6 +79,23 @@ const styles = theme => ({
     position: 'absolute',
     marginBottom: 0,
     bottom: 0
+  },
+  discord: {
+    height: '100%',
+    position: 'absolute',
+    left: 20,
+    top: 20,
+  },
+  discordButton: {
+    background: 'url(' + bgDiscord + ') no-repeat',
+    backgroundSize: (800 / 4) + 'px ' + (272 / 4) + 'px',
+    backgroundPosition: 'center center',
+    width: 800 / 4,
+    height: 272 / 4,
+    cursor: 'pointer',
+    '&:hover': {
+      boxShadow: '0px 0px 5px 0px #ffffff99',
+    }
   }
 });
 
@@ -90,7 +108,8 @@ class LobbyMenu extends Component {
 
     this.state = {
       lobbyId: '',
-      expanded: false
+      expanded: false,
+      showDiscord: false
     };
   }
   componentWillReceiveProps (newProps) {
@@ -197,6 +216,15 @@ class LobbyMenu extends Component {
             </Button>
           </Tooltip>
         </Box>
+        <div className={ this.props.classes.discord }>
+          <If condition={ this.state.showDiscord }
+            render={ () => <iframe src="https://discordapp.com/widget?id=466201397252325376&theme=dark" width="350" height="90%" allowtransparency="true" frameBorder="0"></iframe> } />
+          <If condition={ !this.state.showDiscord }
+            render={ () =>
+              <div
+              onClick={() => this.setState({ showDiscord: true }) }
+              className={ this.props.classes.discordButton } /> } />
+        </div>
       </Background>
     );
   }
