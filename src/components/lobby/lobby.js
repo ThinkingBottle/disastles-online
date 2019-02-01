@@ -18,6 +18,7 @@ import Counter from './counter';
 import PlayerList from './player-list';
 import ThroneRoomSelector from './throne-room-selector';
 import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
 import Icon from '@material-ui/core/Icon';
@@ -133,6 +134,9 @@ const styles = theme => ({
   keyField: {
     textAlign: 'right',
     color: 'white'
+  },
+  checkbox: {
+    padding: 0,
   }
 });
 
@@ -279,8 +283,11 @@ class LobbyView extends Component {
     });
     API.changeSetting('CatastrophesCount', newCount);
   }
-  toggleTurnTimers (event) {
-
+  toggleTurnTimers (event, value) {
+    this.setState({
+      turnTimers: value
+    });
+    API.changeSetting('EnableTurnTimer', value);
   }
   updateSeed (event) {
     let value = event.target.value;
@@ -457,6 +464,18 @@ class LobbyView extends Component {
                     </Box>
                     <br />
                     <Grid container zeroMinWidth spacing={16}>
+                      <Grid item xs={ 6 } className={ this.props.classes.keyField }>
+                        Turn timers:
+                      </Grid>
+                      <Grid item xs={ 6 }>
+                        <Checkbox
+                          classes={{
+                            root: this.props.classes.checkbox
+                          }}
+                          disabled={ !this.isHost() }
+                          checked={ this.state.turnTimers }
+                          onChange={ this.toggleTurnTimers } />
+                      </Grid>
                       <Grid item xs={ 6 } className={ this.props.classes.keyField }>
                         Game seed:
                       </Grid>
