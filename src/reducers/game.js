@@ -26,6 +26,7 @@ import {
   ROOM_DEACTIVATED,
   CASTLE_STATS_CHANGED,
   CLEAR_DISASTER_MODAL,
+  TURN_TIMEOUT_NOTIFICATION,
 
   GAME_ENDED,
 
@@ -62,8 +63,9 @@ const defaultState = {
   selectedActions: [],
   currentDisaster: false,
   disasterModal: null,
+  turnTimeout: null,
 
-  activeCard: null
+  activeCard: null,
 };
 
 var shuffleWasPlayed = false;
@@ -477,7 +479,8 @@ export default function reduce (state, action) {
       state = {...state,
         currentTurn: action.data.currentTurn,
         selectedCard: null,
-        selectedActions: []
+        selectedActions: [],
+        turnTimeout: null,
       };
       break;
     case CARD_RETURNED_TO_DRAW_PILE:
@@ -486,12 +489,20 @@ export default function reduce (state, action) {
         shop: state.shop.filter((card) => card !== action.data.card)
       };
       break;
+    case TURN_TIMEOUT_NOTIFICATION:
+      console.log('Turn is timing out...', action);
+      state = {...state,
+        turnTimeout: action.data.secondsLeft,
+        timeoutStart: Date.now(),
+      };
+      break;
     case GAME_ENDED:
       console.log('The game has ended', action.data);
       Sound.sfx.playSound('gameover');
       state = {...state,
         gameEnded: true,
-        gameStats: action.data
+        gameStats: action.data,
+        turnTimeout: null,
       };
       break;
   }

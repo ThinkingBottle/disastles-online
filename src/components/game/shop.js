@@ -245,7 +245,6 @@ class Shop extends Component {
         isClickable = action;
       }
     });
-    console.log(card);
     if (isClickable && card) {
       return (
         <Card

@@ -26,6 +26,7 @@ export const CLEAR_DISASTER_MODAL = 'CLEAR_DISASTER_MODAL';
 export const DISASTER_SACRIFICES_REQUIRED = 'DISASTER_SACRIFICES_REQUIRED';
 export const ROOM_MARKED = 'ROOM_MARKED';
 export const ROOMS_UNMARKED = 'ROOMS_UNMARKED';
+export const TURN_TIMEOUT_NOTIFICATION = 'TURN_TIMEOUT_NOTIFICATION';
 
 bindToEvent(JOINED_GAME, 'JoinedGame');
 bindToEvent(CARD_DRAWN_TO_SHOP, 'CardDrawnToShop');
@@ -52,6 +53,7 @@ bindToEvent(CARDS_RETURNED_FROM_PLAYER, 'CardsReturnedFromPlayer');
 bindToEvent(DISASTER_SACRIFICES_REQUIRED, 'DisasterSacrificesRequired');
 bindToEvent(ROOM_MARKED, 'RoomMarked');
 bindToEvent(ROOMS_UNMARKED, 'RoomsUnmarked');
+bindToEvent(TURN_TIMEOUT_NOTIFICATION, 'TurnTimeoutNotification');
 
 export function joinedGame (data) {
   return {

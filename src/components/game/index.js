@@ -18,6 +18,7 @@ import PlayerPicker from './player-picker';
 import Disasters from './disasters';
 import PlayerHand from './hand';
 import DisasterAlert from './disaster-alert';
+import TurnTimer from './turn-timer';
 
 import backgroundImage1 from '../backgrounds/BG1.png';
 import backgroundImage2 from '../backgrounds/BG2.png';
@@ -75,6 +76,7 @@ class GameComponent extends Component {
         // grid goes first because it's fullscreen covering the background
         // everything else is "hovering" over it
         <Header />
+        <TurnTimer />
         <div className={ this.props.classes.music }>
           <MusicPlayer />
         </div>

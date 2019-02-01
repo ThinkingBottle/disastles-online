@@ -25,7 +25,7 @@ const deckSizes = [
   deckSize3,
   deckSize4,
   deckSize5,
-  deckSize6
+  deckSize6,
 ];
 
 const styles = theme => ({
