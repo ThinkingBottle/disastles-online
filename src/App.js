@@ -6,10 +6,13 @@ import LobbyView from './components/lobby/lobby';
 import GameView from './components/game';
 import * as Sentry from '@sentry/browser';
 import window from 'global/window';
+import API from './api';
 
 import Typography from '@material-ui/core/Typography';
 
 import './App.css';
+
+window.API = API;
 
 if (process.env.NODE_ENV === 'production') {
   window._LTracker.push({
