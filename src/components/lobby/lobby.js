@@ -166,7 +166,7 @@ class LobbyView extends Component {
     this.showHowToPlay = this.showHowToPlay.bind(this);
   }
 
-  componentWillReceiveProps (newProps) {
+  async componentWillReceiveProps (newProps) {
     console.log('props', newProps);
     var newState = {};
     if (newProps.name !== this.props.name) {
@@ -193,6 +193,12 @@ class LobbyView extends Component {
     if (Object.keys(newState).length) {
       this.setState(newState);
     }
+
+    if (this.props.playerData[this.props.playerId] && this.props.playerData[this.props.playerId].status === 'Loading' && !this.hasLoaded) {
+      this.hasLoaded = true;
+      await Sound.init();
+      API.finishedLoading();
+    }
   }
 
   async componentDidMount () {
@@ -204,7 +210,8 @@ class LobbyView extends Component {
       console.log('We\'re not in a lobby yet!', paramId, this.state.name);
       await API.joinLobby(paramId);
     }
-    if (this.props.playerData[this.props.playerId] && this.props.playerData[this.props.playerId].status === 'Loading') {
+    if (this.props.playerData[this.props.playerId] && this.props.playerData[this.props.playerId].status === 'Loading' && !this.hasLoaded) {
+      this.hasLoaded = true;
       await Sound.init();
       API.finishedLoading();
     }
