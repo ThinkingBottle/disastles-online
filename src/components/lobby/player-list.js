@@ -152,10 +152,6 @@ class PlayerList extends Component {
     );
   }
   renderPlayer (player, i) {
-    if (player) {
-      console.log(player);
-    }
-
     let playerData = this.props.playerData[player];
 
     if (!playerData) {

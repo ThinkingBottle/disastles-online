@@ -9,10 +9,14 @@ export const ALL_READY = 'ALL_READY';
 export const HOST_CHANGED = 'HOST_CHANGED';
 export const SETTING_CHANGED = 'SETTING_CHANGED';
 export const COLOR_CHANGED = 'COLOR_CHANGED';
+export const SEARCH_STARTED = 'SEARCH_STARTED';
+export const SEARCH_CANCELLED = 'SEARCH_CANCELLED';
 
 bindToEvent(HOST_CHANGED, 'HostChanged');
 bindToEvent(SETTING_CHANGED, 'SettingChanged');
 bindToEvent(COLOR_CHANGED, 'ColorChanged');
+bindToEvent(SEARCH_STARTED, 'SearchStarted');
+bindToEvent(SEARCH_CANCELLED, 'SearchCanceled');
 
 export function joinLobby (snapshot) {
   return {

@@ -194,6 +194,13 @@ class LobbyView extends Component {
       this.setState(newState);
     }
 
+    if (this.props.lobbyId !== newProps.lobbyId) {
+      this.hasLoaded = false;
+      if (!newProps.lobbyId) {
+        this.props.history.push('/lobby');
+      }
+    }
+
     if (this.props.playerData[this.props.playerId] && this.props.playerData[this.props.playerId].status === 'Loading' && !this.hasLoaded) {
       this.hasLoaded = true;
       await Sound.init();

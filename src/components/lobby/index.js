@@ -188,15 +188,12 @@ class LobbyMenu extends Component {
             <Button
               onClick={ ()=> {
                 API.matchmaking();
-                this.setState({
-                  matchmaking: true
-                });
               }}
-              disabled={ this.state.matchmaking }
+              disabled={ this.props.isSearching }
               blue
               className={ classNames(this.props.classes.button, this.props.classes.matchmaking) }
               >
-              { this.state.matchmaking ? 'Searching...' : 'Matchmaking' }
+              { this.props.isSearching ? 'Searching...' : 'Matchmaking' }
             </Button>
           </Tooltip>
         </Box>
@@ -206,7 +203,8 @@ class LobbyMenu extends Component {
 }
 
 const mapToProps = obstruction({
-  lobbyId: 'lobby.id'
+  lobbyId: 'lobby.id',
+  isSearching: 'lobby.isSearching',
 });
 
 export default withStyles(styles)(connect(mapToProps)(LobbyMenu));

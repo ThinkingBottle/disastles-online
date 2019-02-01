@@ -8,6 +8,8 @@ import {
   HOST_CHANGED,
   SETTING_CHANGED,
   COLOR_CHANGED,
+  SEARCH_STARTED,
+  SEARCH_CANCELLED,
 } from '../actions/lobby';
 import {
   HELLO
@@ -19,7 +21,8 @@ const defaultState = {
   allReady: false,
   playerData: {},
   players: [],
-  settings: []
+  settings: [],
+  isSearching: false,
 };
 
 export default function reduce (state, action) {
@@ -36,6 +39,18 @@ export default function reduce (state, action) {
             status: 'Loading'
           }
         }
+      };
+      break;
+    case SEARCH_STARTED:
+      state = {...state,
+        isSearching: true,
+        id: null,
+        isReady: false,
+      };
+      break;
+    case SEARCH_CANCELLED:
+      state = {...state,
+        isSearching: false
       };
       break;
     case PLAYER_JOINED:
