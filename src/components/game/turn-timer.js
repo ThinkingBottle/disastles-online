@@ -59,11 +59,11 @@ class TurnTimer extends Component {
     if (props.turnTimeout === null) {
       return null;
     }
-    return props.turnTimeout - Math.floor((Date.now() - props.timeoutStart) / 1000)
+    return props.turnTimeout - ((Date.now() - props.timeoutStart) / 1000)
   }
 
   componentWillMount () {
-    this.stopTimer = interval(this.updateTime, 1000);
+    this.stopTimer = interval(this.updateTime, 100);
   }
 
   componentWillUnmount () {
@@ -77,7 +77,7 @@ class TurnTimer extends Component {
     if (this.state.currentTimeout === null) {
       return [];
     }
-    let percent = (this.props.turnTimeout - this.state.currentTimeout) / this.props.turnTimeout * 100;
+    let percent = (60 - this.state.currentTimeout) / 60 * 100;
     return (
       <div className={ this.props.classes.root }>
         <CircularProgress
@@ -86,9 +86,10 @@ class TurnTimer extends Component {
           }}
           size={66}
           variant="static"
+          color={ this.state.currentTimeout < 10 ? 'secondary' : 'primary' }
           value={ percent } />
         <span className={ this.props.classes.text }>
-          { this.state.currentTimeout }
+          { Math.floor(this.state.currentTimeout) }
         </span>
       </div>
     );
