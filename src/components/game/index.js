@@ -61,11 +61,11 @@ class GameComponent extends Component {
     if (!this.props.inGame) {
       API.reconnect(this.props.match.params.id);
     }
-    document.body.className = 'noscroll';
+    document.documentElement.className = 'noscroll';
   }
 
   componentWillUnmount () {
-    document.body.className = '';
+    document.documentElement.className = '';
   }
 
   render () {

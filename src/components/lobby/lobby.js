@@ -222,8 +222,11 @@ class LobbyView extends Component {
       await Sound.init();
       API.finishedLoading();
     }
+    document.documentElement.className = '';
   }
-
+  componentWillUnmount () {
+    document.documentElement.className = '';
+  }
   componentWillUnmount () {
     this.unlisten();
   }

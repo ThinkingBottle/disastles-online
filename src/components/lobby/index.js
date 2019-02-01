@@ -109,8 +109,14 @@ class LobbyMenu extends Component {
     this.state = {
       lobbyId: '',
       expanded: false,
-      showDiscord: false
+      showDiscord: false,
     };
+  }
+  componentWillMount () {
+    document.documentElement.className = 'noscroll';
+  }
+  componentWillUnmount () {
+    document.documentElement.className = '';
   }
   componentWillReceiveProps (newProps) {
     if (newProps.lobbyId) {
