@@ -15,6 +15,8 @@ import {
   HELLO
 } from '../actions/global';
 
+import Sound from '../sound';
+
 const defaultState = {
   id: null,
   isReady: false,
@@ -70,6 +72,9 @@ export default function reduce (state, action) {
       delete state.playerData[action.data.player];
       break;
     case LOBBY_SNAPSHOT:
+      if (state.isSearching) {
+        Sound.sfx.playSound('turn');
+      }
       console.log('snapshot', action);
       state = {...state,
         id: action.snapshot.id,

@@ -109,6 +109,7 @@ function handleDisconnect (event) {
     return;
   }
   console.log('Unknown disconnect reason:', event.reason);
+  window.location.href = '/';
 }
 
 function handleActions (event) {

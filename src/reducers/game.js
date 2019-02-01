@@ -490,6 +490,7 @@ export default function reduce (state, action) {
       };
       break;
     case TURN_TIMEOUT_NOTIFICATION:
+      Sound.sfx.playSound('negative');
       console.log('Turn is timing out...', action);
       state = {...state,
         turnTimeout: action.data.secondsLeft,
