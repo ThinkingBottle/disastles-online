@@ -8,7 +8,6 @@ import API from '../../api';
 
 import ThroneRoom from './throne';
 import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
 
 import bgSeperator from './images/seperator.png';
 import bgBoot from './images/boot.png';
@@ -58,7 +57,7 @@ const styles = theme => ({
     '&.status': {
       width: 190,
       minWidth: 190,
-      marginRight: 50
+      marginRight: 50,
     },
 
     '&.shrink': {
@@ -118,10 +117,12 @@ const styles = theme => ({
     '&.Unready': {
       background: 'url(' + bgNotReady + ') no-repeat',
       backgroundSize: '100% 100%',
+      cursor: 'pointer',
     },
     '&.Ready': {
       background: 'url(' + bgReady + ') no-repeat',
       backgroundSize: '100% 100%',
+      cursor: 'pointer',
     },
   }
 });
@@ -179,7 +180,7 @@ class PlayerList extends Component {
           { this.props.playerNames[player] }
         </div>
         <div className={ classNames(this.props.classes.item, 'status') }>
-          <div className={ classNames(this.props.classes.status, playerData.status)}>
+          <div onClick={this.props.toggleReady} className={ classNames(this.props.classes.status, playerData.status)}>
           </div>
         </div>
       </div>

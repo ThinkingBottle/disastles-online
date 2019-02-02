@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import obstruction from 'obstruction';
-import { If, classNames } from 'react-extras';
+import { If } from 'react-extras';
 import { partial } from 'ap';
 import Collector from 'collect-methods';
 import { timeout } from 'thyming';
@@ -21,7 +21,6 @@ import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
-import Icon from '@material-ui/core/Icon';
 import Typography from '@material-ui/core/Typography';
 
 import CheckIcon from '@material-ui/icons/Check';
@@ -29,7 +28,6 @@ import CloseIcon from '@material-ui/icons/Close';
 
 import API from '../../api';
 import Sound from '../../sound';
-import bgBackground from '../backgrounds/MenuBG.png';
 import bgLaunchGame from './images/launch-game.png';
 import bgLaunchGameActive from './images/launch-game-active.png';
 import bgLaunchGameHover from './images/launch-game-hover.png';
@@ -38,8 +36,6 @@ import bgButton from './images/button.png';
 import bgButtonHover from './images/button-hover.png';
 import bgButtonActive from './images/button-active.png';
 import bgLogo from './images/logo-small.png';
-import bgBox from './images/box.png';
-import bgBoxActive from './images/box-active.png';
 import bgTopLeftBox from './images/settings-tl.png';
 import bgTopRightBox from './images/settings-tr.png';
 import bgBottomLeftBox from './images/settings-bl.png';
@@ -103,9 +99,7 @@ const styles = theme => ({
     height: 80,
 
     '&:hover': {
-      bgLaunchGameHover
-    },
-    '&:hover': {
+      bgLaunchGameHover,
       bgLaunchGameActive
     }
   },
@@ -226,13 +220,10 @@ class LobbyView extends Component {
   }
   componentWillUnmount () {
     document.documentElement.className = '';
-  }
-  componentWillUnmount () {
     this.unlisten();
   }
 
   showHowToPlay () {
-    let a = '//';
     window.open('http://disastles.com/about', '_blank');
   }
 
@@ -261,6 +252,7 @@ class LobbyView extends Component {
       if (val.key === name) {
         return memo = val.value;
       }
+      return null;
     }, null);
   }
 
@@ -341,7 +333,7 @@ class LobbyView extends Component {
   }
 
   render () {
-    var difficulty = 'Difficult';
+    // var difficulty = 'Difficult';
 
     var disasterBounds = this.getBounds('DisastersCount');
     var catastropheBounds = this.getBounds('CatastrophesCount');
@@ -353,7 +345,7 @@ class LobbyView extends Component {
         <Grid container>
           <Grid item xs={4}>
             <a href="/">
-              <img src={ bgLogo } />
+              <img src={ bgLogo } alt='background' />
             </a>
           </Grid>
           <Grid item xs={6}>
@@ -602,7 +594,7 @@ class LobbyView extends Component {
                         paddingTop: 20
                       }}
                       >
-                      <PlayerList />
+                  <PlayerList toggleReady={this.toggleReady} />
                   </Box>
                 </Grid>
                 </Grid> } />
