@@ -68,8 +68,8 @@ class TurnTimer extends Component {
 
   componentWillUnmount () {
     if (this.stopTimer) {
-      this.stopTimer = null;
       this.stopTimer();
+      this.stopTimer = null;
     }
   }
 
