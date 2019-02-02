@@ -12,6 +12,7 @@ import Grid from '@material-ui/core/Grid';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 
+import Tile from './tile';
 import Card from '../card';
 
 import { selectCard, selectActions } from '../../../actions/player';
@@ -19,7 +20,8 @@ import { moveCamera } from '../../../actions/minimap';
 import API from '../../../api';
 import Sound from '../../../sound';
 
-export const CARD_ZOOM = 1.3;
+import { CARD_ZOOM } from './tile';
+export { CARD_ZOOM } from './tile';
 
 const styles = theme => ({
   root: {
@@ -49,47 +51,6 @@ const styles = theme => ({
 
     flexDirection: 'row',
   },
-  node: {
-    position: 'relative',
-    width: 85 * CARD_ZOOM,
-    height: 128 * CARD_ZOOM,
-    margin: 5,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    pointerEvents: 'none',
-    userSelect: 'none',
-
-    '& > *': {
-      pointerEvents: 'initial',
-    },
-
-    '&.wide': {
-      width: 128 * CARD_ZOOM
-    },
-    '&.short': {
-      height: 85 * CARD_ZOOM
-    },
-
-    '&.rotation1 > *': {
-      transform: 'rotate(90deg) translate3d(0, 0, 0)',
-      '& .unrotate': {
-        transform: 'rotate(-90deg) translate3d(0, 0, 0)',
-      }
-    },
-    '&.rotation2 > *': {
-      transform: 'rotate(180deg) translate3d(0, 0, 0)',
-      '& .unrotate': {
-        transform: 'rotate(-180deg) translate3d(0, 0, 0)',
-      }
-    },
-    '&.rotation3 > *': {
-      transform: 'rotate(270deg) translate3d(0, 0, 0)',
-      '& .unrotate': {
-        transform: 'rotate(-270deg) translate3d(0, 0, 0)',
-      }
-    }
-  }
 });
 
 class GridController extends Component {
@@ -192,7 +153,7 @@ class GridController extends Component {
     this.setState({...castle,
       actions: newProps.actions.filter((action) => {
         if (newProps.selectedCard || action.action === 'BuildRoom') {
-          return (this.cardsForAction(action).indexOf(newProps.selectedCard) !== -1);
+          return (Tile.cardsForAction(action).indexOf(newProps.selectedCard) !== -1);
         }
         return true;
       }),
@@ -215,7 +176,7 @@ class GridController extends Component {
     let action = actions[0];
     card = card || this.props.selectedCard;
 
-    let actionCards = this.cardsForAction(action);
+    let actionCards = Tile.cardsForAction(action);
 
     // check if there are multiple rotations
     if (rotations.length > 1) {
@@ -266,19 +227,6 @@ class GridController extends Component {
     }
   }
 
-  cardsForAction (action) {
-    if (action.card) {
-      return [action.card];
-    }
-    if (action.room) {
-      return [action.room];
-    }
-    if (action.rooms) {
-      return action.rooms.map((r) => r.room);
-    }
-    return [];
-  }
-
   render () {
     return (
       <div
@@ -312,142 +260,26 @@ class GridController extends Component {
   }
 
   renderCell (y, minX, node, i) {
-    let x = i + minX;
-    if (this.state.rotationCoords && this.state.rotationCoords[0] === x && this.state.rotationCoords[1] === y) {
-      console.log('This is a rotation room');
-      return this.renderRotationCard();
-    }
-    let key = x + ':' + y;
-    let actions = [];
-    let actionsTypes = [];
-    this.state.actions.forEach((val) => {
-      let actionCards = this.cardsForAction(val);
-      if (node && node.card === this.props.selectedCard) {
-        if (actionCards.length > 1) {
-          return false;
-        }
-        if (val.x !== undefined && (val.x !== x || val.y !== y)) {
-          return false;
-        }
-      }
-      if (val.castleOwner && val.castleOwner !== this.props.playerId) {
-        return;
-      }
-      if ((this.props.selectedActions.length || ['BuildRoom', 'MarkRoom', 'RotateRoom'].indexOf(val.action) === -1) && this.props.selectedActions.indexOf(val.action) === -1) {
-        return false;
-      }
-      if (node && actionCards.indexOf(node.card) !== -1) {
-        if (actionsTypes.indexOf(val.action) === -1) {
-          actionsTypes.push(val.action);
-        }
-        actions.push(val);
-        return val;
-      }
-      if (actionCards.indexOf(this.props.selectedCard) !== -1 && val.x === x && val.y === y) {
-        if (actionsTypes.indexOf(val.action) === -1) {
-          actionsTypes.push(val.action);
-        }
-        actions.push(val);
-        return val;
-      }
-      return;
-    });
-
-    let isClickable = actions.length > 0;
-    let isActionable = isClickable && actions.filter((a) => this.cardsForAction(a).indexOf(this.props.selectedCard) !== -1).length > 0;
-
-    let rotations = [];
-    actions.forEach(function (action) {
-      if (action.rotation !== undefined && rotations.indexOf(action.rotation) === -1) {
-        rotations.push(action.rotation)
-      }
-    });
-
-    rotations = rotations.sort();
-
-    if (actions.length) {
-      console.log(node ? node.card : x + ',' + y, actionsTypes, rotations, this.props.selectedActions);
-    }
-
-    if (!node && !isClickable) {
-      return (
-        <div
-          className={ classNames(
-            this.props.classes.node,
-            node && ('rotation' + node.rotation),
-            this.state.columnSizes[x],
-            // this.state.rowSizes[y],
-            ) }
-          key={ key } >
-        </div>
-      );
-    }
-
     return (
-      <div
-        className={ classNames(
-          this.props.classes.node,
-          node && ('rotation' + node.rotation),
-          this.state.columnSizes[x],
-          // this.state.rowSizes[y],
-          ) }
-        data-action={ isActionable }
-        key={ key } >
-        <Card
-          marked= { node && node.marked }
-          tooltip={ isActionable ? splitWords(actions[0].action) : null }
-          confirm={ isActionable }
-          skinny={ this.state.columnSizes[x] !== 'wide' }
-          height={ 128 * CARD_ZOOM }
-          card={ node ? node.card : 'empty' }
-          onClick={ isClickable ? partial(this.sendAction, node && node.card, actions, rotations, x, y) : null }
-          actions={ actionsTypes }
-          />
-      </div>
+      <Tile
+        actions={ this.props.actions }
+        minX={minX}
+        y={y}
+        x={i}
+        node={node}
+        rotationCoords={ this.state.rotationCoords }
+        columnSizes={ this.state.columnSizes }
+        rowSizes={ this.state.rowSizes }
+        rotations={ this.state.rotations }
+        currentRotation={ this.state.currentRotation }
+        rotationActions={ this.state.rotationActions }
+        rotationCard={ this.state.rotationCard }
+        selectedCard={ this.props.selectedCard }
+        selectedActions={ this.props.selectedActions }
+        onAction={ ({ card, actions, rotations, x, y }) => this.sendAction(card, actions, rotations, x, y)}
+        />
     );
   }
-
-  renderRotationCard () {
-    let [x, y] = this.state.rotationCoords;
-    let key = x + ':' + y;
-    let rotation = this.state.rotations[this.state.currentRotation];
-    let action = this.state.rotationActions.filter((a) => a.rotation === rotation)[0];
-
-    console.log('Rendering at rotation', rotation);
-
-    return (
-      <div
-        className={ classNames(
-          this.props.classes.node,
-          'rotation' + rotation,
-          this.state.columnSizes[x]
-          // this.state.rowSizes[y],
-        ) }
-        key={ key }
-        >
-        <Card
-          tooltip={ splitWords(action.action) }
-          skinny={ this.state.columnSizes[x] !== 'wide' }
-          card={ this.state.rotationCard }
-          onClick={ partial(this.sendAction, this.state.rotationCard, [action], [], x, y) }
-          onRotation={ this.nextRotation }
-          confirm
-          />
-      </div>
-    );
-  }
-}
-
-function splitWords (word) {
-  var result = '';
-  word.split('').forEach(function (t) {
-    if (result.length && t.toUpperCase() === t) {
-      result += ' ';
-    }
-    result += t;
-  });
-
-  return result;
 }
 
 const mapToProps = obstruction({

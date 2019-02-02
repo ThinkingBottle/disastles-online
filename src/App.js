@@ -58,7 +58,7 @@ class App extends Component {
       console.log(this.state);
       return (
         <React.Fragment>
-          <Typography variant='error'>
+          <Typography>
             <img src='https://media.giphy.com/media/EuLnAYIZZjB3q/giphy.gif' />
             <br />
             Good news! The error you just enountered was reported to the developers to be fixed!

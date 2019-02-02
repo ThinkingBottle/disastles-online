@@ -613,7 +613,7 @@ class LobbyView extends Component {
               <br />
               <center>
                 <CircularProgress size={ 128 }/>
-                <Typography variant="subheading">
+                <Typography variant="subtitle1">
                   Joining lobby......
                 </Typography>
               </center>

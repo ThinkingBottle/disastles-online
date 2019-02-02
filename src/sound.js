@@ -28,18 +28,7 @@ const sounds = {
 export default audio;
 
 const context = AudioContext();
-const SoundStartEvent = Event(function (broadcast) {
-  let hasStarted = false;
-  context.onstatechange = async function () {
-    if (!hasStarted && context.state === 'running') {
-      hasStarted = true;
-      await audio.init();
-      broadcast();
-    }
-  }
-});
 
-export const onStart = SoundStartEvent;
 
 document.body.addEventListener('focus', resumeAudioContext);
 document.body.addEventListener('click', resumeAudioContext);
@@ -56,6 +45,24 @@ function resumeAudioContext () {
 
 audio.loadPromise = loadAll();
 audio.init = function () { return audio.loadPromise; };
+
+const SoundStartEvent = Event(async function (broadcast) {
+  let hasStarted = false;
+  if (!context) {
+    hasStarted = true;
+    await audio.init();
+    broadcast();
+    return;
+  }
+  context.onstatechange = async function () {
+    if (!hasStarted && context.state === 'running') {
+      hasStarted = true;
+      await audio.init();
+      broadcast();
+    }
+  }
+});
+export const onStart = SoundStartEvent;
 
 async function loadAll () {
   audio.sfx = createVolumeChannel();
@@ -90,8 +97,11 @@ function startAmbience () {
 }
 
 function createVolumeChannel () {
-  var gainNode = context.createGain();
-  gainNode.gain.setValueAtTime(1, context.currentTime);
+  var gainNode = null;
+  if (context) {
+    gainNode = context.createGain();
+    gainNode.gain.setValueAtTime(1, context.currentTime);
+  }
 
   gainNode.connect(context.destination);
 

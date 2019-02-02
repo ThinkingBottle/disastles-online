@@ -85,7 +85,9 @@ export default function reduce (state, action) {
       break;
     case JOINED_GAME:
       console.log('joined game', action.data.snapshot);
-      Sound.sfx.playSound('startGame');
+      if (Sound && Sound.sfx) {
+        Sound.sfx.playSound('startGame');
+      }
       state = {...state,
         inGame: true,
         drawPileSize: action.data.snapshot.drawPileSize,
