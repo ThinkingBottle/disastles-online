@@ -90,11 +90,17 @@ class Shop extends Component {
     var canActionCard = false;
     var allMoves = newProps.actions.length > 0;
     var allSwaps = newProps.actions.length > 0;
+    var hasSwaps = false;
+    var hasMoves = false;
     newProps.actions.forEach(function (a) {
-      if (a.action !== 'SwapRooms' && a.action !== 'SkipText') {
+      if (a.action === 'SwapRooms') {
+        hasSwaps = true;
+      } else if (a.action !== 'SkipText') {
         allSwaps = false;
       }
-      if (a.action !== 'MoveRoom' && a.action !== 'SkipText') {
+      if (a.action === 'MoveRoom') {
+        hasMoves = true;
+      } else if (a.action !== 'SkipText') {
         allMoves = false;
       }
       switch (a.action) {
@@ -113,10 +119,10 @@ class Shop extends Component {
       }
     });
 
-    if (allSwaps && newProps.selectedActions.indexOf('SwapRooms') === -1) {
+    if (hasSwaps && allSwaps && newProps.selectedActions.indexOf('SwapRooms') === -1) {
       this.props.dispatch(selectActions(['SwapRooms']));
     }
-    if (allMoves && newProps.selectedActions.indexOf('MoveRoom') === -1) {
+    if (hasMoves && allMoves && newProps.selectedActions.indexOf('MoveRoom') === -1) {
       this.props.dispatch(selectActions(['MoveRoom']));
     }
 
