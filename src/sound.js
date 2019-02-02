@@ -45,6 +45,8 @@ function resumeAudioContext () {
 
 audio.loadPromise = loadAll();
 audio.init = function () { return audio.loadPromise; };
+audio.startAmbience = startAmbience;
+audio.stopAmbience = Collector();
 
 const SoundStartEvent = Event(async function (broadcast) {
   let hasStarted = false;
@@ -75,8 +77,6 @@ async function loadAll () {
     return loadSound(name, sounds[name]);
   }));
   await Promise.all(songs.map(loadSong));
-  audio.startAmbience = startAmbience;
-  audio.stopAmbience = Collector();
   resumeAudioContext();
 
   if (localStorage.musicMuted === 'true') {
