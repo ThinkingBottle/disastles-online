@@ -239,7 +239,7 @@ class Shop extends Component {
       if (action.card !== card) {
         return;
       }
-      if (action.action == 'BuildRoom') {
+      if (action.action === 'BuildRoom' || action.action === 'BuildAndSwapRoom') {
         isClickable = true;
       } else {
         isClickable = action;
