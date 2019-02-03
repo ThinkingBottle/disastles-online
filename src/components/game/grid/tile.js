@@ -146,8 +146,10 @@ class GridTile extends Component {
 
     let rotations = [];
     actions.forEach(function (action) {
-      if (action.rotation !== undefined && rotations.indexOf(action.rotation) === -1 && action.x === x && action.y === y) {
-        rotations.push(action.rotation)
+      if (action.rotation !== undefined && rotations.indexOf(action.rotation) === -1) {
+        if (action.x === undefined || (action.x === x && action.y === y)) {
+          rotations.push(action.rotation)
+        }
       }
     });
 
@@ -242,7 +244,7 @@ function splitWords (word) {
 }
 
 const mapToProps = obstruction({
-  playerId: 'global.playerId',
+  playerId: 'minimap.displayPlayer',
 });
 
 export default withStyles(styles)(connect(mapToProps)(GridTile));

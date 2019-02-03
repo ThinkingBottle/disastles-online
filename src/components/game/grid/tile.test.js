@@ -150,6 +150,50 @@ it('shows slot for building', () => {
   expect(tile.props()['data-clickable']).toBe(true);
 });
 
+it('shows slot for building with rotation', () => {
+  var tile = shallow(
+    <Tile
+      store={ store }
+      actions={ [{
+        action: 'BuildRoom',
+        card: '123',
+        x: 0,
+        y: 0,
+        rotation: 0,
+      }, {
+        action: 'BuildRoom',
+        card: '123',
+        x: 0,
+        y: 0,
+        rotation: 1,
+      }, {
+        action: 'BuildRoom',
+        card: '123',
+        x: 0,
+        y: 0,
+        rotation: 2,
+      }] }
+      minX={0}
+      x={ 0 }
+      y={ 0 }
+      node={ null }
+      rotationCoords={ null }
+      columnSizes={ ['normal'] }
+      rowSizes={ ['normal'] }
+      rotations={ [] }
+      currentRotation={ null }
+      rotationActions={ [] }
+      rotationCard={ null }
+      selectedCard={ '123' }
+      selectedActions={ [] }
+    />
+    ).dive().dive();
+
+  expect(tile.props()['data-rotations']).toEqual([0, 1, 2]);
+  expect(tile.props()['data-action']).toBe(true);
+  expect(tile.props()['data-clickable']).toBe(true);
+});
+
 it('building slot waits for rotation', () => {
   var tile = shallow(
     <Tile
@@ -223,5 +267,39 @@ it('move and rotates', () => {
 
   expect(tile.props()['data-rotations']).toEqual([]);
   expect(tile.props()['data-action']).toBe(false);
+  expect(tile.props()['data-clickable']).toBe(true);
+});
+
+it('rotation in place', () => {
+  var tile = shallow(
+    <Tile
+      store={ store }
+      actions={ [{
+        action: 'RotateRoom',
+        room: '123',
+        rotation: 0,
+      }, {
+        action: 'RotateRoom',
+        room: '123',
+        rotation: 1,
+      }] }
+      minX={0}
+      x={ 2 }
+      y={ 0 }
+      node={ { card: '123' } }
+      rotationCoords={ null }
+      columnSizes={ ['normal'] }
+      rowSizes={ ['normal'] }
+      rotations={ [] }
+      currentRotation={ null }
+      rotationActions={ [] }
+      rotationCard={ null }
+      selectedCard={ '123' }
+      selectedActions={ ['RotateRoom'] }
+    />
+    ).dive().dive();
+
+  expect(tile.props()['data-rotations']).toEqual([0, 1]);
+  expect(tile.props()['data-action']).toBe(true);
   expect(tile.props()['data-clickable']).toBe(true);
 });

@@ -173,10 +173,22 @@ class GridController extends Component {
   }
 
   async sendAction (card, actions, rotations, x, y) {
-    let action = actions[0];
     card = card || this.props.selectedCard;
 
-    let actionCards = Tile.cardsForAction(action);
+    let actionCards = actions.reduce(function (actionCards, action) {
+      Tile.cardsForAction(action).forEach(function (card) {
+        if (actionCards.indexOf(card === -1)) {
+          actionCards.push(card);
+        }
+      });
+      return actionCards
+    }, []);
+    let action = actions.reduce((memo, a) => {
+      if (Tile.cardsForAction(a).indexOf(this.props.selectedCard) !== -1) {
+        return a;
+      }
+      return memo;
+    }, actions[0]);
 
     // check if there are multiple rotations
     if (rotations.length > 1) {
