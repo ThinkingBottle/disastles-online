@@ -114,9 +114,6 @@ class LobbyMenu extends Component {
   componentWillMount () {
     document.documentElement.className = 'noscroll';
   }
-  componentWillUnmount () {
-    document.documentElement.className = '';
-  }
   componentWillReceiveProps (newProps) {
     if (newProps.lobbyId) {
       this.props.history.push('/lobby/' + newProps.lobbyId);

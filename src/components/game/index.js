@@ -65,7 +65,6 @@ class GameComponent extends Component {
   }
 
   componentWillUnmount () {
-    document.documentElement.className = '';
   }
 
   render () {

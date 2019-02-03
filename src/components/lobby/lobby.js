@@ -219,7 +219,6 @@ class LobbyView extends Component {
     document.documentElement.className = '';
   }
   componentWillUnmount () {
-    document.documentElement.className = '';
     this.unlisten();
   }
 
