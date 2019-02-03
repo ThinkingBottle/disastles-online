@@ -11,7 +11,6 @@ import SellStuff from '../shill';
 import Background from './background';
 import Input from '@material-ui/core/Input';
 import Tooltip from '@material-ui/core/Tooltip';
-import Typography from '@material-ui/core/Typography';
 
 import API from '../../api';
 import Sound from '../../sound';
@@ -152,7 +151,7 @@ class LobbyMenu extends Component {
       <Background rootClass={ this.props.classes.root }>
         <MusicPlayer />
         <SellStuff />
-        <img src={ logoImage } />
+        <img src={ logoImage } alt="logo" />
         <br />
         <br />
         <Box
@@ -224,7 +223,7 @@ class LobbyMenu extends Component {
         </Box>
         <div className={ this.props.classes.discord }>
           <If condition={ this.state.showDiscord }
-            render={ () => <iframe src="https://discordapp.com/widget?id=466201397252325376&theme=dark" width="350" height="90%" allowtransparency="true" frameBorder="0"></iframe> } />
+            render={ () => <iframe title="discord" src="https://discordapp.com/widget?id=466201397252325376&theme=dark" width="350" height="90%" allowtransparency="true" frameBorder="0"></iframe> } />
           <If condition={ !this.state.showDiscord }
             render={ () =>
               <div
