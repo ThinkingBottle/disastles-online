@@ -170,6 +170,16 @@ class LobbyMenu extends Component {
           >
 
           <Button
+            onClick={ ()=> {
+              API.matchmaking();
+            }}
+            disabled={ this.props.isSearching }
+            blue
+            className={ classNames(this.props.classes.button) }
+            >
+            { this.props.isSearching ? 'Finding Players...' : 'Play Now' }
+          </Button>
+          <Button
             onClick={ this.onNewGame }
             blue
             className={ this.props.classes.button }
@@ -203,20 +213,6 @@ class LobbyMenu extends Component {
               onChange={this.handleChange('lobbyId')}
             />
           </div>
-          <Tooltip
-            title='Coming soon'
-            >
-            <Button
-              onClick={ ()=> {
-                API.matchmaking();
-              }}
-              disabled={ this.props.isSearching }
-              blue
-              className={ classNames(this.props.classes.button, this.props.classes.matchmaking) }
-              >
-              { this.props.isSearching ? 'Searching...' : 'Matchmaking' }
-            </Button>
-          </Tooltip>
         </Box>
         <div className={ this.props.classes.discord }>
           <If condition={ this.state.showDiscord }
