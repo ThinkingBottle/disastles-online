@@ -288,6 +288,7 @@ class GridController extends Component {
         rotationCard={ this.state.rotationCard }
         selectedCard={ this.props.selectedCard }
         selectedActions={ this.props.selectedActions }
+        nextRotation={ this.nextRotation }
         onAction={ ({ card, actions, rotations, x, y }) => this.sendAction(card, actions, rotations, x, y)}
         />
     );

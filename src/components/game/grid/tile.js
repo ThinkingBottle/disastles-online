@@ -223,7 +223,7 @@ class GridTile extends Component {
           skinny={ this.props.columnSizes[x] !== 'wide' }
           card={ this.props.rotationCard }
           onClick={ partial(this.sendAction, this.props.rotationCard, [action], [], x, y) }
-          onRotation={ this.nextRotation }
+          onRotation={ this.props.nextRotation }
           confirm
           />
       </div>

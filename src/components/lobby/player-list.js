@@ -180,7 +180,7 @@ class PlayerList extends Component {
           { this.props.playerNames[player] }
         </div>
         <div className={ classNames(this.props.classes.item, 'status') }>
-          <div onClick={this.props.toggleReady} className={ classNames(this.props.classes.status, playerData.status)}>
+          <div onClick={  this.props.playerId === player ? this.props.toggleReady : null } className={ classNames(this.props.classes.status, playerData.status)}>
           </div>
         </div>
       </div>
