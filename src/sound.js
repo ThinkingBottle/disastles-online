@@ -5,6 +5,7 @@ import Collector from 'collect-methods';
 import Event from 'geval';
 import songs from './songs';
 
+const loadedSongs ={};
 const soundBuffers = {};
 const audio = {};
 const sounds = {
@@ -76,7 +77,7 @@ async function loadAll () {
   await Promise.all(Object.keys(sounds).map(async function (name) {
     return loadSound(name, sounds[name]);
   }));
-  await Promise.all(songs.map(loadSong));
+  // await Promise.all(songs.map(loadSong));
   resumeAudioContext();
 
   if (localStorage.musicMuted === 'true') {
@@ -135,11 +136,16 @@ async function playSong (node, index, offset) {
   let currentVolume = 1;
   gainNode.gain.setValueAtTime(1, context.currentTime);
 
-  if (!songs[index].buffer) {
-    songs[index].buffer = await decodeAudioData(songs[index].response);
-  }
+  if (!loadedSongs[index])
+	{
+		songs[index] = await loadSong(songs[index],index)
+	}
+	if (!loadedSongs[index].buffer)
+	{
+		loadedSongs[index].buffer = await decodeAudioData(songs[index]);
+	}
   let source = context.createBufferSource();
-  source.buffer = songs[index].buffer;
+  source.buffer = loadedSongs[index].buffer;
   source.connect(gainNode);
   gainNode.connect(node);
 
@@ -183,9 +189,11 @@ async function loadSound (name, url) {
   soundBuffers[name] = await decodeAudioData(await loadSoundData(url));
 }
 
-async function loadSong (data) {
-  data.response = await loadSoundData('/mp3/songs/' + data.file);
-  return data.response;
+async function loadSong(data,index)
+{
+	data.response = await loadSoundData('/mp3/songs/' + data.file);
+	loadedSongs[index]={};
+	return data.response;
 }
 
 async function loadSoundData (url) {
