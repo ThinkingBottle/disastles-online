@@ -76,6 +76,7 @@ async function loadAll () {
   await Promise.all(Object.keys(sounds).map(async function (name) {
     return loadSound(name, sounds[name]);
   }));
+  // don't wait for music, it's fiiiiine...
   await Promise.all(songs.map(loadSong));
   resumeAudioContext();
 

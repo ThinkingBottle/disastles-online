@@ -119,6 +119,12 @@ class Shop extends Component {
     if (canMove && allMoves && newProps.selectedActions.indexOf('MoveRoom') === -1) {
       this.props.dispatch(selectActions(['MoveRoom']));
     }
+    if (!canSwap && newProps.selectActions && newProps.selectActions.indexOf('SwapRooms') !== -1) {
+      this.props.dispatch(selectActions(newProps.selectActions.filter((action) => action !== 'SwapRooms')));
+    }
+    if (!canMove && newProps.selectActions && newProps.selectActions.indexOf('MoveRoom') !== -1) {
+      this.props.dispatch(selectActions(newProps.selectActions.filter((action) => action !== 'MoveRoom')));
+    }
 
     console.log('can skip?', canSkipTurn, newProps.selectedActions, newProps.selectedActions.indexOf('MoveRoom'));
 
