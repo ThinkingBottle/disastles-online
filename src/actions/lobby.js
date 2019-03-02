@@ -16,7 +16,7 @@ bindToEvent(HOST_CHANGED, 'HostChanged');
 bindToEvent(SETTING_CHANGED, 'SettingChanged');
 bindToEvent(COLOR_CHANGED, 'ColorChanged');
 bindToEvent(SEARCH_STARTED, 'SearchStarted');
-bindToEvent(SEARCH_CANCELLED, 'SearchCanceled');
+bindToEvent(SEARCH_CANCELLED, 'SearchCancelled');
 
 export function joinLobby (snapshot) {
   return {
