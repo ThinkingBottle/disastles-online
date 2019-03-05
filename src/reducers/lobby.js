@@ -2,7 +2,6 @@ import {
   LOBBY_SNAPSHOT,
   PLAYER_JOINED,
   PLAYER_LEAVE,
-  PLAYER_SLOT_CHANGED,
   STATUS_CHANGED,
   ALL_READY,
   HOST_CHANGED,
@@ -25,6 +24,7 @@ const defaultState = {
   players: [],
   settings: [],
   isSearching: false,
+  busStopNextTimestamp: null,
 };
 
 export default function reduce (state, action) {
@@ -48,11 +48,13 @@ export default function reduce (state, action) {
         isSearching: true,
         id: null,
         isReady: false,
+        busStopNextTimestamp: action.data.busStopNextTimestamp,
       };
       break;
     case SEARCH_CANCELLED:
       state = {...state,
-        isSearching: false
+        isSearching: false,
+        busStopNextTimestamp: null,
       };
       break;
     case PLAYER_JOINED:
@@ -62,7 +64,9 @@ export default function reduce (state, action) {
           [action.player.player]: {...action.player,
             id: action.player.player
           }
-        }
+        },
+        isSearching: false,
+        busStopNextTimestamp: null,
       };
       break;
     case PLAYER_LEAVE:
@@ -134,6 +138,8 @@ export default function reduce (state, action) {
         })
       };
       break;
+    default:
+      return state;
   }
 
   return state;

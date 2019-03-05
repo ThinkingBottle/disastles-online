@@ -16,6 +16,13 @@ export async function matchmaking () {
   });
 }
 
+export async function cancelMatchmaking () {
+  await ws.init();
+  ws.send({
+    action: 'CancelGameSearch'
+  });
+}
+
 export async function createLobby () {
   await ws.init();
   return new Promise((resolve, reject) => {

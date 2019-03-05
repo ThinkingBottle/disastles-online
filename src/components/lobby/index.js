@@ -9,6 +9,7 @@ import Box from '../box';
 import MusicPlayer from '../music-player';
 import SellStuff from '../shill';
 import Background from './background';
+import PlayNowButton from './play-now-button';
 import Input from '@material-ui/core/Input';
 import Tooltip from '@material-ui/core/Tooltip';
 
@@ -169,16 +170,7 @@ class LobbyMenu extends Component {
           }}
           >
 
-          <Button
-            onClick={ ()=> {
-              API.matchmaking();
-            }}
-            disabled={ this.props.isSearching }
-            blue
-            className={ classNames(this.props.classes.button) }
-            >
-            { this.props.isSearching ? 'Finding Players...' : 'Play Now' }
-          </Button>
+          <PlayNowButton />
           <Button
             onClick={ this.onNewGame }
             blue
@@ -230,7 +222,7 @@ class LobbyMenu extends Component {
 
 const mapToProps = obstruction({
   lobbyId: 'lobby.id',
-  isSearching: 'lobby.isSearching',
+  busStopNextTimestamp: 'lobby.busStopNextTimestamp',
 });
 
 export default withStyles(styles)(connect(mapToProps)(LobbyMenu));
