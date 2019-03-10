@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
-import { classNames, If } from 'react-extras';
+import { If } from 'react-extras';
 import obstruction from 'obstruction';
 
 import Button from '../game/button';
 import Box from '../box';
 import MusicPlayer from '../music-player';
+import OptionsModal from '../options-modal';
 import SellStuff from '../shill';
 import Background from './background';
 import PlayNowButton from './play-now-button';
 import Input from '@material-ui/core/Input';
-import Tooltip from '@material-ui/core/Tooltip';
 
 import API from '../../api';
 import Sound from '../../sound';
@@ -148,6 +148,7 @@ class LobbyMenu extends Component {
     return (
       <Background rootClass={ this.props.classes.root }>
         <MusicPlayer />
+        <OptionsModal />
         <SellStuff />
         <img src={ logoImage } alt="logo" />
         <br />

@@ -60,8 +60,8 @@ const styles = theme => ({
 });
 
 class SellThugAim extends Component {
-  constructor () {
-    super();
+  constructor (props) {
+    super(props);
 
     this.state = {
       expanded: true
