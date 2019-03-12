@@ -1,8 +1,17 @@
 import React, { Component, Fragment } from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
+import obstruction from 'obstruction';
 
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
+import VolumeSlider from './volume-slider';
+
+import {
+  changeMusicVolume,
+  changeAmbienceVolume,
+  changeSfxVolume,
+} from '../actions/music';
 
 import bgTopLeft from './images/options_tl.png';
 import bgTopRight from './images/options_tr.png';
@@ -169,13 +178,29 @@ class OptionsModal extends Component {
             <div className={ this.props.classes.bottomRight } />
             <div className={ this.props.classes.left } />
             <div className={ this.props.classes.right } />
-            {/*<div className={ this.props.classes.top } />*/}
             <div className={ this.props.classes.bottom } />
             <div className={ this.props.classes.headerLeft } />
             <div className={ this.props.classes.headerMiddle } />
             <div className={ this.props.classes.headerRight } />
             <div className={ this.props.classes.content }>
               <h2 className={ this.props.classes.header }>Options</h2>
+              <div>
+                <VolumeSlider
+                  label="Music"
+                  initialValue={ this.props.musicVolume }
+                  action={ changeMusicVolume }
+                />
+                <VolumeSlider
+                  label="Ambience"
+                  initialValue={ this.props.ambienceVolume }
+                  action={ changeAmbienceVolume }
+                />
+                <VolumeSlider
+                  label="Sound effects"
+                  initialValue={ this.props.sfxVolume }
+                  action={ changeSfxVolume }
+                />
+              </div>
             </div>
           </div>
         </Modal>
@@ -184,4 +209,10 @@ class OptionsModal extends Component {
   }
 }
 
-export default withStyles(styles)(OptionsModal);
+const mapToProps = obstruction({
+  musicVolume: 'music.musicVolume',
+  ambienceVolume: 'music.ambienceVolume',
+  sfxVolume: 'music.sfxVolume',
+});
+
+export default withStyles(styles)(connect(mapToProps)(OptionsModal));

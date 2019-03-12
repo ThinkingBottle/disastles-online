@@ -26,6 +26,8 @@ const sounds = {
   gameover: '/mp3/stinger_endscreen.mp3',
 };
 
+export const INITIAL_AMBIENCE_VOLUME = 10;
+export const INITIAL_SFX_VOLUME = 40;
 export default audio;
 
 const context = AudioContext();
@@ -71,8 +73,8 @@ async function loadAll () {
   audio.sfx = createVolumeChannel();
   audio.ambience = createVolumeChannel();
   audio.music = createVolumeChannel();
-  audio.sfx.setVolume(0.4);
-  audio.ambience.setVolume(0.1);
+  audio.sfx.setVolume(INITIAL_SFX_VOLUME / 100);
+  audio.ambience.setVolume(INITIAL_AMBIENCE_VOLUME / 100);
 
   await Promise.all(Object.keys(sounds).map(async function (name) {
     return loadSound(name, sounds[name]);

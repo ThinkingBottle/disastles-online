@@ -3,7 +3,9 @@ export const PLAY = 'PLAY';
 export const STOP = 'STOP';
 export const SKIP = 'SKIP';
 export const PREVIOUS = 'PREVIOUS';
-export const CHANGE_VOLUME = 'CHANGE_VOLUME';
+export const CHANGE_MUSIC_VOLUME = 'CHANGE_MUSIC_VOLUME';
+export const CHANGE_AMBIENCE_VOLUME = 'CHANGE_AMBIENCE_VOLUME';
+export const CHANGE_SFX_VOLUME = 'CHANGE_SFX_VOLUME';
 export const MUTE = 'MUTE';
 
 export function pause () {
@@ -37,9 +39,23 @@ export function previous () {
   };
 }
 
-export function changeVolume (volume) {
+export function changeMusicVolume (volume) {
   return {
-    type: CHANGE_VOLUME,
+    type: CHANGE_MUSIC_VOLUME,
+    volume
+  };
+}
+
+export function changeAmbienceVolume (volume) {
+  return {
+    type: CHANGE_AMBIENCE_VOLUME,
+    volume
+  };
+}
+
+export function changeSfxVolume (volume) {
+  return {
+    type: CHANGE_SFX_VOLUME,
     volume
   };
 }
