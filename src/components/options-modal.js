@@ -11,6 +11,7 @@ import {
   changeMusicVolume,
   changeAmbienceVolume,
   changeSfxVolume,
+  changePlayerTurnVolume,
 } from '../actions/music';
 
 import bgTopLeft from './images/options_tl.png';
@@ -200,6 +201,11 @@ class OptionsModal extends Component {
                   initialValue={ this.props.sfxVolume }
                   action={ changeSfxVolume }
                 />
+                <VolumeSlider
+                  label="It's your turn bell"
+                  initialValue={ this.props.playerTurnVolume }
+                  action={ changePlayerTurnVolume }
+                />
               </div>
             </div>
           </div>
@@ -213,6 +219,7 @@ const mapToProps = obstruction({
   musicVolume: 'music.musicVolume',
   ambienceVolume: 'music.ambienceVolume',
   sfxVolume: 'music.sfxVolume',
+  playerTurnVolume: 'music.playerTurnVolume',
 });
 
 export default withStyles(styles)(connect(mapToProps)(OptionsModal));

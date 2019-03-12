@@ -77,7 +77,7 @@ export default function reduce (state, action) {
       break;
     case LOBBY_SNAPSHOT:
       if (state.isSearching) {
-        Sound.sfx.playSound('turn');
+        Sound.playerTurn.playSound('turn');
       }
       console.log('snapshot', action);
       state = {...state,

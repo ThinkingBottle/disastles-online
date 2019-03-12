@@ -6,6 +6,7 @@ export const PREVIOUS = 'PREVIOUS';
 export const CHANGE_MUSIC_VOLUME = 'CHANGE_MUSIC_VOLUME';
 export const CHANGE_AMBIENCE_VOLUME = 'CHANGE_AMBIENCE_VOLUME';
 export const CHANGE_SFX_VOLUME = 'CHANGE_SFX_VOLUME';
+export const CHANGE_PLAYER_TURN_VOLUME = 'CHANGE_PLAYER_TURN_VOLUME';
 export const MUTE = 'MUTE';
 
 export function pause () {
@@ -56,6 +57,13 @@ export function changeAmbienceVolume (volume) {
 export function changeSfxVolume (volume) {
   return {
     type: CHANGE_SFX_VOLUME,
+    volume
+  };
+}
+
+export function changePlayerTurnVolume (volume) {
+  return {
+    type: CHANGE_PLAYER_TURN_VOLUME,
     volume
   };
 }

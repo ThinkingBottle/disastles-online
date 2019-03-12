@@ -7,10 +7,16 @@ import {
   CHANGE_MUSIC_VOLUME,
   CHANGE_AMBIENCE_VOLUME,
   CHANGE_SFX_VOLUME,
+  CHANGE_PLAYER_TURN_VOLUME,
   MUTE,
 } from '../actions/music';
 import songs from '../songs';
-import Sound, { INITIAL_AMBIENCE_VOLUME, INITIAL_SFX_VOLUME } from '../sound';
+import Sound, {
+  INITIAL_MUSIC_VOLUME,
+  INITIAL_AMBIENCE_VOLUME,
+  INITIAL_SFX_VOLUME,
+  INITIAL_PLAYER_TURN_VOLUME,
+} from '../sound';
 
 const defaultState = {
   startTime: Date.now(),
@@ -20,10 +26,11 @@ const defaultState = {
   songNumber: Math.floor(Math.random() * songs.length),
   songName: 'Loading...',
 
-  musicVolume: localStorage.musicVolume ? Number(localStorage.musicVolume) : 80,
+  musicVolume: localStorage.musicVolume ? Number(localStorage.musicVolume) : INITIAL_MUSIC_VOLUME * 100,
   musicMuted: localStorage.musicMuted === 'true',
-  ambienceVolume: localStorage.ambienceVolume ? Number(localStorage.ambienceVolume) : INITIAL_AMBIENCE_VOLUME,
-  sfxVolume: localStorage.sfxVolume ? Number(localStorage.sfxVolume) : INITIAL_SFX_VOLUME,
+  ambienceVolume: localStorage.ambienceVolume ? Number(localStorage.ambienceVolume) : INITIAL_AMBIENCE_VOLUME * 100,
+  sfxVolume: localStorage.sfxVolume ? Number(localStorage.sfxVolume) : INITIAL_SFX_VOLUME * 100,
+  playerTurnVolume: localStorage.playerTurnVolume ? Number(localStorage.playerTurnVolume) : INITIAL_PLAYER_TURN_VOLUME * 100,
 };
 
 export default function reduce (state, action) {
@@ -92,6 +99,13 @@ export default function reduce (state, action) {
       };
       localStorage.sfxVolume = action.volume;
       Sound.sfx.setVolume(action.volume / 100);
+      break;
+    case CHANGE_PLAYER_TURN_VOLUME:
+      state = {...state,
+        playerTurnVolume: action.volume,
+      };
+      localStorage.playerTurnVolume = action.volume;
+      Sound.playerTurn.setVolume(action.volume / 100);
       break;
     case MUTE:
       state = {...state,

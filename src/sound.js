@@ -26,8 +26,11 @@ const sounds = {
   gameover: '/mp3/stinger_endscreen.mp3',
 };
 
-export const INITIAL_AMBIENCE_VOLUME = 10;
-export const INITIAL_SFX_VOLUME = 40;
+export const INITIAL_MUSIC_VOLUME = 0.8;
+export const INITIAL_AMBIENCE_VOLUME = 0.1;
+export const INITIAL_SFX_VOLUME = 0.4;
+export const INITIAL_PLAYER_TURN_VOLUME = 0.9;
+
 export default audio;
 
 const context = AudioContext();
@@ -73,8 +76,10 @@ async function loadAll () {
   audio.sfx = createVolumeChannel();
   audio.ambience = createVolumeChannel();
   audio.music = createVolumeChannel();
-  audio.sfx.setVolume(INITIAL_SFX_VOLUME / 100);
-  audio.ambience.setVolume(INITIAL_AMBIENCE_VOLUME / 100);
+  audio.playerTurn = createVolumeChannel();
+  audio.sfx.setVolume(localStorage.sfxVolume ? Number(localStorage.sfxVolume) / 100 : INITIAL_SFX_VOLUME);
+  audio.ambience.setVolume(localStorage.ambienceVolume ? Number(localStorage.ambienceVolume) / 100 : INITIAL_AMBIENCE_VOLUME);
+  audio.playerTurn.setVolume(localStorage.playerTurnVolume ? Number(localStorage.playerTurnVolume) / 100 : INITIAL_PLAYER_TURN_VOLUME);
 
   await Promise.all(Object.keys(sounds).map(async function (name) {
     return loadSound(name, sounds[name]);
@@ -86,7 +91,7 @@ async function loadAll () {
     audio.music.setVolume(0);
   } else {
     startAmbience();
-    audio.music.setVolume(localStorage.musicVolume ? Number(localStorage.musicVolume) / 100 : 0.8);
+    audio.music.setVolume(localStorage.musicVolume ? Number(localStorage.musicVolume) / 100 : INITIAL_MUSIC_VOLUME);
   }
 }
 
