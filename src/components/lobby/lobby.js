@@ -11,6 +11,7 @@ import window from 'global/window';
 
 import Box from '../box';
 import MusicPlayer from '../music-player';
+import OptionsModal from '../options-modal';
 import DisastlesInput from '../input';
 import SellStuff from '../shill';
 import Background from './background';
@@ -340,6 +341,7 @@ class LobbyView extends Component {
     return (
       <Background rootClass={ this.props.classes.root }>
         <MusicPlayer />
+        <OptionsModal />
         <SellStuff />
         <Grid container>
           <Grid item xs={4}>

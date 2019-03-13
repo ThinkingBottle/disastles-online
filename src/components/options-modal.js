@@ -14,6 +14,8 @@ import {
   changePlayerTurnVolume,
 } from '../actions/music';
 
+import Sound from '../sound';
+
 import bgTopLeft from './images/options_tl.png';
 import bgTopRight from './images/options_tr.png';
 import bgBottomLeft from './images/options_bl.png';
@@ -173,10 +175,12 @@ class OptionsModal extends Component {
 
   openModal () {
     this.setState({ open: true });
+    Sound.sfx.playSound('positive');
   }
 
   closeModal () {
     this.setState({ open: false });
+    Sound.sfx.playSound('negative');
   }
 
   render () {
@@ -218,11 +222,13 @@ class OptionsModal extends Component {
                   label="Sound effects"
                   initialValue={ this.props.sfxVolume }
                   action={ changeSfxVolume }
+                  testSound="positive"
                 />
                 <VolumeSlider
                   label="&#34;It's your turn&#34; bell"
                   initialValue={ this.props.playerTurnVolume }
                   action={ changePlayerTurnVolume }
+                  testSound="turn"
                 />
               </div>
             </div>

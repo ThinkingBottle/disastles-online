@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Slider from '@material-ui/lab/Slider';
 
+import Sound from '../sound';
+
 import minus from './images/minus.png';
 import minusHover from './images/minus-hover.png';
 import minusActive from './images/minus-active.png';
@@ -95,23 +97,44 @@ class VolumeSlider extends Component {
   constructor(props) {
     super(props);
 
-    this.changeVolume = this.changeVolume.bind(this);
+    this.value = null;
+
+    this.onChangeHandler = this.onChangeHandler.bind(this);
+    this.onDragEndHandler = this.onDragEndHandler.bind(this);
     this.decreaseVolume = this.decreaseVolume.bind(this);
     this.increaseVolume = this.increaseVolume.bind(this);
+    this.playTestSound = this.playTestSound.bind(this);
   }
 
-  changeVolume (event, value) {
+  onChangeHandler (event, value) {
     this.props.dispatch(this.props.action(value));
+    this.value = value;
+  }
+
+  onDragEndHandler () {
+    this.playTestSound();
   }
 
   decreaseVolume () {
     const value = Math.max(this.props.initialValue - 10, 0);
-    this.props.dispatch(this.props.action(value))
+    this.props.dispatch(this.props.action(value));
+    this.value = value;
+    this.playTestSound();
   }
 
   increaseVolume () {
     const value = Math.min(this.props.initialValue + 10, 100);
-    this.props.dispatch(this.props.action(value))
+    this.props.dispatch(this.props.action(value));
+    this.value = value;
+    this.playTestSound();
+  }
+
+  playTestSound () {
+    const { testSound } = this.props;
+    if (testSound) {
+      Sound.optionsMenu.setVolume(this.value / 100);
+      Sound.optionsMenu.playSound(testSound);
+    }
   }
 
   render () {
@@ -129,7 +152,8 @@ class VolumeSlider extends Component {
             <Slider
               className={ this.props.classes.slider }
               value={ this.props.initialValue }
-              onChange={ this.changeVolume }
+              onChange={ this.onChangeHandler }
+              onDragEnd={ this.onDragEndHandler }
               classes={ {
                 trackBefore: this.props.classes.trackBefore,
                 trackAfter: this.props.classes.trackAfter,

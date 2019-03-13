@@ -77,6 +77,7 @@ async function loadAll () {
   audio.ambience = createVolumeChannel();
   audio.music = createVolumeChannel();
   audio.playerTurn = createVolumeChannel();
+  audio.optionsMenu = createVolumeChannel();
   audio.sfx.setVolume(localStorage.sfxVolume ? Number(localStorage.sfxVolume) / 100 : INITIAL_SFX_VOLUME);
   audio.ambience.setVolume(localStorage.ambienceVolume ? Number(localStorage.ambienceVolume) / 100 : INITIAL_AMBIENCE_VOLUME);
   audio.playerTurn.setVolume(localStorage.playerTurnVolume ? Number(localStorage.playerTurnVolume) / 100 : INITIAL_PLAYER_TURN_VOLUME);
