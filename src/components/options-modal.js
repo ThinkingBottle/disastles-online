@@ -29,6 +29,8 @@ import bgTopMidRight from './images/options_top_right.png';
 
 import settings from './images/settings.png';
 import settingsHover from './images/settings-hover.png';
+import close from './images/close.png';
+import closeHover from './images/close-hover.png';
 
 const styles = theme => ({
   root: {
@@ -98,7 +100,24 @@ const styles = theme => ({
     '&:hover': {
       background: `url(${settingsHover}) no-repeat`,
       backgroundSize: 32,
-    }
+    },
+  },
+  closeButton: {
+    width: 24,
+    height: 22.5,
+    background: `url(${close}) no-repeat`,
+    backgroundSize: '24px 22.5px',
+    position: 'absolute',
+    padding: 0,
+    minWidth: 0,
+    minHeight: 0,
+    top: -15,
+    right: -17,
+
+    '&:hover': {
+      background: `url(${closeHover}) no-repeat`,
+      backgroundSize: '24px 22.5px',
+    },
   }
 });
 
@@ -169,7 +188,7 @@ class OptionsModal extends Component {
         />
         <Modal
           open={ this.state.open }
-          onClose={ this.closeModal }
+          disableBackdropClick={false}
           >
           <div className={ this.props.classes.root }>
             <div className={ this.props.classes.topLeft } />
@@ -207,6 +226,10 @@ class OptionsModal extends Component {
                 />
               </div>
             </div>
+            <Button
+              onClick={ this.closeModal }
+              className={ this.props.classes.closeButton }
+            />
           </div>
         </Modal>
       </Fragment>
