@@ -96,10 +96,22 @@ class VolumeSlider extends Component {
     super(props);
 
     this.changeVolume = this.changeVolume.bind(this);
+    this.decreaseVolume = this.decreaseVolume.bind(this);
+    this.increaseVolume = this.increaseVolume.bind(this);
   }
 
   changeVolume (event, value) {
     this.props.dispatch(this.props.action(value));
+  }
+
+  decreaseVolume () {
+    const value = Math.max(this.props.initialValue - 10, 0);
+    this.props.dispatch(this.props.action(value))
+  }
+
+  increaseVolume () {
+    const value = Math.min(this.props.initialValue + 10, 100);
+    this.props.dispatch(this.props.action(value))
   }
 
   render () {
@@ -109,7 +121,10 @@ class VolumeSlider extends Component {
           { this.props.label }
         </div>
         <div className={ this.props.classes.right }>
-          <Button className={ this.props.classes.minusButton } />
+          <Button
+            className={ this.props.classes.minusButton }
+            onClick={ this.decreaseVolume }
+          />
           <div className={ this.props.classes.sliderWrapper }>
             <Slider
               className={ this.props.classes.slider }
@@ -124,7 +139,10 @@ class VolumeSlider extends Component {
               } }
             />
           </div>
-          <Button className={ this.props.classes.plusButton } />
+          <Button
+            className={ this.props.classes.plusButton }
+            onClick={ this.increaseVolume }
+          />
         </div>
       </div>
     );
