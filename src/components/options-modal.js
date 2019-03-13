@@ -35,7 +35,6 @@ const styles = theme => ({
     position: 'absolute',
     minHeight: 130,
     minWidth: 130,
-    // background: 'url(' + bgColor + ')',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
@@ -85,8 +84,8 @@ const styles = theme => ({
   },
   settings: {
     position: 'absolute',
-    bottom: 20,
-    left: 20,
+    right: 8,
+    top: 117,
     zIndex: 1,
     width: 32,
     height: 32,
@@ -202,7 +201,7 @@ class OptionsModal extends Component {
                   action={ changeSfxVolume }
                 />
                 <VolumeSlider
-                  label="It's your turn bell"
+                  label="&#34;It's your turn&#34; bell"
                   initialValue={ this.props.playerTurnVolume }
                   action={ changePlayerTurnVolume }
                 />
