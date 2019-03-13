@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import API from '../../api';
 
 import MusicPlayer from '../music-player';
+import OptionsModal from '../options-modal';
 import GridController from './grid';
 import Minimap from './minimap';
 import Header from './header';
@@ -78,6 +79,7 @@ class GameComponent extends Component {
         <TurnTimer />
         <div className={ this.props.classes.music }>
           <MusicPlayer />
+          <OptionsModal />
         </div>
         <PlayerPicker />
         <DisasterAlert />
