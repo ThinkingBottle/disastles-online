@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import obstruction from 'obstruction';
 import { classNames, If } from 'react-extras';
 
-import Typography from '@material-ui/core/Typography';
-
 const styles = theme => ({
   root: {
     position: 'relative',
@@ -91,9 +89,6 @@ function makeEdge (type) {
 
 
 class BoxComponent extends Component {
-  constructor () {
-    super();
-  }
   render () {
     var props = obstruction({
       style: true

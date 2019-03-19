@@ -18,7 +18,7 @@ import {
   pause,
   stop,
   skip,
-  changeVolume,
+  changeMusicVolume,
   muteMusic,
 } from '../actions/music';
 import { currentOffset } from '../reducers/music';
@@ -184,7 +184,7 @@ class MusicPlayer extends Component {
     this.skip = this.skip.bind(this);
     this.toggleVolume = this.toggleVolume.bind(this);
     this.closeVolume = this.closeVolume.bind(this);
-    this.changeVolume = this.changeVolume.bind(this);
+    this.changeMusicVolume = this.changeMusicVolume.bind(this);
     this.showVolume = this.showVolume.bind(this);
     this.cancelShowVolume = this.cancelShowVolume.bind(this);
     this.toggleMute = this.toggleMute.bind(this);
@@ -246,8 +246,8 @@ class MusicPlayer extends Component {
       return;
     }
   }
-  changeVolume (event, value) {
-    this.props.dispatch(changeVolume(value));
+  changeMusicVolume (event, value) {
+    this.props.dispatch(changeMusicVolume(value));
   }
   back () {
     this.props.dispatch(previous());
@@ -373,7 +373,7 @@ class MusicPlayer extends Component {
       <div className={ this.props.classes.sliderWrapper }>
         <Slider
           value={ this.props.musicVolume }
-          onChange={ this.changeVolume }
+          onChange={ this.changeMusicVolume }
           vertical />
       </div>
     );

@@ -11,6 +11,7 @@ import window from 'global/window';
 
 import Box from '../box';
 import MusicPlayer from '../music-player';
+import OptionsModal from '../options-modal';
 import DisastlesInput from '../input';
 import SellStuff from '../shill';
 import Background from './background';
@@ -131,6 +132,12 @@ const styles = theme => ({
   },
   checkbox: {
     padding: 0,
+    color: 'rgba(255, 255, 255, 0.85)'
+  },
+  checkboxDisabled: {
+    'span& span': {
+      color: 'rgba(255, 255, 255, 0.4)',
+    }
   }
 });
 
@@ -340,6 +347,7 @@ class LobbyView extends Component {
     return (
       <Background rootClass={ this.props.classes.root }>
         <MusicPlayer />
+        <OptionsModal />
         <SellStuff />
         <Grid container>
           <Grid item xs={4}>
@@ -478,7 +486,8 @@ class LobbyView extends Component {
                       <Grid item xs={ 6 }>
                         <Checkbox
                           classes={{
-                            root: this.props.classes.checkbox
+                            root: this.props.classes.checkbox,
+                            disabled: this.props.classes.checkboxDisabled,
                           }}
                           disabled={ !this.isHost() }
                           checked={ this.state.turnTimers }

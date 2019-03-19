@@ -62,7 +62,7 @@ const styles = theme => ({
       marginRight: 0,
     },
     '& label span': {
-      fontSize: '1.2em',
+      fontSize: '0.8em',
       color: '#b8fdff',
       textShadow: '1px 1px 1px #222222aa',
     }
@@ -149,7 +149,7 @@ class PlayerPicker extends Component {
   componentWillReceiveProps (props) {
     console.log('player turn thing!');
     if (props.playerId === props.currentTurn && this.props.playerId !== this.props.currentTurn) {
-      Sound.sfx.playSound('turn');
+      Sound.playerTurn.playSound('turn');
     }
     if (this.state.followTurn && props.currentTurn && props.displayPlayer !== props.currentTurn) {
       if (this.state.displayPlayer !== props.currentTurn) {
