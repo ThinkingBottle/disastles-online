@@ -62,7 +62,7 @@ const styles = theme => ({
       marginRight: 0,
     },
     '& label span': {
-      fontSize: '1.2em',
+      fontSize: '0.8em',
       color: '#b8fdff',
       textShadow: '1px 1px 1px #222222aa',
     }
