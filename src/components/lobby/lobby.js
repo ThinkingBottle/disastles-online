@@ -132,6 +132,12 @@ const styles = theme => ({
   },
   checkbox: {
     padding: 0,
+    color: 'rgba(255, 255, 255, 0.85)'
+  },
+  checkboxDisabled: {
+    'span& span': {
+      color: 'rgba(255, 255, 255, 0.4)',
+    }
   }
 });
 
@@ -480,7 +486,8 @@ class LobbyView extends Component {
                       <Grid item xs={ 6 }>
                         <Checkbox
                           classes={{
-                            root: this.props.classes.checkbox
+                            root: this.props.classes.checkbox,
+                            disabled: this.props.classes.checkboxDisabled,
                           }}
                           disabled={ !this.isHost() }
                           checked={ this.state.turnTimers }
