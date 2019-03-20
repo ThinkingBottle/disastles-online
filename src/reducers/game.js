@@ -1,4 +1,3 @@
-import Obstruction from 'obstruction';
 import Sound from '../sound';
 
 import {
@@ -254,6 +253,7 @@ export default function reduce (state, action) {
         }
       };
       // intentionally no break
+      // eslint-disable-next-line no-fallthrough
     case ROOM_BUILT:
       console.log(action.data);
       var player = action.data.castleOwner;

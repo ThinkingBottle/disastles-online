@@ -120,6 +120,9 @@ const styles = theme => ({
       background: `url(${closeHover}) no-repeat`,
       backgroundSize: '24px 22.5px',
     },
+  },
+  buttonLabel: {
+    display: 'none'
   }
 });
 
@@ -188,8 +191,13 @@ class OptionsModal extends Component {
       <Fragment>
         <Button
           onClick={ this.openModal }
-          className={ this.props.classes.settings }
-        />
+          classes={{
+            root: this.props.classes.settings,
+            label: this.props.classes.buttonLabel,
+          }}
+        >
+          open options
+        </Button>
         <Modal
           open={ this.state.open }
           disableBackdropClick={false}
@@ -234,8 +242,13 @@ class OptionsModal extends Component {
             </div>
             <Button
               onClick={ this.closeModal }
-              className={ this.props.classes.closeButton }
-            />
+              classes={{
+                root: this.props.classes.closeButton,
+                label: this.props.classes.buttonLabel,
+              }}
+            >
+              close
+            </Button>
           </div>
         </Modal>
       </Fragment>

@@ -6,7 +6,6 @@ import { classNames } from 'react-extras';
 
 import { If } from 'react-extras';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 
 import cardImages from './cards';
@@ -129,10 +128,6 @@ const styles = theme => ({
 });
 
 class Card extends Component {
-  constructor () {
-    super();
-  }
-
   render () {
     let { card, cards } = this.props;
     if (card === 'empty') {
