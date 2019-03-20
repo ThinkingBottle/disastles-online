@@ -6,7 +6,6 @@ import { classNames } from 'react-extras';
 
 import { If } from 'react-extras';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 
 import cardImages from './cards';
@@ -129,10 +128,6 @@ const styles = theme => ({
 });
 
 class Card extends Component {
-  constructor () {
-    super();
-  }
-
   render () {
     let { card, cards } = this.props;
     if (card === 'empty') {
@@ -248,7 +243,7 @@ class Card extends Component {
             tooltip: this.props.classes.removeTooltipStyles,
             popper: this.props.classes.removeTooltipStyles
           } : {} }
-          enterDelay={1000}
+          enterDelay={1000 - (100 - this.props.cardHoverDelay) * 10}
           leaveDelay={200}
           interactive={true}
           title={ tooltipTitle }
@@ -297,6 +292,7 @@ class Card extends Component {
 const mapToProps = obstruction({
   cards: 'cards.knownCards',
   selectedCard: 'game.selectedCard',
+  cardHoverDelay: 'options.cardHoverDelay',
 });
 
 export default withStyles(styles)(connect(mapToProps)(Card));
