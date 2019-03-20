@@ -69,6 +69,9 @@ const styles = theme => ({
   },
   minusButton: makeButton(minus, minusHover, minusActive, 'Left'),
   plusButton: makeButton(plus, plusHover, plusActive, 'Right'),
+  buttonLabel: {
+    display: 'none'
+  }
 });
 
 function makeButton(image, hover, active, type) {
@@ -93,7 +96,7 @@ function makeButton(image, hover, active, type) {
   }
 };
 
-class VolumeSlider extends Component {
+class OptionsSlider extends Component {
   constructor(props) {
     super(props);
 
@@ -145,9 +148,14 @@ class VolumeSlider extends Component {
         </div>
         <div className={ this.props.classes.right }>
           <Button
-            className={ this.props.classes.minusButton }
             onClick={ this.decreaseVolume }
-          />
+            classes={{
+              root: this.props.classes.minusButton,
+              label: this.props.classes.buttonLabel,
+            }}
+          >
+          -
+          </Button>
           <div className={ this.props.classes.sliderWrapper }>
             <Slider
               className={ this.props.classes.slider }
@@ -164,13 +172,18 @@ class VolumeSlider extends Component {
             />
           </div>
           <Button
-            className={ this.props.classes.plusButton }
             onClick={ this.increaseVolume }
-          />
+            classes={{
+              root: this.props.classes.plusButton,
+              label: this.props.classes.buttonLabel,
+            }}
+          >
+          +
+          </Button>
         </div>
       </div>
     );
   }
 }
 
-export default withStyles(styles)(connect()(VolumeSlider));
+export default withStyles(styles)(connect()(OptionsSlider));

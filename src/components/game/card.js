@@ -243,7 +243,7 @@ class Card extends Component {
             tooltip: this.props.classes.removeTooltipStyles,
             popper: this.props.classes.removeTooltipStyles
           } : {} }
-          enterDelay={1000}
+          enterDelay={1000 - (100 - this.props.cardHoverDelay) * 10}
           leaveDelay={200}
           interactive={true}
           title={ tooltipTitle }
@@ -292,6 +292,7 @@ class Card extends Component {
 const mapToProps = obstruction({
   cards: 'cards.knownCards',
   selectedCard: 'game.selectedCard',
+  cardHoverDelay: 'options.cardHoverDelay',
 });
 
 export default withStyles(styles)(connect(mapToProps)(Card));

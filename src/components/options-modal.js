@@ -5,8 +5,9 @@ import obstruction from 'obstruction';
 
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
-import VolumeSlider from './volume-slider';
+import OptionsSlider from './options-slider';
 
+import { changeCardHoverDelay } from '../actions/options';
 import {
   changeMusicVolume,
   changeAmbienceVolume,
@@ -216,27 +217,32 @@ class OptionsModal extends Component {
             <div className={ this.props.classes.content }>
               <h2 className={ this.props.classes.header }>Options</h2>
               <div>
-                <VolumeSlider
+                <OptionsSlider
                   label="Music"
                   initialValue={ this.props.musicVolume }
                   action={ changeMusicVolume }
                 />
-                <VolumeSlider
+                <OptionsSlider
                   label="Ambience"
                   initialValue={ this.props.ambienceVolume }
                   action={ changeAmbienceVolume }
                 />
-                <VolumeSlider
+                <OptionsSlider
                   label="Sound effects"
                   initialValue={ this.props.sfxVolume }
                   action={ changeSfxVolume }
                   testSound="positive"
                 />
-                <VolumeSlider
+                <OptionsSlider
                   label="&#34;It's your turn&#34; bell"
                   initialValue={ this.props.playerTurnVolume }
                   action={ changePlayerTurnVolume }
                   testSound="turn"
+                />
+                <OptionsSlider
+                  label="Card hover delay"
+                  initialValue={ this.props.cardHoverDelay }
+                  action={ changeCardHoverDelay }
                 />
               </div>
             </div>
@@ -261,6 +267,7 @@ const mapToProps = obstruction({
   ambienceVolume: 'music.ambienceVolume',
   sfxVolume: 'music.sfxVolume',
   playerTurnVolume: 'music.playerTurnVolume',
+  cardHoverDelay: 'options.cardHoverDelay',
 });
 
 export default withStyles(styles)(connect(mapToProps)(OptionsModal));
