@@ -127,8 +127,34 @@ const styles = theme => ({
   },
   seed: {
     fontSize: '10pt',
-    fontWeight: '500',
+    fontWeight: 500,
+    marginTop: 30,
+  },
+  button: {
+    fontWeight: 500,
+    fontSize: '10pt',
+    display: 'inline-block',
+    color: 'white',
+    textDecoration: 'none',
+    border: '2px solid white',
+    padding: '2px 12px',
+    borderRadius: 30,
     marginTop: 40,
+    textAlign: 'center',
+    width: '45%',
+
+    '&:hover': {
+      background: 'rgba(255, 255, 255, 0.2)',
+    },
+    '&:active': {
+      background: 'rgba(255, 255, 255, 0.4)',
+    },
+    '&:first-child': {
+      marginRight: '10%',
+    },
+  },
+  backdrop: {
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
   },
 });
 
@@ -207,6 +233,9 @@ class OptionsModal extends Component {
         <Modal
           open={ this.state.open }
           disableBackdropClick={false}
+          BackdropProps={{
+            className: this.props.classes.backdrop,
+          }}
           >
           <div className={ this.props.classes.root }>
             <div className={ this.props.classes.topLeft } />
@@ -251,6 +280,22 @@ class OptionsModal extends Component {
                 />
                 <div className={ this.props.classes.seed }>
                   {`Game seed: ${this.props.seed || '-'}`}
+                </div>
+                <div>
+                  <a
+                    href='https://www.disastles.com/gallery'
+                    target='_blank'
+                    className={ this.props.classes.button }
+                    >
+                    View gallery
+                  </a>
+                  <a
+                    href='https://www.disastles.com/contact'
+                    target='_blank'
+                    className={ this.props.classes.button }
+                    >
+                    Report a bug
+                  </a>
                 </div>
               </div>
             </div>
