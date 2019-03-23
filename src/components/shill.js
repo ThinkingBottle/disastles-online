@@ -81,7 +81,7 @@ class SellThugAim extends Component {
       <div className={ classNames(this.props.classes.root, this.state) } >
         <a
           href='https://www.disastles.com/buy-the-game/disastles'
-          target='_target'
+          target='_blank'
           className={ this.props.classes.background }>
           <Button
             classes={{
