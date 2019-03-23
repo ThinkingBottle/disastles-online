@@ -82,6 +82,7 @@ class SellThugAim extends Component {
         <a
           href='https://www.disastles.com/buy-the-game/disastles'
           target='_blank'
+          rel='noopener noreferrer'
           className={ this.props.classes.background }>
           <Button
             classes={{
