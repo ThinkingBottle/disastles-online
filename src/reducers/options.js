@@ -3,7 +3,7 @@ import {
 } from '../actions/options';
 
 const defaultState = {
-  cardHoverDelay: localStorage.cardHoverDelay ? Number(localStorage.cardHoverDelay) : 10,
+  cardHoverDelay: localStorage.cardHoverDelay ? Number(localStorage.cardHoverDelay) : 50,
 };
 
 export default function reduce (state, action) {
