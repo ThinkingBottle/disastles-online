@@ -285,6 +285,7 @@ class OptionsModal extends Component {
                   <a
                     href='https://www.disastles.com/gallery'
                     target='_blank'
+                    rel='noopener noreferrer'
                     className={ this.props.classes.button }
                     >
                     View gallery
@@ -292,6 +293,7 @@ class OptionsModal extends Component {
                   <a
                     href='https://www.disastles.com/contact'
                     target='_blank'
+                    rel='noopener noreferrer'
                     className={ this.props.classes.button }
                     >
                     Report a bug

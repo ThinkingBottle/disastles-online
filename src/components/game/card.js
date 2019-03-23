@@ -243,7 +243,7 @@ class Card extends Component {
             tooltip: this.props.classes.removeTooltipStyles,
             popper: this.props.classes.removeTooltipStyles
           } : {} }
-          enterDelay={1000 - (100 - this.props.cardHoverDelay) * 10}
+          enterDelay={1000 - (100 - (2 * this.props.cardHoverDelay)) * 10}
           leaveDelay={200}
           interactive={true}
           title={ tooltipTitle }

@@ -4,10 +4,9 @@ import { connect } from 'react-redux';
 import obstruction from 'obstruction';
 import { classNames } from 'react-extras';
 
-import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 import Shop from './shop';
-import ActionBar from './actions';
+import Card from './card';
 
 import background from './images/header.png';
 import backgroundDeck from './images/header-deck.png';
@@ -92,12 +91,12 @@ function deckSize (num, height) {
 }
 
 class GameHeader extends Component {
-  constructor () {
-    super();
-  }
   render () {
-    let deckSize = Math.ceil(6 * this.props.drawPileSize / 120);
-    let discardSize = Math.ceil(6 * this.props.discardPileSize / 120);
+    const { drawPileSize, discardPileSize } = this.props;
+    const deckSize = Math.ceil(6 * drawPileSize / 120);
+    const discardSize = Math.ceil(6 * discardPileSize / 120);
+    const discardPile = this.props.discardPile.map(o => o.card || o);
+    const topmostDiscardedCard = discardPile.length ? discardPile[discardPile.length - 1] : null;
 
     return (
       <div className={ this.props.classes.root }>
@@ -105,11 +104,20 @@ class GameHeader extends Component {
         </div>
         <div className={ this.props.classes.deck }>
           <Tooltip title={ 'Discard pile (' + this.props.discardPileSize + ')' }>
-            <div className={ classNames(
-                this.props.classes.discardPile,
-                this.props.classes['deckSize' + discardSize],
-              )}>
-            </div>
+            {topmostDiscardedCard ? (
+              <div className={ classNames(
+                  this.props.classes.discardPile,
+                  this.props.classes['deckSize' + discardSize],
+                )}>
+                <Card card={ topmostDiscardedCard } skinny />
+              </div>
+            ) : (
+              <div className={ classNames(
+                  this.props.classes.discardPile,
+                  this.props.classes['deckSize' + discardSize],
+                )}>
+              </div>
+            )}
           </Tooltip>
           <Tooltip title={ 'Draw pile (' + this.props.drawPileSize + ')' }>
             <div className={ classNames(
@@ -129,7 +137,8 @@ class GameHeader extends Component {
 
 const mapToProps = obstruction({
   drawPileSize: 'game.drawPileSize',
-  discardPileSize: 'game.discardPileSize'
+  discardPileSize: 'game.discardPileSize',
+  discardPile: 'game.discardPile',
 });
 
 export default withStyles(styles)(connect(mapToProps)(GameHeader));
