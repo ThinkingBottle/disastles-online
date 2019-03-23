@@ -124,7 +124,12 @@ const styles = theme => ({
   },
   buttonLabel: {
     display: 'none'
-  }
+  },
+  seed: {
+    fontSize: '10pt',
+    fontWeight: '500',
+    marginTop: 40,
+  },
 });
 
 function makeHeader (background, baseStyles) {
@@ -244,6 +249,9 @@ class OptionsModal extends Component {
                   initialValue={ this.props.cardHoverDelay }
                   action={ changeCardHoverDelay }
                 />
+                <div className={ this.props.classes.seed }>
+                  {`Game seed: ${this.props.seed || '-'}`}
+                </div>
               </div>
             </div>
             <Button
@@ -268,6 +276,7 @@ const mapToProps = obstruction({
   sfxVolume: 'music.sfxVolume',
   playerTurnVolume: 'music.playerTurnVolume',
   cardHoverDelay: 'options.cardHoverDelay',
+  seed: 'game.seed',
 });
 
 export default withStyles(styles)(connect(mapToProps)(OptionsModal));
