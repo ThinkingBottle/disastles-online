@@ -13,6 +13,9 @@ import {
 import {
   nameChanged
 } from '../actions/global';
+import {
+  addLog
+} from '../actions/logs';
 import { dispatchEvent } from '../actions/util';
 
 const LobbyCreatedEvent = Event();
@@ -66,6 +69,7 @@ ws.onEvent(function handleEvent (event) {
     case 'PlayerJoined':
       delete event.event;
       store.dispatch(playerJoined(event));
+      store.dispatch(addLog(`Player ${event.player} joined the game.`));
       break;
     case 'SlotSwitched':
       delete event.event;
