@@ -69,7 +69,7 @@ ws.onEvent(function handleEvent (event) {
     case 'PlayerJoined':
       delete event.event;
       store.dispatch(playerJoined(event));
-      store.dispatch(addLog(`Player ${event.player} joined the game.`));
+      store.dispatch(addLog('PlayerJoined', event.player));
       break;
     case 'SlotSwitched':
       delete event.event;
