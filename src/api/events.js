@@ -15,6 +15,8 @@ import {
 } from '../actions/global';
 import { dispatchEvent } from '../actions/util';
 
+import { addNewLog } from '../components/logs';
+
 const LobbyCreatedEvent = Event();
 export const onLobbyCreated = LobbyCreatedEvent.listen;
 const LobbyJoinedEvent = Event();
@@ -66,6 +68,7 @@ ws.onEvent(function handleEvent (event) {
     case 'PlayerJoined':
       delete event.event;
       store.dispatch(playerJoined(event));
+      addNewLog('PlayerJoined', event.player);
       break;
     case 'SlotSwitched':
       delete event.event;
@@ -84,6 +87,21 @@ ws.onEvent(function handleEvent (event) {
       break;
     case 'JoinedGame':
       GameJoinedEvent.broadcast({});
+      break;
+    case 'PlayerDisconnectedFromGame':
+      addNewLog('PlayerDisconnectedFromGame', event.player);
+      break;
+    case 'PlayerReconnectedToGame':
+      addNewLog('PlayerReconnectedToGame', event.player);
+      break;
+    case 'TurnTimeoutNotification':
+      addNewLog('TurnTimeoutNotification', event.secondsLeft);
+      break;
+    case 'TurnTimeout':
+      addNewLog('TurnTimeout', event.player);
+      break;
+    case 'TurnSkipped':
+      addNewLog('TurnSkipped', event.player);
       break;
     //   delete event.event;
     //   store.dispatch(joinedGame(event));

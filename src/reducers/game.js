@@ -74,6 +74,7 @@ export default function reduce (state, action) {
     state = defaultState;
   }
 
+  // eslint-disable-next-line default-case
   switch (action.type) {
     case ACTIONS_CHANGED:
       console.log('Actions changed', action.data.actions);
@@ -493,7 +494,6 @@ export default function reduce (state, action) {
       break;
     case TURN_TIMEOUT_NOTIFICATION:
       Sound.sfx.playSound('negative');
-      console.log('Turn is timing out...', action);
       state = {...state,
         turnTimeout: action.data.secondsLeft,
         timeoutStart: Date.now(),
