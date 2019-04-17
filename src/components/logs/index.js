@@ -98,6 +98,14 @@ class Logs extends Component {
         }
         break;
 
+      case 'TurnSkipped':
+        if (you === log.data) {
+          message = 'You skipped a turn.';
+        } else {
+          message = `${this.props.playerNames[log.data]} skipped a turn.`;
+        }
+        break;
+
       default:
         message = `[${log.type}] ${log.data}`;
     }
@@ -108,7 +116,7 @@ class Logs extends Component {
     return (
       <div className={ classNames( this.props.classes.root, { ingame: this.props.ingame }, { inlobby: this.props.inlobby } ) }>
         {this.props.logs.map(log => (
-          <p key={log.timestamp} className={ classNames( this.props.classes.log, { fade: log.fade } ) }>
+          <p key={log.counter} className={ classNames( this.props.classes.log, { fade: log.fade } ) }>
             {this.renderMessage(log)}
           </p>
         ))}

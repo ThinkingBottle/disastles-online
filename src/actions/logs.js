@@ -13,16 +13,16 @@ export function addLog (logType, data) {
   };
 }
 
-export function fadeOutLog (log) {
+export function fadeOutLog (counter) {
   return {
     type: FADE_OUT_LOG,
-    log,
+    counter,
   };
 }
 
-export function deleteLog (log) {
+export function deleteLog (counter) {
   return {
     type: DELETE_LOG,
-    log,
+    counter,
   };
 }

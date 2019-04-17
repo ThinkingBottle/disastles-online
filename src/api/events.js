@@ -100,6 +100,9 @@ ws.onEvent(function handleEvent (event) {
     case 'TurnTimeout':
       addNewLog('TurnTimeout', event.player);
       break;
+    case 'TurnSkipped':
+      addNewLog('TurnSkipped', event.player);
+      break;
     //   delete event.event;
     //   store.dispatch(joinedGame(event));
     //   break;

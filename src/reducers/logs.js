@@ -9,6 +9,7 @@ import store from '../store';
 
 const defaultState = {
   logs: [],
+  counter: 0,
 };
 
 export default function reduce (state, action) {
@@ -18,15 +19,17 @@ export default function reduce (state, action) {
 
   switch (action.type) {
     case ADD_LOG:
+      const counter = state.counter;
       state = {...state,
-        logs: [...state.logs, action.log]
+        logs: [...state.logs, {...action.log, counter: state.counter}],
+        counter: state.counter + 1,
       };
-      setTimeout(() => store.dispatch(fadeOutLog(action.log)), 7000);
+      setTimeout(() => store.dispatch(fadeOutLog(counter)), 7000);
       break;
 
     case FADE_OUT_LOG:
       const logs = state.logs.map(log => {
-        if (log.timestamp === action.log.timestamp) {
+        if (log.counter === action.counter) {
           return {...log, fade: true};
         }
         return log;
@@ -34,12 +37,12 @@ export default function reduce (state, action) {
       state = {...state,
         logs,
       };
-      setTimeout(() => store.dispatch(deleteLog(action.log)), 1000);
+      setTimeout(() => store.dispatch(deleteLog(action.counter)), 1000);
       break;
 
     case DELETE_LOG:
       state = {...state,
-        logs: state.logs.filter(log => log.timestamp !== action.log.timestamp),
+        logs: state.logs.filter(log => log.counter !== action.counter),
       };
       break;
 
