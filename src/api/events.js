@@ -89,6 +89,12 @@ ws.onEvent(function handleEvent (event) {
     case 'JoinedGame':
       GameJoinedEvent.broadcast({});
       break;
+    case 'PlayerDisconnectedFromGame':
+      store.dispatch(addLog('PlayerDisconnectedFromGame', event.player));
+      break;
+    case 'PlayerReconnectedToGame':
+      store.dispatch(addLog('PlayerReconnectedToGame', event.player));
+      break;
     //   delete event.event;
     //   store.dispatch(joinedGame(event));
     //   break;

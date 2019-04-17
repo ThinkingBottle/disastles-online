@@ -11,11 +11,19 @@ const styles = theme => ({
     fontWeight: 500,
     color: 'white',
     position: 'absolute',
-    bottom: 340,
-    right: 10,
     zIndex: 10,
     pointerEvents: 'none',
-    textAlign: 'right',
+
+    '&.inlobby': {
+      bottom: 340,
+      right: 10,
+      textAlign: 'right',
+    },
+
+    '&.ingame': {
+      bottom: 335,
+      left: 20,
+    },
   },
   log: {
     transition: 'opacity ease-out 1000ms',
@@ -23,7 +31,12 @@ const styles = theme => ({
 
     '&.fade': {
       opacity: 0,
-    }
+    },
+
+    margin: '0 0 5px',
+    '&:last-child': {
+      margin: '0 0 9px',
+    },
   }
 });
 
@@ -36,9 +49,15 @@ class Logs extends Component {
 
   renderMessage(log) {
     let message;
-    switch (log.type) {
+    switch (log.logType) {
       case 'PlayerJoined':
         message = `${this.props.playerNames[log.data]} joined the game.`;
+        break;
+      case 'PlayerDisconnectedFromGame':
+        message = `${this.props.playerNames[log.data]} has disconnected from the game.`;
+        break;
+      case 'PlayerReconnectedToGame':
+        message = `${this.props.playerNames[log.data]} has reconnected to the game.`;
         break;
       default:
         message = `[${log.type}] ${log.data}`;
@@ -48,7 +67,7 @@ class Logs extends Component {
 
   render() {
     return (
-      <div className={ classNames( this.props.classes.root ) }>
+      <div className={ classNames( this.props.classes.root, { ingame: this.props.ingame }, { inlobby: this.props.inlobby } ) }>
         {this.props.logs.map(log => (
           <p key={log.timestamp} className={ classNames( this.props.classes.log, { fade: log.fade } ) }>
             {this.renderMessage(log)}

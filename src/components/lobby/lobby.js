@@ -349,7 +349,7 @@ class LobbyView extends Component {
       <Background rootClass={ this.props.classes.root }>
         <MusicPlayer />
         <OptionsModal />
-        <Logs />
+        <Logs inlobby />
         <SellStuff />
         <Grid container>
           <Grid item xs={4}>

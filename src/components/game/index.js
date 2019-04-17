@@ -4,12 +4,11 @@ import { connect } from 'react-redux';
 import obstruction from 'obstruction';
 import document from 'global/document';
 
-import Typography from '@material-ui/core/Typography';
-
 import API from '../../api';
 
 import MusicPlayer from '../music-player';
 import OptionsModal from '../options-modal';
+import Logs from '../logs';
 import GridController from './grid';
 import Minimap from './minimap';
 import Header from './header';
@@ -54,10 +53,6 @@ const styles = theme => ({
 });
 
 class GameComponent extends Component {
-  constructor () {
-    super();
-  }
-
   componentWillMount () {
     if (!this.props.inGame) {
       API.reconnect(this.props.match.params.id);
@@ -71,16 +66,17 @@ class GameComponent extends Component {
   render () {
     return (
       <div className={ this.props.classes.root }>
-      // index order, not meaning order
+        {/* index order, not meaning order */}
         <GridController />
-        // grid goes first because it's fullscreen covering the background
-        // everything else is "hovering" over it
+        {/* grid goes first because it's fullscreen covering the background */}
+        {/* everything else is "hovering" over it */}
         <Header />
         <TurnTimer />
         <div className={ this.props.classes.music }>
           <MusicPlayer />
           <OptionsModal />
         </div>
+        <Logs ingame />
         <PlayerPicker />
         <DisasterAlert />
 
