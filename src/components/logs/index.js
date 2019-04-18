@@ -38,9 +38,6 @@ const styles = theme => ({
       left: 20,
     },
 
-    '&.chatisvisible': {
-      pointerEvents: 'none',
-    },
   },
   wrapper: {
     position: 'relative',
@@ -79,13 +76,11 @@ class Logs extends Component {
     this.isChatVisibleHandler = this.isChatVisibleHandler.bind(this);
 
     // used to scroll down chat logs automatically
-    this.dummyRef = React.createRef();
+    this.wrapperRef = React.createRef();
   }
 
   componentDidUpdate() {
-    if (this.props.logs.length >= 20) {
-      this.dummyRef.current.scrollIntoView();
-    }
+    this.wrapperRef.current.scrollTop = this.wrapperRef.current.offsetHeight;
   }
 
   isChatVisibleHandler(visible) {
@@ -174,10 +169,9 @@ class Logs extends Component {
           this.props.classes.root,
           { ingame: this.props.ingame },
           { inlobby: this.props.inlobby },
-          { chatisvisible: this.state.chatIsVisible },
         ) }
       >
-        <div className={ this.props.classes.wrapper }>
+        <div ref={ this.wrapperRef } className={ this.props.classes.wrapper }>
           {this.props.logs.map(log => (
             <p
               key={log.counter}
@@ -190,7 +184,6 @@ class Logs extends Component {
               {this.renderMessage(log)}
             </p>
           ))}
-          <div ref={ this.dummyRef }></div>
         </div>
         <Chat ingame={ this.props.ingame } inlobby={ this.props.inlobby } isVisibleHandler={ this.isChatVisibleHandler } />
       </div>
