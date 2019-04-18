@@ -2,10 +2,14 @@ import React, { Component, Fragment } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import obstruction from 'obstruction';
+import { classNames } from 'react-extras';
 
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
+import Tooltip from '@material-ui/core/Tooltip';
 import OptionsSlider from './options-slider';
+
+import API from '../api';
 
 import { changeCardHoverDelay } from '../actions/options';
 import {
@@ -139,9 +143,10 @@ const styles = theme => ({
     border: '2px solid white',
     padding: '2px 12px',
     borderRadius: 30,
-    marginTop: 40,
+    marginTop: 10,
     textAlign: 'center',
     width: '45%',
+    minHeight: 0,
 
     '&:hover': {
       background: 'rgba(255, 255, 255, 0.2)',
@@ -151,6 +156,16 @@ const styles = theme => ({
     },
     '&:first-child': {
       marginRight: '10%',
+    },
+
+    '&.warning': {
+      borderColor: '#c1061c',
+      backgroundColor: '#c1061c',
+    },
+    '&.disabled': {
+      color: 'rgba(255, 255, 255, 0.8)',
+      borderColor: '#a00417',
+      backgroundColor: '#a00417',
     },
   },
   backdrop: {
@@ -206,6 +221,7 @@ class OptionsModal extends Component {
 
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.concedeGame = this.concedeGame.bind(this);
   }
 
   openModal () {
@@ -216,6 +232,10 @@ class OptionsModal extends Component {
   closeModal () {
     this.setState({ open: false });
     Sound.sfx.playSound('negative');
+  }
+
+  concedeGame () {
+    API.send({ action: 'Concede' });
   }
 
   render () {
@@ -281,7 +301,7 @@ class OptionsModal extends Component {
                 {/*<div className={ this.props.classes.seed }>
                   {`Game seed: ${this.props.seed || '-'}`}
                 </div>*/}
-                <div>
+                <div style={{ marginTop: 30 }}>
                   <a
                     href='https://www.disastles.com/gallery'
                     target='_blank'
@@ -299,6 +319,18 @@ class OptionsModal extends Component {
                     Report a bug
                   </a>
                 </div>
+                {this.props.inGame && !this.props.gameEnded && (
+                  <div>
+                    <Tooltip title={this.props.you !== this.props.currentTurn ? 'You may only concede during your turn' : ''}>
+                      <Button
+                       onClick={ this.concedeGame }
+                       className={ classNames( this.props.classes.button, 'warning', { disabled: this.props.you !== this.props.currentTurn } ) }
+                       >
+                        Concede
+                      </Button>
+                    </Tooltip>
+                  </div>
+                )}
               </div>
             </div>
             <Button
@@ -324,6 +356,10 @@ const mapToProps = obstruction({
   playerTurnVolume: 'music.playerTurnVolume',
   cardHoverDelay: 'options.cardHoverDelay',
   // seed: 'game.seed',
+  inGame: 'game.inGame',
+  gameEnded: 'game.gameEnded',
+  you: 'global.playerId',
+  currentTurn: 'game.currentTurn',
 });
 
 export default withStyles(styles)(connect(mapToProps)(OptionsModal));

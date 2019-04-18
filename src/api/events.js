@@ -105,6 +105,10 @@ ws.onEvent(function handleEvent (event) {
       break;
     case 'DisasterAddedToDeck':
       addNewLog('DisasterAddedToDeck');
+      break;
+    case 'PlayerConceded':
+      addNewLog('PlayerConceded', event.player);
+      break;
     //   delete event.event;
     //   store.dispatch(joinedGame(event));
     //   break;

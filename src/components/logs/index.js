@@ -110,6 +110,14 @@ class Logs extends Component {
         message = 'A Disaster has been added to the deck!';
         break;
 
+      case 'PlayerConceded':
+        if (you === log.data) {
+          message = 'You have conceded the game.';
+        } else {
+          message = `${this.props.playerNames[log.data]} conceded.`;
+        }
+        break;
+
       default:
         message = `[${log.type}] ${log.data}`;
     }
