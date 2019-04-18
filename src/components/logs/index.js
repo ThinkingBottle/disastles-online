@@ -37,12 +37,16 @@ const styles = theme => ({
       bottom: 335,
       left: 20,
     },
+
+    '&.chatisvisible': {
+      pointerEvents: 'none',
+    },
   },
   wrapper: {
     position: 'relative',
     width: '100%',
     overflow: 'scroll',
-    maxHeight: 500,
+    maxHeight: 404,
   },
   log: {
     transition: 'opacity ease-out 1000ms',
@@ -56,6 +60,10 @@ const styles = theme => ({
     '&:last-child': {
       margin: '0 0 9px',
     },
+
+    '&.chatisvisible': {
+      transition: 'none',
+    },
   }
 });
 
@@ -63,13 +71,25 @@ class Logs extends Component {
   constructor(props) {
     super(props);
 
-    this.renderMessage = this.renderMessage.bind(this);
+    this.state = {
+      chatIsVisible: false,
+    };
 
+    this.renderMessage = this.renderMessage.bind(this);
+    this.isChatVisibleHandler = this.isChatVisibleHandler.bind(this);
+
+    // used to scroll down chat logs automatically
     this.dummyRef = React.createRef();
   }
 
   componentDidUpdate() {
-    this.dummyRef.current.scrollIntoView();
+    if (this.props.logs.length >= 20) {
+      this.dummyRef.current.scrollIntoView();
+    }
+  }
+
+  isChatVisibleHandler(visible) {
+    this.setState({ chatIsVisible: visible });
   }
 
   renderMessage(log) {
@@ -149,16 +169,30 @@ class Logs extends Component {
 
   render() {
     return (
-      <div className={ classNames( this.props.classes.root, { ingame: this.props.ingame }, { inlobby: this.props.inlobby } ) }>
+      <div
+        className={ classNames(
+          this.props.classes.root,
+          { ingame: this.props.ingame },
+          { inlobby: this.props.inlobby },
+          { chatisvisible: this.state.chatIsVisible },
+        ) }
+      >
         <div className={ this.props.classes.wrapper }>
           {this.props.logs.map(log => (
-            <p key={log.counter} className={ classNames( this.props.classes.log, { fade: log.fade } ) }>
+            <p
+              key={log.counter}
+              className={ classNames(
+                this.props.classes.log,
+                { fade: log.fade && !this.state.chatIsVisible },
+                { chatisvisible: this.state.chatIsVisible },
+              ) }
+            >
               {this.renderMessage(log)}
             </p>
           ))}
           <div ref={ this.dummyRef }></div>
         </div>
-        <Chat ingame={ this.props.ingame } inlobby={ this.props.inlobby } />
+        <Chat ingame={ this.props.ingame } inlobby={ this.props.inlobby } isVisibleHandler={ this.isChatVisibleHandler } />
       </div>
     );
   }
