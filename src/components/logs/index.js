@@ -42,8 +42,12 @@ const styles = theme => ({
   wrapper: {
     position: 'relative',
     width: '100%',
-    overflow: 'scroll',
+    overflow: 'hidden',
     maxHeight: 404,
+
+    '&.chatisvisible': {
+      overflow: 'scroll',
+    },
   },
   log: {
     transition: 'opacity ease-out 1000ms',
@@ -79,8 +83,10 @@ class Logs extends Component {
     this.wrapperRef = React.createRef();
   }
 
-  componentDidUpdate() {
-    this.wrapperRef.current.scrollTop = this.wrapperRef.current.offsetHeight;
+  componentDidUpdate(prevProps) {
+    if (this.props.logs.length > prevProps.logs.length) {
+      this.wrapperRef.current.scrollTop = this.wrapperRef.current.offsetHeight;
+    }
   }
 
   isChatVisibleHandler(visible) {
@@ -171,7 +177,7 @@ class Logs extends Component {
           { inlobby: this.props.inlobby },
         ) }
       >
-        <div ref={ this.wrapperRef } className={ this.props.classes.wrapper }>
+        <div ref={ this.wrapperRef } className={ classNames( this.props.classes.wrapper, { chatisvisible: this.state.chatIsVisible } ) }>
           {this.props.logs.map(log => (
             <p
               key={log.counter}
