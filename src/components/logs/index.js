@@ -106,6 +106,10 @@ class Logs extends Component {
         }
         break;
 
+      case 'DisasterAddedToDeck':
+        message = 'A Disaster has been added to the deck!';
+        break;
+
       default:
         message = `[${log.type}] ${log.data}`;
     }

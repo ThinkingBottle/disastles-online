@@ -103,6 +103,8 @@ ws.onEvent(function handleEvent (event) {
     case 'TurnSkipped':
       addNewLog('TurnSkipped', event.player);
       break;
+    case 'DisasterAddedToDeck':
+      addNewLog('DisasterAddedToDeck');
     //   delete event.event;
     //   store.dispatch(joinedGame(event));
     //   break;
