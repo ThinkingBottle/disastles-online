@@ -231,7 +231,7 @@ class LobbyView extends Component {
   }
 
   showHowToPlay () {
-    window.open('http://disastles.com/about', '_blank');
+    window.open('http://disastles.com/how-to-play', '_blank');
   }
 
   async takeSlot (slot) {
