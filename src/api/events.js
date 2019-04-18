@@ -109,6 +109,9 @@ ws.onEvent(function handleEvent (event) {
     case 'PlayerConceded':
       addNewLog('PlayerConceded', event.player);
       break;
+    case 'ChatMessage':
+      addNewLog('ChatMessage', { player: event.player, text: event.text });
+      break;
     //   delete event.event;
     //   store.dispatch(joinedGame(event));
     //   break;

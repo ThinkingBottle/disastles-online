@@ -24,7 +24,7 @@ export default function reduce (state, action) {
         logs: [...state.logs, {...action.log, counter: state.counter}],
         counter: state.counter + 1,
       };
-      setTimeout(() => store.dispatch(fadeOutLog(counter)), 7000);
+      // setTimeout(() => store.dispatch(fadeOutLog(counter)), 7000);
       break;
 
     case FADE_OUT_LOG:

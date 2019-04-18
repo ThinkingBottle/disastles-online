@@ -7,6 +7,8 @@ import { classNames } from 'react-extras';
 import store from '../../store';
 import { addLog } from '../../actions/logs';
 
+import Chat from './chat';
+
 
 export function addNewLog(logType, data) {
   // just a helper function
@@ -17,12 +19,13 @@ export function addNewLog(logType, data) {
 const styles = theme => ({
   root: {
     width: 360,
-    fontSize: '9pt',
+    fontSize: 12,
     fontWeight: 500,
     color: 'white',
     position: 'absolute',
     zIndex: 10,
-    pointerEvents: 'none',
+    padding: '0 0 20px',
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
 
     '&.inlobby': {
       bottom: 340,
@@ -34,6 +37,12 @@ const styles = theme => ({
       bottom: 335,
       left: 20,
     },
+  },
+  wrapper: {
+    position: 'relative',
+    width: '100%',
+    overflow: 'scroll',
+    maxHeight: 500,
   },
   log: {
     transition: 'opacity ease-out 1000ms',
@@ -55,6 +64,12 @@ class Logs extends Component {
     super(props);
 
     this.renderMessage = this.renderMessage.bind(this);
+
+    this.dummyRef = React.createRef();
+  }
+
+  componentDidUpdate() {
+    this.dummyRef.current.scrollIntoView();
   }
 
   renderMessage(log) {
@@ -118,6 +133,14 @@ class Logs extends Component {
         }
         break;
 
+      case 'ChatMessage':
+        if (you === log.data.player) {
+          message = `You: ${log.data.text}`;
+        } else {
+          message = `${this.props.playerNames[log.data.player]}: ${log.data.text}`;
+        }
+        break;
+
       default:
         message = `[${log.type}] ${log.data}`;
     }
@@ -127,11 +150,15 @@ class Logs extends Component {
   render() {
     return (
       <div className={ classNames( this.props.classes.root, { ingame: this.props.ingame }, { inlobby: this.props.inlobby } ) }>
-        {this.props.logs.map(log => (
-          <p key={log.counter} className={ classNames( this.props.classes.log, { fade: log.fade } ) }>
-            {this.renderMessage(log)}
-          </p>
-        ))}
+        <div className={ this.props.classes.wrapper }>
+          {this.props.logs.map(log => (
+            <p key={log.counter} className={ classNames( this.props.classes.log, { fade: log.fade } ) }>
+              {this.renderMessage(log)}
+            </p>
+          ))}
+          <div ref={ this.dummyRef }></div>
+        </div>
+        <Chat ingame={ this.props.ingame } inlobby={ this.props.inlobby } />
       </div>
     );
   }
