@@ -115,6 +115,9 @@ ws.onEvent(function handleEvent (event) {
     case 'PlayerMuted':
       addNewLog('PlayerMuted', { player: event.player, muted: event.muted });
       break;
+    case 'SendChatMessageFailed':
+      addNewLog('SendChatMessageFailed', event.reason);
+      break;
     //   delete event.event;
     //   store.dispatch(joinedGame(event));
     //   break;

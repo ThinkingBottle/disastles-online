@@ -59,9 +59,6 @@ const styles = theme => ({
     },
 
     margin: '0 0 5px',
-    '&:last-child': {
-      margin: '0 0 9px',
-    },
 
     '&.chatisvisible': {
       transition: 'none',
@@ -173,6 +170,10 @@ class Logs extends Component {
         } else {
           message = `${this.props.playerNames[log.data.player]} unmuted.`;
         }
+        break;
+
+      case 'SendChatMessageFailed':
+        message = `Message sending failed: ${log.data}`;
         break;
 
       default:
