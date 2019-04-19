@@ -57,8 +57,7 @@ const styles = theme => ({
     whiteSpace: 'nowrap',
 
     '&.status': {
-      width: 190,
-      minWidth: 190,
+      minWidth: 120,
       marginRight: 10,
     },
 
@@ -221,6 +220,9 @@ class PlayerList extends Component {
         <div className={ classNames(this.props.classes.item, 'status') }>
           <div className={ classNames(this.props.classes.status, 'none') }>
           </div>
+        </div>
+        <div className={ classNames(this.props.classes.item) }>
+          <MuteButton />
         </div>
       </div>
     );
