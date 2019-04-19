@@ -1,6 +1,11 @@
+import { bindToEvent } from './util';
+
 export const ADD_LOG = 'ADD_LOG';
 export const FADE_OUT_LOG = 'FADE_OUT_LOG';
-export const DELETE_LOG = 'DELETE_LOG';
+
+export const PLAYER_MUTED = 'PLAYER_MUTED';
+
+bindToEvent(PLAYER_MUTED, 'PlayerMuted');
 
 export function addLog (logType, data) {
   return {
@@ -16,13 +21,6 @@ export function addLog (logType, data) {
 export function fadeOutLog (counter) {
   return {
     type: FADE_OUT_LOG,
-    counter,
-  };
-}
-
-export function deleteLog (counter) {
-  return {
-    type: DELETE_LOG,
     counter,
   };
 }

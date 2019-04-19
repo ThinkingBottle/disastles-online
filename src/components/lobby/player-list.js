@@ -6,11 +6,10 @@ import { classNames, If } from 'react-extras';
 
 import API from '../../api';
 
+import MuteButton from '../logs/mute-button';
+
 import ThroneRoom from './throne';
 import Button from '@material-ui/core/Button';
-
-import bgChat from '../images/chat.png';
-import bgChatMuted from '../images/chat-muted.png';
 
 import bgSeperator from './images/seperator.png';
 import bgBoot from './images/boot.png';
@@ -128,47 +127,19 @@ const styles = theme => ({
       cursor: 'pointer',
     },
   },
-  chat: {
-    width: 24,
-    height: 20,
-    marginTop: 22,
-    background: 'url(' + bgChat + ') no-repeat',
-    backgroundSize: '100% 100%',
-    cursor: 'pointer',
-
-    '&.muted': {
-      background: 'url(' + bgChatMuted + ') no-repeat',
-      backgroundSize: '100% 100%',
-    },
-  },
 });
 
 class PlayerList extends Component {
   constructor (props) {
     super(props);
 
-    this.state = {
-      mutedPlayers: [],
-    };
-
     this.renderPlayer = this.renderPlayer.bind(this);
-    this.toggleMute = this.toggleMute.bind(this);
   }
 
   kickPlayer (player) {
     return kick;
     function kick () {
       API.kickPlayer(player);
-    }
-  }
-
-  toggleMute (player) {
-    if (this.state.mutedPlayers.indexOf(player) > -1) {
-      this.setState({ mutedPlayers: this.state.mutedPlayers.filter(o => o !== player) });
-      API.unmutePlayer(player);
-    } else {
-      this.setState({ mutedPlayers: [...this.state.mutedPlayers, player] });
-      API.mutePlayer(player);
     }
   }
 
@@ -217,12 +188,7 @@ class PlayerList extends Component {
           </div>
         </div>
         <div className={ classNames(this.props.classes.item) }>
-          {this.props.playerId !== player && (
-            <div
-              className={ classNames(this.props.classes.chat, { muted: this.state.mutedPlayers.indexOf(player) > -1 }) }
-              onClick={ () => this.toggleMute(player) }
-            />
-          )}
+          <MuteButton player={player} />
         </div>
       </div>
     );
