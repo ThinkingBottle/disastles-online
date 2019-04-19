@@ -7,6 +7,8 @@ import { classNames } from 'react-extras';
 import store from '../../store';
 import { addLog } from '../../actions/logs';
 
+import Chat from './chat';
+
 
 export function addNewLog(logType, data) {
   // just a helper function
@@ -17,12 +19,13 @@ export function addNewLog(logType, data) {
 const styles = theme => ({
   root: {
     width: 360,
-    fontSize: '9pt',
+    fontSize: 12,
     fontWeight: 500,
     color: 'white',
     position: 'absolute',
     zIndex: 10,
-    pointerEvents: 'none',
+    padding: '0 0 20px',
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
 
     '&.inlobby': {
       bottom: 340,
@@ -34,10 +37,22 @@ const styles = theme => ({
       bottom: 335,
       left: 20,
     },
+
+  },
+  wrapper: {
+    position: 'relative',
+    width: '100%',
+    overflow: 'hidden',
+    maxHeight: 404,
+
+    '&.chatisvisible': {
+      overflow: 'scroll',
+    },
   },
   log: {
     transition: 'opacity ease-out 1000ms',
     opacity: 1,
+    color: 'yellow',
 
     '&.fade': {
       opacity: 0,
@@ -47,6 +62,14 @@ const styles = theme => ({
     '&:last-child': {
       margin: '0 0 9px',
     },
+
+    '&.chatisvisible': {
+      transition: 'none',
+    },
+
+    '&.chat': {
+      color: 'white',
+    },
   }
 });
 
@@ -54,7 +77,25 @@ class Logs extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      chatIsVisible: false,
+    };
+
     this.renderMessage = this.renderMessage.bind(this);
+    this.isChatVisibleHandler = this.isChatVisibleHandler.bind(this);
+
+    // used to scroll down chat logs automatically
+    this.wrapperRef = React.createRef();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.logs.length > prevProps.logs.length) {
+      this.wrapperRef.current.scrollTop = this.wrapperRef.current.offsetHeight;
+    }
+  }
+
+  isChatVisibleHandler(visible) {
+    this.setState({ chatIsVisible: visible });
   }
 
   renderMessage(log) {
@@ -118,6 +159,22 @@ class Logs extends Component {
         }
         break;
 
+      case 'ChatMessage':
+        if (you === log.data.player) {
+          message = `You: ${log.data.text}`;
+        } else {
+          message = `${this.props.playerNames[log.data.player]}: ${log.data.text}`;
+        }
+        break;
+
+      case 'PlayerMuted':
+        if (log.data.muted) {
+          message = `${this.props.playerNames[log.data.player]} muted.`;
+        } else {
+          message = `${this.props.playerNames[log.data.player]} unmuted.`;
+        }
+        break;
+
       default:
         message = `[${log.type}] ${log.data}`;
     }
@@ -126,12 +183,29 @@ class Logs extends Component {
 
   render() {
     return (
-      <div className={ classNames( this.props.classes.root, { ingame: this.props.ingame }, { inlobby: this.props.inlobby } ) }>
-        {this.props.logs.map(log => (
-          <p key={log.counter} className={ classNames( this.props.classes.log, { fade: log.fade } ) }>
-            {this.renderMessage(log)}
-          </p>
-        ))}
+      <div
+        className={ classNames(
+          this.props.classes.root,
+          { ingame: this.props.ingame },
+          { inlobby: this.props.inlobby },
+        ) }
+      >
+        <div ref={ this.wrapperRef } className={ classNames( this.props.classes.wrapper, { chatisvisible: this.state.chatIsVisible } ) }>
+          {this.props.logs.map(log => (
+            <p
+              key={log.counter}
+              className={ classNames(
+                this.props.classes.log,
+                { fade: log.fade && !this.state.chatIsVisible },
+                { chatisvisible: this.state.chatIsVisible },
+                { chat: log.logType === 'ChatMessage' },
+              ) }
+            >
+              {this.renderMessage(log)}
+            </p>
+          ))}
+        </div>
+        <Chat ingame={ this.props.ingame } inlobby={ this.props.inlobby } isVisibleHandler={ this.isChatVisibleHandler } />
       </div>
     );
   }

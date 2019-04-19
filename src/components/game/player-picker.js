@@ -8,6 +8,8 @@ import { timeout } from 'thyming';
 import { selectDisplayPlayer } from '../../actions/minimap';
 import Sound from '../../sound';
 
+import MuteButton from '../logs/mute-button';
+
 import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -224,6 +226,7 @@ class PlayerPicker extends Component {
           }) }>
         </div>
         { this.props.playerNames[player] }
+        <MuteButton player={player} ingame />
       </div>
     );
   }

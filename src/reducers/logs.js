@@ -2,14 +2,15 @@ import {
   ADD_LOG,
   FADE_OUT_LOG,
   DELETE_LOG,
+  PLAYER_MUTED,
   fadeOutLog,
-  deleteLog,
 } from '../actions/logs';
 import store from '../store';
 
 const defaultState = {
   logs: [],
   counter: 0,
+  mutedPlayers: [],
 };
 
 export default function reduce (state, action) {
@@ -37,13 +38,18 @@ export default function reduce (state, action) {
       state = {...state,
         logs,
       };
-      setTimeout(() => store.dispatch(deleteLog(action.counter)), 1000);
       break;
 
-    case DELETE_LOG:
-      state = {...state,
-        logs: state.logs.filter(log => log.counter !== action.counter),
-      };
+    case PLAYER_MUTED:
+      if (action.data.muted) {
+        state = {...state,
+          mutedPlayers: [...state.mutedPlayers, action.data.player],
+        };
+      } else {
+        state = {...state,
+          mutedPlayers: state.mutedPlayers.filter(player => player !== action.data.player),
+        };
+      }
       break;
 
     default:

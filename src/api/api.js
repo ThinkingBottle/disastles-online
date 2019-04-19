@@ -119,6 +119,24 @@ export async function reconnect (token) {
   });
 }
 
+export async function mutePlayer (player) {
+  await ws.init();
+  ws.send({
+    action: 'MutePlayer',
+    player,
+    mute: true,
+  });
+}
+
+export async function unmutePlayer (player) {
+  await ws.init();
+  ws.send({
+    action: 'MutePlayer',
+    player,
+    mute: false,
+  });
+}
+
 function once (listen, handler) {
   var stop = listen(function () {
     stop();

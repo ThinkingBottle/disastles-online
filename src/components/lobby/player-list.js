@@ -6,6 +6,8 @@ import { classNames, If } from 'react-extras';
 
 import API from '../../api';
 
+import MuteButton from '../logs/mute-button';
+
 import ThroneRoom from './throne';
 import Button from '@material-ui/core/Button';
 
@@ -55,9 +57,8 @@ const styles = theme => ({
     whiteSpace: 'nowrap',
 
     '&.status': {
-      width: 190,
-      minWidth: 190,
-      marginRight: 50,
+      minWidth: 120,
+      marginRight: 10,
     },
 
     '&.shrink': {
@@ -124,12 +125,12 @@ const styles = theme => ({
       backgroundSize: '100% 100%',
       cursor: 'pointer',
     },
-  }
+  },
 });
 
 class PlayerList extends Component {
-  constructor () {
-    super();
+  constructor (props) {
+    super(props);
 
     this.renderPlayer = this.renderPlayer.bind(this);
   }
@@ -140,6 +141,7 @@ class PlayerList extends Component {
       API.kickPlayer(player);
     }
   }
+
   render () {
     var playerList = Object.keys(this.props.playerData)
       .filter((player) => this.props.playerData[player].spectator === !!this.props.spectator);
@@ -152,6 +154,7 @@ class PlayerList extends Component {
       </div>
     );
   }
+
   renderPlayer (player, i) {
     let playerData = this.props.playerData[player];
 
@@ -180,8 +183,11 @@ class PlayerList extends Component {
           { this.props.playerNames[player] }
         </div>
         <div className={ classNames(this.props.classes.item, 'status') }>
-          <div onClick={  this.props.playerId === player ? this.props.toggleReady : null } className={ classNames(this.props.classes.status, playerData.status)}>
+          <div onClick={ this.props.playerId === player ? this.props.toggleReady : null } className={ classNames(this.props.classes.status, playerData.status)}>
           </div>
+        </div>
+        <div className={ classNames(this.props.classes.item) }>
+          <MuteButton player={player} />
         </div>
       </div>
     );
@@ -212,8 +218,11 @@ class PlayerList extends Component {
           [empty slot]
         </div>
         <div className={ classNames(this.props.classes.item, 'status') }>
-          <div className={ classNames(this.props.classes.status, 'none')}>
+          <div className={ classNames(this.props.classes.status, 'none') }>
           </div>
+        </div>
+        <div className={ classNames(this.props.classes.item) }>
+          <MuteButton />
         </div>
       </div>
     );

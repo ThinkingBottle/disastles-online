@@ -109,6 +109,12 @@ ws.onEvent(function handleEvent (event) {
     case 'PlayerConceded':
       addNewLog('PlayerConceded', event.player);
       break;
+    case 'ChatMessage':
+      addNewLog('ChatMessage', { player: event.player, text: event.text });
+      break;
+    case 'PlayerMuted':
+      addNewLog('PlayerMuted', { player: event.player, muted: event.muted });
+      break;
     //   delete event.event;
     //   store.dispatch(joinedGame(event));
     //   break;
@@ -139,10 +145,14 @@ function handleDisconnect (event) {
 function handleActions (event) {
   var isAllReady = false;
 
+  // eslint-disable-next-line array-callback-return
   event.actions.map(function (action) {
     switch (action.action) {
       case 'StartGame':
         isAllReady = true;
+        break;
+
+      default:
         break;
     }
   });
