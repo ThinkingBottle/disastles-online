@@ -9,6 +9,9 @@ import API from '../../api';
 import ThroneRoom from './throne';
 import Button from '@material-ui/core/Button';
 
+import bgChat from '../images/chat.png';
+import bgChatMuted from '../images/chat-muted.png';
+
 import bgSeperator from './images/seperator.png';
 import bgBoot from './images/boot.png';
 import bgBootActive from './images/boot-active.png';
@@ -57,7 +60,7 @@ const styles = theme => ({
     '&.status': {
       width: 190,
       minWidth: 190,
-      marginRight: 50,
+      marginRight: 10,
     },
 
     '&.shrink': {
@@ -124,14 +127,32 @@ const styles = theme => ({
       backgroundSize: '100% 100%',
       cursor: 'pointer',
     },
-  }
+  },
+  chat: {
+    width: 24,
+    height: 20,
+    marginTop: 22,
+    background: 'url(' + bgChat + ') no-repeat',
+    backgroundSize: '100% 100%',
+    cursor: 'pointer',
+
+    '&.muted': {
+      background: 'url(' + bgChatMuted + ') no-repeat',
+      backgroundSize: '100% 100%',
+    },
+  },
 });
 
 class PlayerList extends Component {
-  constructor () {
-    super();
+  constructor (props) {
+    super(props);
+
+    this.state = {
+      mutedPlayers: [],
+    };
 
     this.renderPlayer = this.renderPlayer.bind(this);
+    this.toggleMute = this.toggleMute.bind(this);
   }
 
   kickPlayer (player) {
@@ -140,6 +161,17 @@ class PlayerList extends Component {
       API.kickPlayer(player);
     }
   }
+
+  toggleMute (player) {
+    if (this.state.mutedPlayers.indexOf(player) > -1) {
+      this.setState({ mutedPlayers: this.state.mutedPlayers.filter(o => o !== player) });
+      API.unmutePlayer(player);
+    } else {
+      this.setState({ mutedPlayers: [...this.state.mutedPlayers, player] });
+      API.mutePlayer(player);
+    }
+  }
+
   render () {
     var playerList = Object.keys(this.props.playerData)
       .filter((player) => this.props.playerData[player].spectator === !!this.props.spectator);
@@ -152,6 +184,7 @@ class PlayerList extends Component {
       </div>
     );
   }
+
   renderPlayer (player, i) {
     let playerData = this.props.playerData[player];
 
@@ -180,8 +213,16 @@ class PlayerList extends Component {
           { this.props.playerNames[player] }
         </div>
         <div className={ classNames(this.props.classes.item, 'status') }>
-          <div onClick={  this.props.playerId === player ? this.props.toggleReady : null } className={ classNames(this.props.classes.status, playerData.status)}>
+          <div onClick={ this.props.playerId === player ? this.props.toggleReady : null } className={ classNames(this.props.classes.status, playerData.status)}>
           </div>
+        </div>
+        <div className={ classNames(this.props.classes.item) }>
+          {this.props.playerId !== player && (
+            <div
+              className={ classNames(this.props.classes.chat, { muted: this.state.mutedPlayers.indexOf(player) > -1 }) }
+              onClick={ () => this.toggleMute(player) }
+            />
+          )}
         </div>
       </div>
     );
@@ -212,7 +253,7 @@ class PlayerList extends Component {
           [empty slot]
         </div>
         <div className={ classNames(this.props.classes.item, 'status') }>
-          <div className={ classNames(this.props.classes.status, 'none')}>
+          <div className={ classNames(this.props.classes.status, 'none') }>
           </div>
         </div>
       </div>

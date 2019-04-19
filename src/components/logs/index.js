@@ -52,6 +52,7 @@ const styles = theme => ({
   log: {
     transition: 'opacity ease-out 1000ms',
     opacity: 1,
+    color: 'yellow',
 
     '&.fade': {
       opacity: 0,
@@ -64,6 +65,10 @@ const styles = theme => ({
 
     '&.chatisvisible': {
       transition: 'none',
+    },
+
+    '&.chat': {
+      color: 'white',
     },
   }
 });
@@ -162,6 +167,14 @@ class Logs extends Component {
         }
         break;
 
+      case 'PlayerMuted':
+        if (log.data.muted) {
+          message = `${this.props.playerNames[log.data.player]} muted.`;
+        } else {
+          message = `${this.props.playerNames[log.data.player]} unmuted.`;
+        }
+        break;
+
       default:
         message = `[${log.type}] ${log.data}`;
     }
@@ -185,6 +198,7 @@ class Logs extends Component {
                 this.props.classes.log,
                 { fade: log.fade && !this.state.chatIsVisible },
                 { chatisvisible: this.state.chatIsVisible },
+                { chat: log.logType === 'ChatMessage' },
               ) }
             >
               {this.renderMessage(log)}
