@@ -6,7 +6,7 @@ import obstruction from 'obstruction';
 import { interval } from 'thyming';
 
 import Button from '../game/button';
-import HourGlass from '../hourglass';
+import Loading from '../loading';
 
 import API from '../../api';
 
@@ -25,6 +25,7 @@ class PlayNowButton extends Component {
     this.state = {
       currentTimeout: this.currentTimeout(props),
       hover: false,
+      isMatchmaking: false,
     };
 
     this.updateTime = this.updateTime.bind(this);
@@ -92,9 +93,11 @@ class PlayNowButton extends Component {
         <Button
           onClick={ () => {
             if (this.props.isSearching) {
-              API.cancelMatchmaking();
+              // API.cancelMatchmaking();
+              this.setState({ isMatchmaking: false });
             } else {
-              API.matchmaking();
+              // API.matchmaking();
+              this.setState({ isMatchmaking: true });
             }
           }}
           blue
@@ -102,7 +105,7 @@ class PlayNowButton extends Component {
           >
           { this.getDisplay() }
         </Button>
-        <HourGlass message="Loading..." />
+        <Loading message="Loading..." open={ this.state.isMatchmaking } />
       </div>
     );
   }
