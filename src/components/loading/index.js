@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import obstruction from 'obstruction';
-import { classNames } from 'react-extras';
 
 import Modal from '@material-ui/core/Modal';
 
+import Button from '../game/button';
 import Box from '../box';
 import HourGlass from './hourglass';
 
@@ -40,12 +40,21 @@ const styles = theme => ({
   },
   content: {
     position: 'relative',
-    paddingRight: 64,
+    textAlign: 'center',
   },
   hourglass: {
     position: 'absolute',
     top: 0,
     right: 0,
+  },
+  message: {
+    lineHeight: '64px',
+  },
+  button: {
+    width: 192,
+    height: 32,
+    display: 'block',
+    margin: '12px auto 0',
   },
 });
 
@@ -71,17 +80,30 @@ class Loading extends Component {
             right={ bgRightBox }
             top={ bgTopBox }
             bottom={ bgBottomBox }
-            height={ 96 }
+            height={ this.props.buttonText ? 160 : 96 }
             style={{
-              width: 192,
+              width: 360,
               transition: 'height 0.2s'
             }}
             >
             <div className={ this.props.classes.content }>
-              { this.props.message }
+              <div className={ this.props.classes.message }>{ this.props.message }</div>
               <div className={ this.props.classes.hourglass }>
                 <HourGlass />
               </div>
+              {this.props.buttonText && (
+                <Button
+                  blue
+                  className={ this.props.classes.button }
+                  onClick={ () => {
+                    if (this.props.buttonAction) {
+                      this.props.buttonAction();
+                    }
+                  } }
+                >
+                  { this.props.buttonText }
+                </Button>
+              )}
             </div>
           </Box>
         </div>

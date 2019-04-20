@@ -24,11 +24,12 @@ class PlayNowButton extends Component {
 
     this.state = {
       currentTimeout: this.currentTimeout(props),
-      hover: false,
       isMatchmaking: false,
     };
 
     this.updateTime = this.updateTime.bind(this);
+    this.cancelMatchmaking = this.cancelMatchmaking.bind(this);
+    this.startMatchmaking = this.startMatchmaking.bind(this);
   }
 
   updateTime () {
@@ -56,22 +57,13 @@ class PlayNowButton extends Component {
     if (this.stopTimer) {
       this.stopTimer();
       this.stopTimer = null;
-      console.log('STOP TIMER STOPPED');
     }
   }
 
   getDisplay () {
-    if (!this.props.isSearching) {
-      return 'Play Now';
-    }
-
-    if (this.state.hover) {
-      return 'Cancel matchmaking';
-    }
-
     const currentTimeout = this.state.currentTimeout;
     if (currentTimeout < 0) {
-      return 'Game is ready!';
+      return 'Connecting...';
     }
 
     let minutes = Math.floor(currentTimeout / 60);
@@ -81,31 +73,35 @@ class PlayNowButton extends Component {
     return `Finding players... ${minutes}:${seconds}`;
   }
 
+  cancelMatchmaking() {
+    API.cancelMatchmaking();
+    this.setState({ isMatchmaking: false });
+  }
+
+  startMatchmaking() {
+    API.matchmaking();
+    this.setState({ isMatchmaking: true });
+  }
+
   render () {
     if (this.state.currentTimeout === null) {
       return [];
     }
     return (
-      <div
-        onMouseEnter={ () => this.setState({ hover: true }) }
-        onMouseLeave={ () => this.setState({ hover: false }) }
-      >
+      <div>
         <Button
-          onClick={ () => {
-            if (this.props.isSearching) {
-              // API.cancelMatchmaking();
-              this.setState({ isMatchmaking: false });
-            } else {
-              // API.matchmaking();
-              this.setState({ isMatchmaking: true });
-            }
-          }}
+          onClick={ this.startMatchmaking }
           blue
           className={ classNames(this.props.classes.button) }
           >
-          { this.getDisplay() }
+          Play Now
         </Button>
-        <Loading message="Loading..." open={ this.state.isMatchmaking } />
+        <Loading
+          message={ this.getDisplay() }
+          open={ this.state.isMatchmaking }
+          buttonAction={ this.cancelMatchmaking }
+          buttonText="Cancel matchmaking"
+        />
       </div>
     );
   }
