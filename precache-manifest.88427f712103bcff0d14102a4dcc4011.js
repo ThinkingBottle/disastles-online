@@ -1,15 +1,15 @@
 self.__precacheManifest = [
   {
-    "revision": "50a02775f5c6c093bc4a3142177bc0de",
-    "url": "/static/media/8_Hallway2_BLANKROOM.50a02775.png"
+    "revision": "6d3f2fea8a2ab16c7e8f5c25a2a672a3",
+    "url": "/static/media/7_Hallway1_BLANKROOM.6d3f2fea.png"
   },
   {
-    "revision": "c33c4fb46eb2950fb7b6",
-    "url": "/static/css/main.3fcdeefb.chunk.css"
+    "revision": "301e4b274869514b687f",
+    "url": "/static/css/main.c1f99ec3.chunk.css"
   },
   {
-    "revision": "578e39a1d0a6a2a8a896",
-    "url": "/static/js/1.578e39a1.chunk.js"
+    "revision": "2efffabd6ee2b035c59a",
+    "url": "/static/js/1.2efffabd.chunk.js"
   },
   {
     "revision": "229c360febb4351a89df",
@@ -78,6 +78,10 @@ self.__precacheManifest = [
   {
     "revision": "4de0210aaec53e0701ac601653c89ea0",
     "url": "/static/media/MenuBG_mid.4de0210a.png"
+  },
+  {
+    "revision": "32e30d735c0a3273143ce91d0afd3a3f",
+    "url": "/static/media/Anim_Spritesheet.32e30d73.png"
   },
   {
     "revision": "de3c30eaa45b4ce7e38ac03d813ebf4d",
@@ -396,12 +400,12 @@ self.__precacheManifest = [
     "url": "/static/media/6_Corridor6_BLANKROOM.ef1c43e5.png"
   },
   {
-    "revision": "6d3f2fea8a2ab16c7e8f5c25a2a672a3",
-    "url": "/static/media/7_Hallway1_BLANKROOM.6d3f2fea.png"
+    "revision": "301e4b274869514b687f",
+    "url": "/static/js/main.301e4b27.chunk.js"
   },
   {
-    "revision": "c33c4fb46eb2950fb7b6",
-    "url": "/static/js/main.c33c4fb4.chunk.js"
+    "revision": "50a02775f5c6c093bc4a3142177bc0de",
+    "url": "/static/media/8_Hallway2_BLANKROOM.50a02775.png"
   },
   {
     "revision": "fe6f8452f088f642acf8cee69fd2ef9d",
@@ -796,7 +800,7 @@ self.__precacheManifest = [
     "url": "/static/media/BG5.4197dfe2.png"
   },
   {
-    "revision": "9bfaccfb3f7e7115efa3c03e6bcd32e1",
+    "revision": "256a8a0379e321cb6b3315f4f2a6c1f3",
     "url": "/index.html"
   }
 ];
