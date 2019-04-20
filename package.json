@@ -19,6 +19,7 @@
     "obstruction": "^2.1.0",
     "raf": "^3.4.1",
     "react": "^16.6.3",
+    "react-animation-frame": "^1.0.2",
     "react-dom": "^16.6.3",
     "react-extras": "^0.7.1",
     "react-marquee": "^1.0.0",
