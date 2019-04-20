@@ -14,6 +14,7 @@ import {
   HELLO
 } from '../actions/global';
 
+import API from '../api';
 import Sound from '../sound';
 
 const defaultState = {
@@ -25,6 +26,7 @@ const defaultState = {
   settings: [],
   isSearching: false,
   busStopNextTimestamp: null,
+  matchmakingFailed: false,
 };
 
 export default function reduce (state, action) {
@@ -44,11 +46,15 @@ export default function reduce (state, action) {
       };
       break;
     case SEARCH_STARTED:
+      if (state.isSearching) {
+        API.cancelMatchmaking();
+      }
       state = {...state,
         isSearching: true,
         id: null,
         isReady: false,
         busStopNextTimestamp: action.data.busStopNextTimestamp,
+        matchmakingFailed: state.isSearching,
       };
       break;
     case SEARCH_CANCELLED:

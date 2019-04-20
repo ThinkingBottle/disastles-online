@@ -89,7 +89,9 @@ class Loading extends Component {
             <div className={ this.props.classes.content }>
               <div className={ this.props.classes.message }>{ this.props.message }</div>
               <div className={ this.props.classes.hourglass }>
-                <HourGlass />
+                {this.props.loading && (
+                  <HourGlass />
+                )}
               </div>
               {this.props.buttonText && (
                 <Button
@@ -112,7 +114,4 @@ class Loading extends Component {
   }
 }
 
-const mapToProps = obstruction({
-});
-
-export default withStyles(styles)(connect(mapToProps)(Loading));
+export default withStyles(styles)(Loading);

@@ -25,6 +25,7 @@ class PlayNowButton extends Component {
     this.state = {
       currentTimeout: this.currentTimeout(props),
       isMatchmaking: false,
+      matchmakingFailed: false,
     };
 
     this.updateTime = this.updateTime.bind(this);
@@ -61,6 +62,10 @@ class PlayNowButton extends Component {
   }
 
   getDisplay () {
+    if (this.props.matchmakingFailed) {
+      return 'Matchmaking failed.';
+    }
+
     const currentTimeout = this.state.currentTimeout;
     if (currentTimeout < 0) {
       return 'Connecting...';
@@ -100,7 +105,8 @@ class PlayNowButton extends Component {
           message={ this.getDisplay() }
           open={ this.state.isMatchmaking }
           buttonAction={ this.cancelMatchmaking }
-          buttonText="Cancel matchmaking"
+          buttonText={this.props.matchmakingFailed ? 'Close' : 'Cancel matchmaking' }
+          loading={ !this.props.matchmakingFailed }
         />
       </div>
     );
@@ -109,6 +115,7 @@ class PlayNowButton extends Component {
 
 const mapToProps = obstruction({
   isSearching: 'lobby.isSearching',
+  matchmakingFailed: 'lobby.matchmakingFailed',
   busStopNextTimestamp: 'lobby.busStopNextTimestamp',
 });
 
