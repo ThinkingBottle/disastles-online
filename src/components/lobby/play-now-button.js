@@ -6,6 +6,7 @@ import obstruction from 'obstruction';
 import { interval } from 'thyming';
 
 import Button from '../game/button';
+import HourGlass from '../hourglass';
 
 import API from '../../api';
 
@@ -101,6 +102,7 @@ class PlayNowButton extends Component {
           >
           { this.getDisplay() }
         </Button>
+        <HourGlass message="Loading..." />
       </div>
     );
   }
