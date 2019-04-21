@@ -110,6 +110,8 @@ class Shop extends Component {
         case 'PlayActionCard':
           canActionCard = true;
           break;
+        default:
+          break;
       }
     });
 
@@ -125,8 +127,6 @@ class Shop extends Component {
     if (!canMove && newProps.selectActions && newProps.selectActions.indexOf('MoveRoom') !== -1) {
       this.props.dispatch(selectActions(newProps.selectActions.filter((action) => action !== 'MoveRoom')));
     }
-
-    console.log('can skip?', canSkipTurn, newProps.selectedActions, newProps.selectedActions.indexOf('MoveRoom'));
 
     this.setState({
       canSkipTurn,

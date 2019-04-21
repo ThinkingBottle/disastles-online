@@ -26,6 +26,7 @@ export default function reduce (state, action) {
         state.metadata[card.id] = card;
       });
       break;
+
     case CARD_REVEALED:
       state = {...state,
         knownCards: {...state.knownCards,
@@ -33,6 +34,7 @@ export default function reduce (state, action) {
         }
       };
       break;
+
     case JOINED_GAME:
       console.log(action.data);
       state = {...state,
@@ -46,6 +48,9 @@ export default function reduce (state, action) {
         }
       });
       break;
+
+    default:
+      return state;
   }
 
   return state;
