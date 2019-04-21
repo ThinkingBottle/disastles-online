@@ -118,16 +118,12 @@ ws.onEvent(function handleEvent (event) {
     case 'SendChatMessageFailed':
       addNewLog('SendChatMessageFailed', event.reason);
       break;
-    //   delete event.event;
-    //   store.dispatch(joinedGame(event));
-    //   break;
     // default for debugging
     default:
       if (wasAutoDispatched) {
         break;
       }
-      console.log('Unknown event type:', event.event);
-      console.log(event);
+      // console.log('Unknown event type:', event);
       break;
   }
 });
@@ -141,7 +137,7 @@ function handleDisconnect (event) {
     KickedEvent.broadcast();
     return;
   }
-  console.log('Unknown disconnect reason:', event.reason);
+  // console.log('Unknown disconnect reason:', event.reason);
   window.location.href = '/';
 }
 
@@ -159,8 +155,6 @@ function handleActions (event) {
         break;
     }
   });
-
-  console.log(event.actions);
 
   if (wasAllReady !== isAllReady) {
     wasAllReady = isAllReady;

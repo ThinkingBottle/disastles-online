@@ -98,7 +98,6 @@ async function loadAll () {
 
 function startAmbience () {
   audio.stopAmbience();
-  console.log('Starting ambience');
   audio.stopAmbience(audio.ambience.playSound('ambience'));
   audio.stopAmbience(interval(function () {
     audio.stopAmbience(audio.ambience.playSound('ambience'));
@@ -155,8 +154,6 @@ async function playSong (node, index, offset) {
   source.connect(gainNode);
   gainNode.connect(node);
 
-  console.log('Starting at offset?', index, offset);
-
   source.start(0, offset/1000 || 0);
 
   return stop;
@@ -203,7 +200,6 @@ async function loadSong (data, index) {
 
 async function loadSoundData (url) {
   return new Promise(function (resolve, reject) {
-    console.log('Requesting this track:', url);
     var request = new XMLHttpRequest();
 
     request.open('GET', url);

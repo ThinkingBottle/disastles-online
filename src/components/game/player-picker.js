@@ -130,7 +130,6 @@ class PlayerPicker extends Component {
   }
 
   componentWillReceiveProps (props) {
-    console.log('player turn thing!');
     if (props.playerId === props.currentTurn && this.props.playerId !== this.props.currentTurn) {
       Sound.playerTurn.playSound('turn');
     }

@@ -83,8 +83,6 @@ class GridController extends Component {
     if (!this.dragging || !event.buttons || !this.dragX || !this.dragY) {
       return;
     }
-    console.log('drag');
-    console.log(event.target);
     var bounds = event.target.getBoundingClientRect();
     var x = (this.dragX - (event.clientX - bounds.left));
     var y = (this.dragY - (event.clientY - bounds.top));
@@ -94,7 +92,6 @@ class GridController extends Component {
     this.dragY += y;
   }
   dragStart (event) {
-    console.log('drag start');
     var bounds = event.target.getBoundingClientRect();
     var x = event.clientX - bounds.left;
     var y = event.clientY - bounds.top;
@@ -104,7 +101,6 @@ class GridController extends Component {
   }
   dragEnd (event) {
     this.dragging = false;
-    console.log('drag end');
   }
 
   componentWillReceiveProps (newProps) {
@@ -155,7 +151,6 @@ class GridController extends Component {
 
   nextRotation () {
     let rotation = (this.state.currentRotation + 1) % this.state.rotations.length;
-    console.log('Changing to rotation', (this.state.currentRotation + 1) % this.state.rotations.length);
     if (rotation !== this.state.currentRotation) {
       Sound.sfx.playSound('rotate');
       this.setState({
@@ -184,13 +179,6 @@ class GridController extends Component {
 
     // check if there are multiple rotations
     if (rotations.length > 1) {
-      console.log('Rotating', {
-        rotationCard: card,
-        rotations: rotations,
-        rotationActions: actions,
-        rotationCoords: [x, y],
-        currentRotation: 0
-      });
       return this.setState({
         rotationCard: card,
         rotations: rotations,
@@ -212,7 +200,6 @@ class GridController extends Component {
       };
     }
 
-    console.log('Sending action', action.action, action);
     API.send(action);
     this.props.dispatch(selectCard(null));
     this.props.dispatch(selectActions([]));

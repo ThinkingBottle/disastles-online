@@ -177,7 +177,6 @@ class DisasterAlert extends Component {
   }
 
   closeModal () {
-    console.log('dismiss disaster modal');
     this.props.dispatch(clearDisasterModal());
   }
 
@@ -205,7 +204,6 @@ class DisasterAlert extends Component {
     if (!this.props.data) {
       return [];
     }
-    console.log(this.props.data);
     return (
       <Modal
         open

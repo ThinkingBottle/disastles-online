@@ -55,7 +55,6 @@ class App extends Component {
 
   render() {
     if (this.state.hasError) {
-      console.log(this.state);
       return (
         <React.Fragment>
           <Typography>

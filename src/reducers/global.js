@@ -36,7 +36,6 @@ export default function reduce (state, action) {
       break;
 
     case HELLO:
-      console.log('hello', action);
       sessionStorage.token = action.data.reconnectionToken;
       state = {...state,
         playerId: action.data.playerId,
@@ -52,7 +51,6 @@ export default function reduce (state, action) {
         playerNames: {...state.playerNames}
       };
       action.snapshot.players.forEach(function (player) {
-        console.log(player);
         state.playerNames[player.id] = player.name;
       });
       break;

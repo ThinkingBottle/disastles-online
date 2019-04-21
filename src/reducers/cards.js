@@ -18,7 +18,6 @@ export default function reduce (state, action) {
 
   switch (action.type) {
     case ASSETS:
-      console.log('Assets:', action.data);
       state = {...state,
         metadata: {...state.metadata}
       };
@@ -36,7 +35,6 @@ export default function reduce (state, action) {
       break;
 
     case JOINED_GAME:
-      console.log(action.data);
       state = {...state,
         knownCards: {...state.knownCards}
       };

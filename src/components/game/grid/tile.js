@@ -88,7 +88,6 @@ class GridTile extends Component {
   renderCell (y, minX, node, i) {
     let x = i + minX;
     if (this.props.rotationCoords && this.props.rotationCoords[0] === x && this.props.rotationCoords[1] === y) {
-      console.log('This is a rotation room');
       return this.renderRotationCard();
     }
     let key = x + ':' + y;
@@ -151,10 +150,6 @@ class GridTile extends Component {
 
     rotations = rotations.sort();
 
-    if (actions.length) {
-      // console.log(node ? node.card : x + ',' + y, actionsTypes, rotations, this.props.selectedActions);
-    }
-
     if (!node && !isClickable) {
       return (
         <div
@@ -201,8 +196,6 @@ class GridTile extends Component {
     let key = x + ':' + y;
     let rotation = this.props.rotations[this.props.currentRotation];
     let action = this.props.rotationActions.filter((a) => a.rotation === rotation)[0];
-
-    console.log('Rendering at rotation', rotation);
 
     return (
       <div

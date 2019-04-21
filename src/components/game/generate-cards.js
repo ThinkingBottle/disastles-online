@@ -62,7 +62,6 @@ function checkData (files) {
           isBlank = false;
           break;
         default:
-          console.log(category);
           break;
       }
     });

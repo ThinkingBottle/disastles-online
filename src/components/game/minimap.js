@@ -228,7 +228,6 @@ class Minimap extends Component {
   }
 
   componentWillReceiveProps (newProps) {
-    console.log('Getting new castles', newProps);
     let newCastle = newProps.castles[newProps.playerId || 'test'];
     this.setState({...newCastle,
       scaled: newCastle && ((newCastle.maxX - newCastle.minX) > 6 || (newCastle.maxY - newCastle.minY) > 6),
