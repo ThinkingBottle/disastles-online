@@ -157,7 +157,6 @@ class GridTile extends Component {
             this.props.classes.node,
             node && ('rotation' + node.rotation),
             this.props.columnSizes[x],
-            // this.props.rowSizes[y],
             ) }
           key={ key } >
         </div>
@@ -170,7 +169,6 @@ class GridTile extends Component {
           this.props.classes.node,
           node && ('rotation' + node.rotation),
           this.props.columnSizes[x],
-          // this.props.rowSizes[y],
           ) }
         data-rotations={ rotations }
         data-actions={ actions }
@@ -203,7 +201,6 @@ class GridTile extends Component {
           this.props.classes.node,
           'rotation' + rotation,
           this.props.columnSizes[x]
-          // this.props.rowSizes[y],
         ) }
         key={ key }
         >

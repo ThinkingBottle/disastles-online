@@ -86,7 +86,6 @@ function makeEdge (type) {
     zIndex: 1,
     height: isVertical ? 64 : 'calc(100% - 128px)',
     width: isVertical ? 'calc(100% - 128px)' : 64,
-    // margin: isVertical ? '0 64px 0 64px' : '64px 0 64px 0',
     backgroundRepeat: 'repeat-' + (isVertical ? 'x' : 'y'),
     [type]: 0,
     '&.thirtytwo': {

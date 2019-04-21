@@ -84,7 +84,6 @@ const styles = theme => ({
     justifyContent: 'center',
     alignItems: 'center',
     cursor: 'grab',
-    // border: '1px solid white',
   },
   row: {
     display: 'flex',

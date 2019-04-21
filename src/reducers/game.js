@@ -420,7 +420,6 @@ export default function reduce (state, action) {
       // end castle stuff
 
     case DISASTER_STARTED:
-      // Sound.sfx.playSound('disaster');
       state = {...state,
         currentDisaster: action.data.card,
         disasterModal: {...action.data,
