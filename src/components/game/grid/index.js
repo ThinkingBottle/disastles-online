@@ -86,7 +86,6 @@ class GridController extends Component {
     var bounds = event.target.getBoundingClientRect();
     var x = (this.dragX - (event.clientX - bounds.left));
     var y = (this.dragY - (event.clientY - bounds.top));
-    console.log(x - this.dragX, y - this.dragY);
     this.props.dispatch(moveCamera(this.props.x + x, this.props.y + y));
     this.dragX += x;
     this.dragY += y;
@@ -253,6 +252,7 @@ class GridController extends Component {
   renderCell (y, minX, node, i) {
     return (
       <Tile
+        key={`${i}:${y}`}
         actions={ this.props.actions }
         minX={minX}
         y={y}

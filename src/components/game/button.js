@@ -46,7 +46,13 @@ const styles = theme => ({
       backgroundSize: '100% 100%',
       color: 'white'
     },
-  }
+  },
+  'narrow': {
+    lineHeight: '16px',
+  },
+  'label': {
+    lineHeight: '21px',
+  },
 });
 
 class DisastlesButton extends Component {
@@ -57,13 +63,20 @@ class DisastlesButton extends Component {
       style: true
     })(this.props)
     return (
-      <Button {...props} classes={ {
-          root: classNames(this.props.className, {
-            [this.props.classes.blue]: this.props.blue,
-            [this.props.classes.root]: !this.props.blue,
-            dark: this.props.dark
-          })
-        } }>
+      <Button
+        {...props}
+        classes={{
+          root: classNames(
+            this.props.className,
+            { [this.props.classes.blue]: this.props.blue },
+            { [this.props.classes.root]: !this.props.blue },
+          ),
+          label: classNames(
+            { [this.props.classes.narrow]: this.props.narrow },
+            { [this.props.classes.label]: !this.props.narrow }
+          ),
+        }}
+      >
         { this.props.children }
       </Button>
     );

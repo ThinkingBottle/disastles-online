@@ -198,6 +198,7 @@ class Shop extends Component {
             <Button
               disabled={ !this.state.canSkipTurn }
               blue
+              narrow
               onClick={ this.skipTurn } >
               Skip Turn
             </Button> } />
@@ -208,6 +209,7 @@ class Shop extends Component {
             <Button
               disabled={ !this.state.canMove }
               blue
+              narrow
               dark={ this.props.selectedActions.indexOf('MoveRoom') > -1 }
               onClick={ this.moveCards } >
               Move Cards
@@ -219,6 +221,7 @@ class Shop extends Component {
             <Button
               disabled={ !this.state.canSwap }
               blue
+              narrow
               dark={ this.props.selectedActions.indexOf('SwapRooms') > -1 }
               onClick={ this.swapCards } >
               Swap Cards
@@ -230,6 +233,7 @@ class Shop extends Component {
             <Button
               disabled={ !this.state.canActionCard }
               blue
+              narrow
               onClick={ this.actionCards } >
               Card Action
             </Button> } />

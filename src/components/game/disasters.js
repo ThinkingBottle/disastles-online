@@ -58,7 +58,7 @@ class Disasters extends Component {
 
   renderDisaster (disaster, i) {
     return (
-      <div className={ this.props.classes.card }>
+      <div key={ disaster } className={ this.props.classes.card }>
         <Card
           card={ disaster }
           height={ 99 }
