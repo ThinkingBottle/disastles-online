@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
+import { classNames } from 'react-extras';
 import obstruction from 'obstruction';
 import document from 'global/document';
 
@@ -26,20 +27,37 @@ import backgroundImage3 from '../backgrounds/BG3.png';
 import backgroundImage4 from '../backgrounds/BG4.png';
 import backgroundImage5 from '../backgrounds/BG5.png';
 
+import { BG_Blur } from '../backgrounds';
+
+const BG_INDEX = ~~(Math.random() * 5);
+
 const backgroundImage = [
   backgroundImage1,
   backgroundImage2,
   backgroundImage3,
   backgroundImage4,
   backgroundImage5
-][~~(Math.random() * 5)];
+][BG_INDEX];
 
 const styles = theme => ({
+  '@supports (background-image: filter(url(i.jpg), blur(1px)))': {
+    '@keyframes sharpen': {
+      from: { backgroundImage: `filter(url(${backgroundImage}), blur(20px))` },
+      to: { backgroundImage: `filter(url(${backgroundImage}), blur(0px))` },
+    },
+  },
   root: {
     width: '100%',
     minHeight: '100%',
-    backgroundImage: 'url(' + backgroundImage + ')',
+    backgroundImage: `url("data:image/svg+xml;charset=utf-8,${BG_Blur[BG_INDEX]}")`,
     backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    transform: 'translateZ(0)',
+
+    '&.loaded': {
+      backgroundImage: 'url(' + backgroundImage + ')',
+      animation: 'sharpen .5s both',
+    },
   },
   header: {
     width: '100%',
@@ -49,23 +67,40 @@ const styles = theme => ({
     position: 'absolute',
     top: 38,
     right: 0
-  }
+  },
+  preloader: {
+    display: 'none',
+  },
 });
 
 class GameComponent extends Component {
-  componentWillMount () {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      backgroundLoaded: false,
+    };
+
+    this.onImageLoad = this.onImageLoad.bind(this);
+  }
+
+  componentWillMount() {
     if (!this.props.inGame) {
       API.reconnect(this.props.match.params.id);
     }
     document.documentElement.className = 'noscroll';
   }
 
-  componentWillUnmount () {
+  onImageLoad() {
+    this.setState({ backgroundLoaded: true });
   }
 
   render () {
     return (
-      <div className={ this.props.classes.root }>
+      <div className={ classNames(
+          this.props.classes.root,
+          { loaded: this.state.backgroundLoaded },
+        ) }>
         {/* index order, not meaning order */}
         <GridController />
         {/* grid goes first because it's fullscreen covering the background */}
@@ -85,6 +120,7 @@ class GameComponent extends Component {
         <Scoreboard />
         <Disasters />
         <PlayerHand />
+        <img src={ backgroundImage } alt="" className={ this.props.classes.preloader } onLoad={ this.onImageLoad } />
       </div>
     );
   }

@@ -1,19 +1,35 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { connect } from 'react-redux';
 import { classNames } from 'react-extras';
-import obstruction from 'obstruction';
-import raf from 'raf';
 import { interval, timeout } from 'thyming';
 
-import Typography from '@material-ui/core/Typography';
 import bgBottom from '../backgrounds/MenuBG_bott.png';
 import bgTop from '../backgrounds/MenuBG_top.png';
 import bgMiddle from '../backgrounds/MenuBG_mid.png';
 
-const PARRALAX_TIME = 60
+import {
+  MenuBgBottom_Blur,
+  MenuBgTop_Blur,
+  MenuBgMiddle_Blur,
+} from '../backgrounds';
+
+const PARRALAX_TIME = 60;
 
 const styles = theme => ({
+  '@supports (background-image: filter(url(i.jpg), blur(1px)))': {
+    '@keyframes sharpen-bottom': {
+      from: { backgroundImage: `filter(url(${bgBottom}), blur(20px))` },
+      to: { backgroundImage: `filter(url(${bgBottom}), blur(0px))` },
+    },
+    '@keyframes sharpen-mid': {
+      from: { backgroundImage: `filter(url(${bgMiddle}), blur(20px))`, opacity: '0.4' },
+      to: { backgroundImage: `filter(url(${bgMiddle}), blur(0px))`, opacity: '1' },
+    },
+    '@keyframes sharpen-top': {
+      from: { backgroundImage: `filter(url(${bgTop}), blur(20px))`, opacity: '0.4' },
+      to: { backgroundImage: `filter(url(${bgTop}), blur(0px))`, opacity: '1' },
+    },
+  },
   root: {
     position: 'relative',
     minHeight: '100%',
@@ -25,9 +41,16 @@ const styles = theme => ({
     width: '110%',
     top: '-5%',
     left: '-5%',
-    background: 'url(' + bgBottom + ') no-repeat',
+    backgroundImage: `url("data:image/svg+xml;charset=utf-8,${MenuBgBottom_Blur}")`,
     backgroundSize: 'cover',
-    transition: 'all ' + PARRALAX_TIME + 's',
+    backgroundRepeat: 'no-repeat',
+    transition: 'opacity 0.5s, transform ' + PARRALAX_TIME + 's',
+    transform: 'translateZ(0)',
+
+    '&.loaded': {
+      backgroundImage: 'url(' + bgBottom + ')',
+      animation: 'sharpen-bottom .5s both',
+    },
   },
   mid: {
     position: 'fixed',
@@ -35,17 +58,35 @@ const styles = theme => ({
     width: '110%',
     top: '-5%',
     left: '-5%',
-    background: 'url(' + bgMiddle + ') no-repeat',
+    backgroundImage: `url("data:image/svg+xml;charset=utf-8,${MenuBgMiddle_Blur}")`,
     backgroundSize: 'cover',
-    transition: 'all ' + PARRALAX_TIME + 's',
+    backgroundRepeat: 'no-repeat',
+    transition: 'opacity 0.5s, transform ' + PARRALAX_TIME + 's',
+    opacity: '0.4',
+    transform: 'translateZ(0)',
+
+    '&.loaded': {
+      backgroundImage: 'url(' + bgMiddle + ')',
+      animation: 'sharpen-mid .5s both',
+      opacity: '1',
+    },
   },
   top: {
     position: 'fixed',
     height: '110%',
     width: '110%',
-    background: 'url(' + bgTop + ') no-repeat',
+    backgroundImage: `url("data:image/svg+xml;charset=utf-8,${MenuBgTop_Blur}")`,
     backgroundSize: 'cover',
-    transition: 'all ' + PARRALAX_TIME + 's',
+    backgroundRepeat: 'no-repeat',
+    transition: 'opacity 0.5s, transform ' + PARRALAX_TIME + 's',
+    opacity: '0.4',
+    transform: 'translateZ(0)',
+
+    '&.loaded': {
+      backgroundImage: 'url(' + bgTop + ')',
+      animation: 'sharpen-top .5s both',
+      opacity: '1',
+    },
   },
   content: {
     position: 'relative',
@@ -54,70 +95,91 @@ const styles = theme => ({
     '& > *': {
       pointerEvents: 'initial'
     }
-  }
+  },
+  preloader: {
+    display: 'none',
+  },
 });
 
 class FloatingBackground extends Component {
-  constructor () {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       x: -5,
-      y: -5
+      y: -5,
+      loadedImages: [],
     };
+
+    this.onImageLoad = this.onImageLoad.bind(this);
   }
-  componentDidMount () {
-    this.cancel = timeout(()=> {
-      this.randomLocations();
-      this.cancel = interval(()=> {
-        this.cancel = null;
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.loadedImages.length === 3 && prevState.loadedImages.length === 2) {
+      this.cancel = timeout(() => {
         this.randomLocations();
-      }, PARRALAX_TIME * 400);
-    }, 200);
+        this.cancel = interval(() => {
+          this.cancel = null;
+          this.randomLocations();
+        }, PARRALAX_TIME * 400);
+      }, 200);
+    }
   }
-  componentWillUnmount () {
+
+  componentWillUnmount() {
     if (this.cancel) {
       this.cancel();
     }
   }
-  randomLocations () {
+
+  randomLocations() {
     this.setState({
       x: round(Math.random() * (-10)),
       y: round(Math.random() * (-10))
     });
   }
-  render () {
+
+  onImageLoad(image) {
+    this.setState({ loadedImages: [...this.state.loadedImages, image] });
+  }
+
+  render() {
     return (
       <div className={ this.props.classes.root }>
         <div
-          className={ this.props.classes.bottom }
-          style={{
-            transform: 'translate3d(' + this.state.x/4 + '%, ' + this.state.y/4 + '%, 0)'
-          }} />
+          className={ classNames(
+            this.props.classes.bottom,
+            { loaded: this.state.loadedImages.indexOf('bottom') > -1 },
+          ) }
+          style={{ transform: 'translate3d(' + this.state.x/4 + '%, ' + this.state.y/4 + '%, 0) translateZ(0)' }}
+        />
         <div
-          className={ this.props.classes.mid }
-          style={{
-            transform: 'translate3d(' + this.state.x/2 + '%, ' + this.state.y/2 + '%, 0)'
-          }} />
+          className={ classNames(
+            this.props.classes.mid,
+            { loaded: this.state.loadedImages.indexOf('mid') > -1 },
+          ) }
+          style={{ transform: 'translate3d(' + this.state.x/2 + '%, ' + this.state.y/2 + '%, 0) translateZ(0)' }}
+        />
         <div
-          className={ this.props.classes.top }
-          style={{
-            transform: 'translate3d(' + this.state.x + '%, ' + this.state.y + '%, 0)'
-          }}
-          />
+          className={ classNames(
+            this.props.classes.top,
+            { loaded: this.state.loadedImages.indexOf('top') > -1 },
+          ) }
+          style={{ transform: 'translate3d(' + this.state.x + '%, ' + this.state.y + '%, 0) translateZ(0)' }}
+        />
         <div className={ classNames(this.props.classes.content, this.props.rootClass) }>
           {this.props.children}
         </div>
+        <img src={ bgTop } alt="" className={ this.props.classes.preloader } onLoad={ () => this.onImageLoad('top') } />
+        <img src={ bgBottom } alt="" className={ this.props.classes.preloader } onLoad={ () => this.onImageLoad('bottom') } />
+        <img src={ bgMiddle } alt="" className={ this.props.classes.preloader } onLoad={ () => this.onImageLoad('mid') } />
       </div>
     );
   }
 }
 
-const mapToProps = obstruction({
-});
-
-function round (v) {
+function round(v) {
   return Math.round(v * 100) / 100;
 }
 
-export default withStyles(styles)(connect(mapToProps)(FloatingBackground));
+export default withStyles(styles)(FloatingBackground);
