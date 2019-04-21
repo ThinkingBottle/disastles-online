@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { classNames } from 'react-extras';
-import { interval, timeout } from 'thyming';
+import { interval } from 'thyming';
 
 import bgBottom from '../backgrounds/MenuBG_bott.png';
 import bgTop from '../backgrounds/MenuBG_top.png';
@@ -116,13 +116,10 @@ class FloatingBackground extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.loadedImages.length === 3 && prevState.loadedImages.length === 2) {
-      this.cancel = timeout(() => {
+      this.randomLocations();
+      this.cancel = interval(() => {
         this.randomLocations();
-        this.cancel = interval(() => {
-          this.cancel = null;
-          this.randomLocations();
-        }, PARRALAX_TIME * 400);
-      }, 200);
+      }, PARRALAX_TIME * 400);
     }
   }
 
