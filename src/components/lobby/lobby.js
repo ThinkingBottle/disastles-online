@@ -15,15 +15,14 @@ import OptionsModal from '../options-modal';
 import Logs from '../logs';
 import DisastlesInput from '../input';
 import SellStuff from '../shill';
+import Loading from '../loading';
 import Background from './background';
 import Counter from './counter';
 import PlayerList from './player-list';
 import ThroneRoomSelector from './throne-room-selector';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
@@ -169,7 +168,6 @@ class LobbyView extends Component {
   }
 
   async componentWillReceiveProps (newProps) {
-    console.log('props', newProps);
     var newState = {};
     if (newProps.name !== this.props.name) {
       newState.name = newProps.name;
@@ -216,7 +214,6 @@ class LobbyView extends Component {
     this.unlisten(timeout(() => API.setName(this.state.name), 1000));
     if (!this.props.lobbyId) {
       let paramId = this.props.match.params.id;
-      console.log('We\'re not in a lobby yet!', paramId, this.state.name);
       await API.joinLobby(paramId);
     }
     if (this.props.playerData[this.props.playerId] && this.props.playerData[this.props.playerId].status === 'Loading' && !this.hasLoaded) {
@@ -277,9 +274,7 @@ class LobbyView extends Component {
   }
 
   updateDisasterCount (newCount) {
-    console.log('Setting new diaster count!', newCount);
     if (!this.isHost()) {
-      console.log('not host');
       return;
     }
     this.setState({
@@ -289,9 +284,7 @@ class LobbyView extends Component {
   }
 
   updateCatastropheCount (newCount) {
-    console.log('Setting new diaster count!', newCount);
     if (!this.isHost()) {
-      console.log('not host');
       return;
     }
     this.setState({
@@ -326,7 +319,6 @@ class LobbyView extends Component {
 
   updateName (event) {
     var name = event.target.value;
-    console.log(name);
     this.setState({
       name
     });
@@ -610,16 +602,7 @@ class LobbyView extends Component {
                 </Grid> } />
         <If condition={ !this.props.lobbyId }
           render={ () =>
-            <React.Fragment>
-              <br />
-              <br />
-              <center>
-                <CircularProgress size={ 128 }/>
-                <Typography variant="subtitle1">
-                  Joining lobby......
-                </Typography>
-              </center>
-            </React.Fragment> } />
+            <Loading message="Joining lobby..." loading open hideBackdrop /> } />
       </Background>
     );
   }

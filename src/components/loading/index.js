@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { connect } from 'react-redux';
-import obstruction from 'obstruction';
 
 import Modal from '@material-ui/core/Modal';
 
@@ -67,6 +65,7 @@ class Loading extends Component {
         BackdropProps={{
           className: this.props.classes.backdrop,
         }}
+        hideBackdrop={ this.props.hideBackdrop }
         >
         <div className={ this.props.classes.root }>
           <Box
