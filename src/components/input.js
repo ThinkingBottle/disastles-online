@@ -29,9 +29,6 @@ const styles = theme => ({
 });
 
 class DisastlesInput extends Component {
-  constructor () {
-    super();
-  }
   render () {
     return (
       <Input

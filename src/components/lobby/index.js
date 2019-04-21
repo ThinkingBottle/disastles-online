@@ -121,7 +121,6 @@ class LobbyMenu extends Component {
     }
   }
   async onNewGame () {
-    console.log('Start new game or something...');
     Sound.sfx.playSound('positive');
 
     var id = await API.createLobby();

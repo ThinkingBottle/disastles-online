@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import obstruction from 'obstruction';
-import { If } from 'react-extras';
 
 import API from '../../api';
 
@@ -21,7 +20,6 @@ import bgThrone7 from './images/throne-7.png';
 import bgThrone8 from './images/throne-8.png';
 import bgThrone9 from './images/throne-9.png';
 import bgThrone10 from './images/throne-10.png';
-import bgNoSelection from './images/spectator.png';
 import bgDropdown from './images/dropdown.png';
 import bgDropdownActive from './images/dropdown-active.png';
 
@@ -104,7 +102,6 @@ class ThroneRoomSelector extends Component {
   }
 
   render () {
-    console.log('The selection is', this.state.selection);
     return (
       <div ref={ this.rootEl } >
         <ThroneRoom

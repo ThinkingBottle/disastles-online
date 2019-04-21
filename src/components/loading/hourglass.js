@@ -49,7 +49,6 @@ class HourGlass extends Component {
     } else {
       this.setState({ position: 0 });
     }
-    console.log('UPDATING POSITION');
   }
 
   componentWillUnmount() {

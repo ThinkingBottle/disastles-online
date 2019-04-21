@@ -4,16 +4,8 @@ import { connect } from 'react-redux';
 import obstruction from 'obstruction';
 import { partial } from 'ap';
 import windowSize from 'react-window-size';
-import { classNames } from 'react-extras';
-
-import { If } from 'react-extras';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import Tooltip from '@material-ui/core/Tooltip';
-import Typography from '@material-ui/core/Typography';
 
 import Tile from './tile';
-import Card from '../card';
 
 import { selectCard, selectActions } from '../../../actions/player';
 import { moveCamera } from '../../../actions/minimap';
@@ -91,18 +83,14 @@ class GridController extends Component {
     if (!this.dragging || !event.buttons || !this.dragX || !this.dragY) {
       return;
     }
-    console.log('drag');
-    console.log(event.target);
     var bounds = event.target.getBoundingClientRect();
     var x = (this.dragX - (event.clientX - bounds.left));
     var y = (this.dragY - (event.clientY - bounds.top));
-    console.log(x - this.dragX, y - this.dragY);
     this.props.dispatch(moveCamera(this.props.x + x, this.props.y + y));
     this.dragX += x;
     this.dragY += y;
   }
   dragStart (event) {
-    console.log('drag start');
     var bounds = event.target.getBoundingClientRect();
     var x = event.clientX - bounds.left;
     var y = event.clientY - bounds.top;
@@ -112,7 +100,6 @@ class GridController extends Component {
   }
   dragEnd (event) {
     this.dragging = false;
-    console.log('drag end');
   }
 
   componentWillReceiveProps (newProps) {
@@ -163,7 +150,6 @@ class GridController extends Component {
 
   nextRotation () {
     let rotation = (this.state.currentRotation + 1) % this.state.rotations.length;
-    console.log('Changing to rotation', (this.state.currentRotation + 1) % this.state.rotations.length);
     if (rotation !== this.state.currentRotation) {
       Sound.sfx.playSound('rotate');
       this.setState({
@@ -192,13 +178,6 @@ class GridController extends Component {
 
     // check if there are multiple rotations
     if (rotations.length > 1) {
-      console.log('Rotating', {
-        rotationCard: card,
-        rotations: rotations,
-        rotationActions: actions,
-        rotationCoords: [x, y],
-        currentRotation: 0
-      });
       return this.setState({
         rotationCard: card,
         rotations: rotations,
@@ -220,7 +199,6 @@ class GridController extends Component {
       };
     }
 
-    console.log('Sending action', action.action, action);
     API.send(action);
     this.props.dispatch(selectCard(null));
     this.props.dispatch(selectActions([]));
@@ -274,6 +252,7 @@ class GridController extends Component {
   renderCell (y, minX, node, i) {
     return (
       <Tile
+        key={`${i}:${y}`}
         actions={ this.props.actions }
         minX={minX}
         y={y}

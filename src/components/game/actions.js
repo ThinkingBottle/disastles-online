@@ -45,12 +45,12 @@ class ActionBar extends Component {
   }
 
   componentWillReceiveProps (newProps) {
-    console.log('actions for actions', newProps.actions);
     let state = {
       actions: newProps.actions.filter((action) => {
         if (action.mandatory) {
           return true;
         }
+        /* eslint-disable no-fallthrough */
         switch (action.action) {
           // not shown
           case 'UnmarkRooms':
@@ -65,6 +65,7 @@ class ActionBar extends Component {
           default:
             return false;
         }
+        /* eslint-enable no-fallthrough */
       })
     };
 
@@ -147,7 +148,6 @@ class ActionBar extends Component {
   }
 
   renderMultiChoice (actions, dismiss) {
-    console.log('multichoice:', actions);
     return (
       <ActionModal
         onClose={ partial(this.sendAction, dismiss) }
@@ -210,6 +210,8 @@ class ActionBar extends Component {
             break;
           case 'MarkRoom':
             needsToMark = true;
+            break;
+          default:
             break;
       }
     });

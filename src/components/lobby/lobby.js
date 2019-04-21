@@ -332,8 +332,6 @@ class LobbyView extends Component {
   }
 
   render () {
-    // var difficulty = 'Difficult';
-
     var disasterBounds = this.getBounds('DisastersCount');
     var catastropheBounds = this.getBounds('CatastrophesCount');
 

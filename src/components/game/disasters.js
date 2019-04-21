@@ -4,9 +4,6 @@ import { connect } from 'react-redux';
 import obstruction from 'obstruction';
 import { classNames } from 'react-extras';
 
-import { If } from 'react-extras';
-import Typography from '@material-ui/core/Typography';
-
 import Card from './card';
 
 import background from './images/disaster-tray.png';
@@ -61,7 +58,7 @@ class Disasters extends Component {
 
   renderDisaster (disaster, i) {
     return (
-      <div className={ this.props.classes.card }>
+      <div key={ disaster } className={ this.props.classes.card }>
         <Card
           card={ disaster }
           height={ 99 }

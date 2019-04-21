@@ -34,8 +34,8 @@ export default function reduce (state, action) {
         actions: action.data.actions
       };
       break;
+
     case HELLO:
-      console.log('hello', action);
       sessionStorage.token = action.data.reconnectionToken;
       state = {...state,
         playerId: action.data.playerId,
@@ -45,15 +45,16 @@ export default function reduce (state, action) {
         }
       };
       break;
+
     case LOBBY_SNAPSHOT:
       state = {...state,
         playerNames: {...state.playerNames}
       };
       action.snapshot.players.forEach(function (player) {
-        console.log(player);
         state.playerNames[player.id] = player.name;
       });
       break;
+
     case NAME_CHANGED:
       state = {...state,
         playerNames: {...state.playerNames,
@@ -61,12 +62,14 @@ export default function reduce (state, action) {
         }
       };
       break;
+
     case PLAYER_LEAVE:
       state = {...state,
         playerNames: {...state.playerNames}
       };
       delete state.playerNames[action.data.player];
       break;
+
     case JOINED_GAME:
       state = {...state,
         playerNames: {...state.playerNames},
@@ -77,8 +80,12 @@ export default function reduce (state, action) {
         state.playerColors[player.id] = player.color;
       });
       break;
+
     case RECONNECTION_FAILED:
       window.location.href = '/';
+      break;
+
+    default:
       break;
   }
 

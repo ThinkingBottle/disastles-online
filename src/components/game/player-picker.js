@@ -10,7 +10,6 @@ import Sound from '../../sound';
 
 import MuteButton from '../logs/mute-button';
 
-import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
@@ -25,9 +24,6 @@ import background8 from './images/player-8.png';
 import background9 from './images/player-9.png';
 import background10 from './images/player-10.png';
 import bgCurrentTurn from './images/current-player.png';
-import bgCheckbox from './images/checkbox.png';
-import bgCheckboxActive from './images/checkbox-active.png';
-import bgCheckboxChecked from './images/checkbox-checked.png';
 
 const styles = theme => ({
   root: {
@@ -38,21 +34,6 @@ const styles = theme => ({
     flexDirection: 'column',
     pointerEvents: 'none',
     alignItems: 'flex-end',
-  },
-
-  currentTurn: {
-  },
-  checkbox: {
-    background: 'url(' + bgCheckbox + ') no-repeat',
-    backgroundSize: '100% 100%',
-    width: 41,
-    height: 41,
-    minWidth: 41,
-    minHeight: 41,
-    '&:hover': {
-      background: 'url(' + bgCheckboxActive + ') no-repeat',
-      backgroundSize: '100% 100%',
-    }
   },
 
   autoFollow: {
@@ -149,7 +130,6 @@ class PlayerPicker extends Component {
   }
 
   componentWillReceiveProps (props) {
-    console.log('player turn thing!');
     if (props.playerId === props.currentTurn && this.props.playerId !== this.props.currentTurn) {
       Sound.playerTurn.playSound('turn');
     }

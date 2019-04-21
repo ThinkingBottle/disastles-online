@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { connect } from 'react-redux';
 import obstruction from 'obstruction';
 import { classNames } from 'react-extras';
 
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 
 import bgBase from './images/button.png';
 import bgDark from './images/button-dark.png';
@@ -48,13 +46,16 @@ const styles = theme => ({
       backgroundSize: '100% 100%',
       color: 'white'
     },
-  }
+  },
+  'narrow': {
+    lineHeight: '16px',
+  },
+  'label': {
+    lineHeight: '21px',
+  },
 });
 
 class DisastlesButton extends Component {
-  constructor () {
-    super();
-  }
   render () {
     let props = obstruction({
       onClick: true,
@@ -62,20 +63,24 @@ class DisastlesButton extends Component {
       style: true
     })(this.props)
     return (
-      <Button {...props} classes={ {
-          root: classNames(this.props.className, {
-            [this.props.classes.blue]: this.props.blue,
-            [this.props.classes.root]: !this.props.blue,
-            dark: this.props.dark
-          })
-        } }>
+      <Button
+        {...props}
+        classes={{
+          root: classNames(
+            this.props.className,
+            { [this.props.classes.blue]: this.props.blue },
+            { [this.props.classes.root]: !this.props.blue },
+          ),
+          label: classNames(
+            { [this.props.classes.narrow]: this.props.narrow },
+            { [this.props.classes.label]: !this.props.narrow }
+          ),
+        }}
+      >
         { this.props.children }
       </Button>
     );
   }
 }
 
-const mapToProps = obstruction({
-});
-
-export default withStyles(styles)(connect(mapToProps)(DisastlesButton));
+export default withStyles(styles)(DisastlesButton);

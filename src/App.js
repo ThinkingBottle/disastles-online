@@ -4,15 +4,14 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import LobbyMenu from './components/lobby';
 import LobbyView from './components/lobby/lobby';
 import GameView from './components/game';
+import Typography from '@material-ui/core/Typography';
 import * as Sentry from '@sentry/browser';
 import window from 'global/window';
 import API from './api';
-
-import Typography from '@material-ui/core/Typography';
-
 import './App.css';
 
 window.API = API;
+window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
 
 if (process.env.NODE_ENV === 'production') {
   window._LTracker.push({
@@ -55,7 +54,6 @@ class App extends Component {
 
   render() {
     if (this.state.hasError) {
-      console.log(this.state);
       return (
         <React.Fragment>
           <Typography>

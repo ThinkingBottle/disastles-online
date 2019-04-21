@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import obstruction from 'obstruction';
 
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import Modal from './modal';
 
 const styles = theme => ({
@@ -55,7 +54,7 @@ class MyComponent extends Component {
       }
       return 0;
     });
-    console.log('sorted', players);
+
     return (
       <Modal
         onClose={ ()=> this.setState({ dismissed: true }) }

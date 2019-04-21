@@ -5,7 +5,6 @@ import obstruction from 'obstruction';
 import { classNames } from 'react-extras';
 import windowSize from 'react-window-size';
 
-import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 
 import background from './images/minimap.png';
@@ -85,7 +84,6 @@ const styles = theme => ({
     justifyContent: 'center',
     alignItems: 'center',
     cursor: 'grab',
-    // border: '1px solid white',
   },
   row: {
     display: 'flex',
@@ -229,7 +227,6 @@ class Minimap extends Component {
   }
 
   componentWillReceiveProps (newProps) {
-    console.log('Getting new castles', newProps);
     let newCastle = newProps.castles[newProps.playerId || 'test'];
     this.setState({...newCastle,
       scaled: newCastle && ((newCastle.maxX - newCastle.minX) > 6 || (newCastle.maxY - newCastle.minY) > 6),
@@ -466,6 +463,7 @@ class Minimap extends Component {
         data-metadata={ metadata }
         data-card={ card }
         src={ backgroundName }
+        alt=""
         />
     );
   }

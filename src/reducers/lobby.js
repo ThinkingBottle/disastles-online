@@ -64,7 +64,6 @@ export default function reduce (state, action) {
       };
       break;
     case PLAYER_JOINED:
-      console.log('Player joined', action);
       state = {...state,
         playerData: {...state.playerData,
           [action.player.player]: {...action.player,
@@ -85,7 +84,6 @@ export default function reduce (state, action) {
       if (state.isSearching) {
         Sound.playerTurn.playSound('turn');
       }
-      console.log('snapshot', action);
       state = {...state,
         id: action.snapshot.id,
         settings: action.snapshot.settings,
@@ -113,7 +111,6 @@ export default function reduce (state, action) {
       }
       break;
     case COLOR_CHANGED:
-      console.log('Color changed', action.data);
       state = {...state,
         playerData: {...state.playerData,
           [action.data.player]: {...state.playerData[action.data.player],
@@ -128,13 +125,11 @@ export default function reduce (state, action) {
       };
       break;
     case HOST_CHANGED:
-      console.log('The host changed', action.data.player);
       state = {...state,
         host: action.data.player
       };
       break;
     case SETTING_CHANGED:
-      console.log('Host changed the settings...', action.data);
       state = {...state,
         settings: state.settings.map(function (setting) {
           if (setting.key === action.data.key) {

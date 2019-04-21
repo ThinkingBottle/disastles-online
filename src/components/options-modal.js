@@ -129,11 +129,6 @@ const styles = theme => ({
   buttonLabel: {
     display: 'none'
   },
-  // seed: {
-  //   fontSize: '10pt',
-  //   fontWeight: 500,
-  //   marginTop: 30,
-  // },
   button: {
     fontWeight: 500,
     fontSize: '10pt',
@@ -298,9 +293,6 @@ class OptionsModal extends Component {
                   initialValue={ this.props.cardHoverDelay }
                   action={ changeCardHoverDelay }
                 />
-                {/*<div className={ this.props.classes.seed }>
-                  {`Game seed: ${this.props.seed || '-'}`}
-                </div>*/}
                 <div style={{ marginTop: 30 }}>
                   <a
                     href='https://www.disastles.com/gallery'
@@ -355,7 +347,6 @@ const mapToProps = obstruction({
   sfxVolume: 'music.sfxVolume',
   playerTurnVolume: 'music.playerTurnVolume',
   cardHoverDelay: 'options.cardHoverDelay',
-  // seed: 'game.seed',
   inGame: 'game.inGame',
   gameEnded: 'game.gameEnded',
   you: 'global.playerId',

@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { connect } from 'react-redux';
-import obstruction from 'obstruction';
 import { classNames } from 'react-extras';
-
-import Typography from '@material-ui/core/Typography';
 
 import bgTopLeft from './images/error-tl.png';
 import bgTopRight from './images/error-tr.png';
@@ -37,7 +33,7 @@ const styles = theme => ({
     margin: '0 auto',
     borderRadius: 64,
     padding: 64,
-    ['&.info']: {
+    '&.info': {
       background: 'url(' + bgColorInfo + ')',
     }
   },
@@ -66,7 +62,7 @@ function makeCorner (background, backgroundInfo, y, x) {
     background: 'url(' + background + ') no-repeat',
     [y]: 0,
     [x]: 0,
-    ['&.info']: {
+    '&.info': {
       background: 'url(' + backgroundInfo + ') no-repeat',
     }
   };
@@ -79,19 +75,15 @@ function makeEdge (background, backgroundInfo, type) {
     zIndex: 1,
     height: isVertical ? 64 : 'calc(100% - 128px)',
     width: isVertical ? 'calc(100% - 128px)' : 64,
-    // margin: isVertical ? '0 64px 0 64px' : '64px 0 64px 0',
     background: 'url(' + background + ') repeat-' + (isVertical ? 'x' : 'y'),
     [type]: 0,
-    ['&.info']: {
+    '&.info': {
       background: 'url(' + backgroundInfo + ') repeat-' + (isVertical ? 'x' : 'y'),
     }
   };
 }
 
 class ErrorBox extends Component {
-  constructor () {
-    super();
-  }
   render () {
     return (
       <div className={ classNames(this.props.classes.root, {
@@ -139,7 +131,4 @@ class ErrorBox extends Component {
   }
 }
 
-const mapToProps = obstruction({
-});
-
-export default withStyles(styles)(connect(mapToProps)(ErrorBox));
+export default withStyles(styles)(ErrorBox);

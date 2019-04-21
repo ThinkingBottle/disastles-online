@@ -23,22 +23,28 @@ export default function reduce (state = initialState, action) {
         minimapPlayer: action.data.playerId,
       };
       break;
+
     case MOVE_CAMERA:
       state = {...state,
         x: action.x,
         y: action.y
       };
       break;
+
     case SELECT_MINIMAP_PLAYER:
       state = {...state,
         minimapPlayer: action.player
       };
       break;
+
     case SELECT_DISPLAY_PLAYER:
       state = {...state,
         displayPlayer: action.player,
         minimapPlayer: action.player
       };
+      break;
+
+    default:
       break;
   }
 
