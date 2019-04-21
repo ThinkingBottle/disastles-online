@@ -5,7 +5,6 @@ const url = 'wss://disastles.herokuapp.com/api/ws';
 
 var ws = null;
 var initPromise = null;
-var currentID = 0;
 
 reconnect();
 

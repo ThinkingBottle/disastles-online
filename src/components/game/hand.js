@@ -63,7 +63,6 @@ class PlayerHand extends Component {
   }
 
   sendAction (action, card) {
-    console.log('Sending action', action, card);
     if (card === this.props.selectedCard && action.length === 1 && action[0].x === undefined) {
       action = action[0];
       API.send(action);
@@ -78,6 +77,7 @@ class PlayerHand extends Component {
       return [];
     }
 
+    // eslint-disable-next-line array-callback-return
     var hasSkip = this.props.actions.reduce((memo, action) => {
       if (memo) {
         return memo;
@@ -96,14 +96,6 @@ class PlayerHand extends Component {
         </div>
       </InfoBox>
     );
-
-    // return (
-    //   <div className={ this.props.classes.root } >
-    //     <div className={ this.props.classes.hand } >
-    //       { this.state.hand.map(this.renderCard) }
-    //     </div>
-    //   </div>
-    // );
   }
 
   renderSkip () {
@@ -117,6 +109,7 @@ class PlayerHand extends Component {
   }
 
   renderCard (card, i) {
+    // eslint-disable-next-line array-callback-return
     let isClickable = this.props.actions.filter(function (action) {
       if (action.card === card) {
         return true;

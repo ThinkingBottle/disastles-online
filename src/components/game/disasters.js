@@ -4,9 +4,6 @@ import { connect } from 'react-redux';
 import obstruction from 'obstruction';
 import { classNames } from 'react-extras';
 
-import { If } from 'react-extras';
-import Typography from '@material-ui/core/Typography';
-
 import Card from './card';
 
 import background from './images/disaster-tray.png';

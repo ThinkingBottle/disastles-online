@@ -5,7 +5,6 @@ import obstruction from 'obstruction';
 import { interval } from 'thyming';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
   root: {

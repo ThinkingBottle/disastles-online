@@ -1,7 +1,6 @@
 import {
   ADD_LOG,
   FADE_OUT_LOG,
-  DELETE_LOG,
   PLAYER_MUTED,
   fadeOutLog,
 } from '../actions/logs';

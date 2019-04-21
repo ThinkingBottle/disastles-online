@@ -4,16 +4,8 @@ import { connect } from 'react-redux';
 import obstruction from 'obstruction';
 import { partial } from 'ap';
 import windowSize from 'react-window-size';
-import { classNames } from 'react-extras';
-
-import { If } from 'react-extras';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import Tooltip from '@material-ui/core/Tooltip';
-import Typography from '@material-ui/core/Typography';
 
 import Tile from './tile';
-import Card from '../card';
 
 import { selectCard, selectActions } from '../../../actions/player';
 import { moveCamera } from '../../../actions/minimap';

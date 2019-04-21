@@ -5,7 +5,6 @@ import obstruction from 'obstruction';
 import { classNames } from 'react-extras';
 import windowSize from 'react-window-size';
 
-import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 
 import background from './images/minimap.png';
@@ -466,6 +465,7 @@ class Minimap extends Component {
         data-metadata={ metadata }
         data-card={ card }
         src={ backgroundName }
+        alt=""
         />
     );
   }

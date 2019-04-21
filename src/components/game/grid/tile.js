@@ -6,14 +6,10 @@ import { partial } from 'ap';
 import { classNames } from 'react-extras';
 
 import Card from '../card';
-import Typography from '@material-ui/core/Typography';
 
 export const CARD_ZOOM = 1.3;
 
 const styles = theme => ({
-  root: {
-  },
-
   node: {
     position: 'relative',
     width: 85 * CARD_ZOOM,

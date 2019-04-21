@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import obstruction from 'obstruction';
 import { If, classNames } from 'react-extras';
 
-import Typography from '@material-ui/core/Typography';
-
 import bgThrone1 from './images/throne-1.png';
 import bgThrone2 from './images/throne-2.png';
 import bgThrone3 from './images/throne-3.png';
@@ -70,12 +68,12 @@ class ThroneRoom extends Component {
         <If
           condition={ !this.props.empty && !this.props.spectator }
           render={ ()=>
-            <img src={ thrones[this.props.throne] } /> }
+            <img src={ thrones[this.props.throne] } alt="" /> }
           />
         <If
           condition={ !!this.props.spectator }
           render={ ()=>
-            <img src={ bgNoSelection } /> }
+            <img src={ bgNoSelection } alt="" /> }
           />
       </div>
     );

@@ -5,7 +5,6 @@ import obstruction from 'obstruction';
 import { partial } from 'ap';
 
 import { If } from 'react-extras';
-import Typography from '@material-ui/core/Typography';
 import Button from './button';
 import Card from './card';
 

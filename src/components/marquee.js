@@ -42,7 +42,7 @@ class Marquee extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(this.props.text.length != nextProps.text.length) {
+    if (this.props.text.length !== nextProps.text.length) {
       this.setState({
         animatedWidth: 0
       });
@@ -112,7 +112,7 @@ class Marquee extends Component {
     const timeout = isLeading ? this.props.leading : TIMEOUT;
 
     const animate = () => {
-      const { overflowWidth, containerWidth, textWidth } = this.state;
+      const { textWidth } = this.state;
       let animatedWidth = this.state.animatedWidth + STEP;
       const isRoundOver = animatedWidth > (textWidth + 10);
 

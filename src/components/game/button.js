@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { connect } from 'react-redux';
 import obstruction from 'obstruction';
 import { classNames } from 'react-extras';
 
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 
 import bgBase from './images/button.png';
 import bgDark from './images/button-dark.png';
@@ -52,9 +50,6 @@ const styles = theme => ({
 });
 
 class DisastlesButton extends Component {
-  constructor () {
-    super();
-  }
   render () {
     let props = obstruction({
       onClick: true,
@@ -75,7 +70,4 @@ class DisastlesButton extends Component {
   }
 }
 
-const mapToProps = obstruction({
-});
-
-export default withStyles(styles)(connect(mapToProps)(DisastlesButton));
+export default withStyles(styles)(DisastlesButton);

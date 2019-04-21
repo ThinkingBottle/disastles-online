@@ -1,21 +1,9 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import obstruction from 'obstruction';
 import { classNames } from 'react-extras';
 
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
-import Typography from '@material-ui/core/Typography';
-
-// import bgTopLeft from './images/modal-error-tl.png';
-// import bgTopRight from './images/modal-error-tr.png';
-// import bgBottomLeft from './images/modal-error-bl.png';
-// import bgBottomRight from './images/modal-error-br.png';
-// import bgColor from './images/modal-error-color.png';
-// import bgLeft from './images/modal-error-left.png';
-// import bgRight from './images/modal-error-right.png';
-// import bgTop from './images/modal-error-top.png';
-// import bgBottom from './images/modal-error-bottom.png';
 
 import bgTopLeft from './images/modal-info-tl.png';
 import bgTopRight from './images/modal-info-tr.png';
@@ -86,7 +74,7 @@ function makeCorner (background, backgroundInfo, y, x) {
     background: 'url(' + background + ') no-repeat',
     [y]: 0,
     [x]: 0,
-    ['&.info']: {
+    '&.info': {
       background: 'url(' + backgroundInfo + ') no-repeat',
     }
   };
@@ -99,19 +87,15 @@ function makeEdge (background, backgroundInfo, type) {
     zIndex: 1,
     height: isVertical ? 64 : 'calc(100% - 128px)',
     width: isVertical ? 'calc(100% - 128px)' : 64,
-    // margin: isVertical ? '0 64px 0 64px' : '64px 0 64px 0',
     background: 'url(' + background + ') repeat-' + (isVertical ? 'x' : 'y'),
     [type]: 0,
-    ['&.info']: {
+    '&.info': {
       background: 'url(' + backgroundInfo + ') repeat-' + (isVertical ? 'x' : 'y'),
     }
   };
 }
 
 class CardModal extends Component {
-  constructor () {
-    super();
-  }
   render () {
     return (
       <Modal
