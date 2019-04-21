@@ -50,6 +50,7 @@ class ActionBar extends Component {
         if (action.mandatory) {
           return true;
         }
+        /* eslint-disable no-fallthrough */
         switch (action.action) {
           // not shown
           case 'UnmarkRooms':
@@ -64,6 +65,7 @@ class ActionBar extends Component {
           default:
             return false;
         }
+        /* eslint-enable no-fallthrough */
       })
     };
 

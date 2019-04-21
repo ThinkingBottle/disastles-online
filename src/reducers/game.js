@@ -76,7 +76,6 @@ export default function reduce (state, action) {
 
   let player;
 
-  // eslint-disable-next-line default-case
   switch (action.type) {
     case ACTIONS_CHANGED:
       state = {...state,
@@ -482,6 +481,9 @@ export default function reduce (state, action) {
         gameStats: action.data,
         turnTimeout: null,
       };
+      break;
+
+    default:
       break;
   }
 
