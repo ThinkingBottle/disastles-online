@@ -7,8 +7,17 @@ import globalReducer from './global';
 import minimap from './minimap';
 import options from './options';
 import logs from './logs';
+import { LEAVE_GAME } from '../actions/game';
 
-export default combineReducers({
+const appReducer = combineReducers({
   game, lobby, cards, minimap, music, options, logs,
   global: globalReducer
 });
+
+export default (state, action) => {
+  if (action.type === LEAVE_GAME) {
+    state = undefined;
+  }
+
+  return appReducer(state, action);
+};

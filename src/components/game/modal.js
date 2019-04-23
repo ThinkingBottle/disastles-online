@@ -99,8 +99,9 @@ class CardModal extends Component {
   render () {
     return (
       <Modal
-        open
+        open={ this.props.open }
         onClose={ this.props.onClose }
+        container={ this.props.container }
         >
         <div className={ classNames(this.props.classes.root, {
           info: !this.props.error

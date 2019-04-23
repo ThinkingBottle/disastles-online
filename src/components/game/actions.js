@@ -116,6 +116,7 @@ class ActionBar extends Component {
   renderActiveCard () {
     return (
       <ActionModal
+        open
         onClose={ this.clearActiveCard }
         >
         <Typography variant='h3'>
@@ -133,6 +134,7 @@ class ActionBar extends Component {
   renderMandatoryAction (action) {
       return (
         <ActionModal
+          open
           onClose={ partial(this.sendAction, action) }
           >
           <Typography variant='h3'>
@@ -150,6 +152,7 @@ class ActionBar extends Component {
   renderMultiChoice (actions, dismiss) {
     return (
       <ActionModal
+        open
         onClose={ partial(this.sendAction, dismiss) }
         >
         <If condition={ actions.length > 1} render={ () =>
