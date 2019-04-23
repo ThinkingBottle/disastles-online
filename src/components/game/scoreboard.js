@@ -1,32 +1,70 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import obstruction from 'obstruction';
 
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import Modal from './modal';
+
+import API from '../../api';
+import { leaveGame } from '../../actions/game';
+
+import bgButton from '../lobby/images/button.png';
+import bgButtonHover from '../lobby/images/button-hover.png';
+import bgButtonActive from '../lobby/images/button-active.png';
 
 const styles = theme => ({
   root: {
     minWidth: 600
-  }
+  },
+  button: {
+    background: 'url(' + bgButtonActive + ') no-repeat',
+    width: 192,
+    height: 64,
+    border: 0,
+    borderRadius: 32,
+    color: 'white',
+    fontSize: '1.2em',
+    position: 'absolute',
+    zIndex: '1350',
+    left: '50%',
+    marginLeft: '-96px',
+    bottom: '53px',
+
+    '&:hover': {
+      background: 'url(' + bgButtonHover + ') no-repeat',
+    },
+    '&:active': {
+      background: 'url(' + bgButton + ') no-repeat',
+    },
+  },
 });
 
-class MyComponent extends Component {
-  constructor () {
-    super();
+class Scoreboard extends Component {
+  constructor(props) {
+    super(props);
 
     this.state = {
       dismissed: false
     };
 
     this.renderRow = this.renderRow.bind(this);
+    this.leaveGame = this.leaveGame.bind(this);
   }
-  render () {
-    if (!this.props.gameEnded || this.state.dismissed) {
+
+  leaveGame() {
+    this.props.history.push('/');
+    this.props.dispatch(leaveGame());
+    API.ws.reconnect();
+  }
+
+  render() {
+    if (!this.props.gameEnded) {
       return [];
     }
-    var players = this.props.gameStats.stats.sort(function (player1, player2) {
+    const players = this.props.gameStats.stats.sort(function (player1, player2) {
       // if player 1 is better than player 2, return -1
       // if player 2 is better than player 1, return 1
 
@@ -56,17 +94,31 @@ class MyComponent extends Component {
     });
 
     return (
-      <Modal
-        onClose={ ()=> this.setState({ dismissed: true }) }
-        >
-        <div className={ this.props.classes.root }>
-          { this.renderHeader() }
-          { players.map(this.renderRow) }
-        </div>
-      </Modal>
+      <div id="scoreboard">
+        <Modal
+          container={ () => document.getElementById('scoreboard') }
+          onClose={ () => this.setState({ dismissed: true }) }
+          open={ !this.state.dismissed }
+          >
+          <div className={ this.props.classes.root }>
+            { this.renderHeader() }
+            { players.map(this.renderRow) }
+          </div>
+        </Modal>
+        {this.props.gameEnded && (
+          <Button
+            onClick={ this.leaveGame }
+            classes={{
+              root: this.props.classes.button
+            }} >
+            Main Menu
+          </Button>
+        )}
+      </div>
     );
   }
-  renderHeader () {
+
+  renderHeader() {
     return (
       <Grid
         container
@@ -89,7 +141,8 @@ class MyComponent extends Component {
       </Grid>
     );
   }
-  renderRow (row) {
+
+  renderRow(row) {
     return (
       <Grid
         container
@@ -121,4 +174,4 @@ const mapToProps = obstruction({
   playerNames: 'global.playerNames',
 });
 
-export default withStyles(styles)(connect(mapToProps)(MyComponent));
+export default withStyles(styles)(connect(mapToProps)(withRouter(Scoreboard)));

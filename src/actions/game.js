@@ -27,6 +27,7 @@ export const DISASTER_SACRIFICES_REQUIRED = 'DISASTER_SACRIFICES_REQUIRED';
 export const ROOM_MARKED = 'ROOM_MARKED';
 export const ROOMS_UNMARKED = 'ROOMS_UNMARKED';
 export const TURN_TIMEOUT_NOTIFICATION = 'TURN_TIMEOUT_NOTIFICATION';
+export const LEAVE_GAME = 'LEAVE_GAME';
 
 bindToEvent(JOINED_GAME, 'JoinedGame');
 bindToEvent(CARD_DRAWN_TO_SHOP, 'CardDrawnToShop');
@@ -74,5 +75,11 @@ export function clearActiveCard () {
 export function clearDisasterModal () {
   return {
     type: CLEAR_DISASTER_MODAL
+  };
+}
+
+export function leaveGame() {
+  return {
+    type: LEAVE_GAME,
   };
 }

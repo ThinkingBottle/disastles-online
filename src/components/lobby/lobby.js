@@ -639,27 +639,3 @@ const mapToProps = obstruction({
 });
 
 export default withStyles(styles)(connect(mapToProps)(LobbyView));
-/*
-
-                  <Box
-                    half
-                    topLeft={ bgTopLeftBox }
-                      topRight={ bgTopRightBox }
-                      bottomLeft={ bgBottomLeftBox }
-                      bottomRight={ bgBottomRightBox }
-                      color={ bgColorBox }
-                      left={ bgLeftBox }
-                      right={ bgRightBox }
-                      top={ bgTopBox }
-                      bottom={ bgBottomBox }
-                      headerLeft={ bgHeaderLeftBox }
-                      headerRight={ bgHeaderRightBox }
-                      headerMiddle={ bgHeaderMiddleBox }
-                      header='Spectators'
-                      style={{
-                        paddingTop: 20
-                      }}
-                      >
-                      <PlayerList spectator />
-                  </Box>
-*/

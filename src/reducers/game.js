@@ -28,7 +28,6 @@ import {
   TURN_TIMEOUT_NOTIFICATION,
 
   GAME_ENDED,
-
 } from '../actions/game';
 
 import {
